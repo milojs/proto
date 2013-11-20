@@ -1,9 +1,20 @@
-var proto = module.exports = {
+var proto = {
 	extendProto: extendProto,
 	extend: extend,
 	clone: clone,
 	createSubclass: createSubclass
 };
+
+if (typeof window != 'undefined') {
+	// preserve existing _ object
+	if (window._)
+		proto.underscore = window._
+
+	// expose global _
+	window._ = proto;
+} else if (module.exports)
+	// export for node/browserify
+	module.exports = proto;
 
 function extendProto(self, methods) {
 	var propDescriptors = {};
