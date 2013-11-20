@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require('../proto')
 	, assert = require('assert');
 
@@ -97,6 +99,7 @@ describe('proto object library', function() {
 
 		var TestSubclass = _.createSubclass(TestObject, 'TestSubclass');
 
+			assert(TestSubclass.prototype instanceof TestObject);
 			assert.throws(TestSubclass.method, 'class method of superclass should be copied');
 			assert.equal(TestSubclass.name, 'TestSubclass');
 

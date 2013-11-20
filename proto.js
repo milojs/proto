@@ -1,3 +1,5 @@
+'use strict';
+
 var _;
 var proto = _ = {
 	extendProto: extendProto,
