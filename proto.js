@@ -1,9 +1,11 @@
-var proto = {
+var _;
+var proto = _ = {
 	extendProto: extendProto,
 	extend: extend,
 	clone: clone,
 	createSubclass: createSubclass
 };
+
 
 if (typeof window != 'undefined') {
 	// preserve existing _ object
@@ -29,13 +31,14 @@ function extendProto(self, methods) {
 	return self;
 }
 
-function extend(self, obj) {
+function extend(self, obj, onlyEnumerable) {
 	var properties = Object.getOwnPropertyNames(obj)
 		, propDescriptors = {};
 
 	properties.forEach(function(prop) {
 		var descriptor = Object.getOwnPropertyDescriptor(obj, prop);
-		propDescriptors[prop] = descriptor;
+		if (! onlyEnumerable || descriptor.enumerable)
+			propDescriptors[prop] = descriptor;
 	});
 
 	Object.defineProperties(self, propDescriptors);
@@ -46,33 +49,30 @@ function extend(self, obj) {
 function clone(obj) {
 	var clonedObject = Object.create(obj.constructor.prototype);
 
-	extend(clonedObject, obj);
+	_.extend(clonedObject, obj);
 
 	return clonedObject;
 }
 
-function createSubclass(name, applyConstructor) {
-	var thisClass = this
+function createSubclass(self, name, applyConstructor) {
+	var thisClass = self
 		, subclass;
 
 	// apply superclass constructor
 	var constructorCode = applyConstructor === false
-		? ''
-		: 'thisClass.apply(this, arguments);'
+			? ''
+			: 'thisClass.apply(this, arguments);';
 
-	eval([
-		'subclass = function ', name, '(){',
-		constructorCode, '}'
-	].join(''));
+	eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
 
 	// pprototype chain
 	subclass.prototype = Object.create(thisClass.prototype);
 	// subclass identity
 	subclass.prototype.constructor = subclass;
 	// copy class methods
-	// - for them to work they should not explictly use superclass name
+	// - for them to work correctly they should not explictly use superclass name
 	// and use "this" instead
-	subclass.extend(thisClass);
+	_.extend(subclass, thisClass, true);
 
 	return subclass;
 }

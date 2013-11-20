@@ -1,23 +1,22 @@
 var _ = require('../proto')
 	, assert = require('assert');
 
+function throwError() { throw new Error(); }
+function doNothing() {}
+
 describe('proto object library', function() {
 	it('should have extendProto function', function() {
 		function TestObject() {
 			this.property = 1;
 		}
 
-		function throwError() { throw new Error(); }
-
-		function doNothing() {}
-
 		_.extendProto(TestObject, {
 			method: throwError,
 			method2: doNothing
 		});
 
-		assert.equal(throwError, TestObject.prototype.method, 'prototype should be extended');
-		assert.equal(doNothing, TestObject.prototype.method2, 'prototype should be extended');
+		assert.throws(TestObject.prototype.method, 'prototype should be extended');
+		assert.doesNotThrow(TestObject.prototype.method2, 'prototype should be extended');
 
 		assert.doesNotThrow(function(){
 			for (var p in TestObject.prototype)
@@ -26,8 +25,8 @@ describe('proto object library', function() {
 
 		var obj = new TestObject;
 
-		assert.throws(function() { obj.method(); }, 'object methods can be called');
-		assert.doesNotThrow(function() { obj.method2(); }, 'object methods can be called');
+		assert.throws(obj.method, 'object methods can be called');
+		assert.doesNotThrow(obj.method2, 'object methods can be called');
 
 		assert.doesNotThrow(function() {
 			for (var p in obj)
@@ -89,6 +88,21 @@ describe('proto object library', function() {
 		var obj2 = _.clone(obj);
 
 		assert(obj2 instanceof TestObject, 'cloned object should be of the same class');
-		
+
+	});
+
+	it('should have createSubclass function', function() {
+		function TestObject() { this.property = 1; };
+		TestObject.method = throwError;
+		TestObject.classMethod = throwError;
+
+		var TestSubclass = _.createSubclass(TestObject, 'TestSubclass');
+
+		var obj = new TestSubclass;
+
+		assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
+		assert.equal(obj.property, 1, 'constructor of superclass should be called');
+		assert.throws(obj.method, 'instance method of superclass should be available');
+		assert.throws(TestSubclass.method, 'class method of superclass should be copied');
 	});
 });
