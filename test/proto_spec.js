@@ -15,24 +15,24 @@ describe('proto object library', function() {
 			method2: doNothing
 		});
 
-		assert.throws(TestObject.prototype.method, 'prototype should be extended');
-		assert.doesNotThrow(TestObject.prototype.method2, 'prototype should be extended');
+			assert.throws(TestObject.prototype.method, 'prototype should be extended');
+			assert.doesNotThrow(TestObject.prototype.method2, 'prototype should be extended');
 
-		assert.doesNotThrow(function(){
-			for (var p in TestObject.prototype)
-				throw new Error;
-		}, 'properties should be non-enumerable');
+			assert.doesNotThrow(function(){
+				for (var p in TestObject.prototype)
+					throw new Error;
+			}, 'properties should be non-enumerable');
 
 		var obj = new TestObject;
 
-		assert.throws(obj.method, 'object methods can be called');
-		assert.doesNotThrow(obj.method2, 'object methods can be called');
+			assert.throws(obj.method, 'object methods can be called');
+			assert.doesNotThrow(obj.method2, 'object methods can be called');
 
-		assert.doesNotThrow(function() {
-			for (var p in obj)
-				if (p != 'property')
-					throw new Error;
-		}, 'methods should be non-enumerable');
+			assert.doesNotThrow(function() {
+				for (var p in obj)
+					if (p != 'property')
+						throw new Error;
+			}, 'methods should be non-enumerable');
 	});
 
 	it('should have extend function', function() {
@@ -46,8 +46,8 @@ describe('proto object library', function() {
 
 		_.extend(obj, obj2);
 
-		assert.equal(obj.prop1, 1 , 'properties should be copied');
-		assert.equal(obj.prop2, 2 , 'properties should be copied');
+			assert.equal(obj.prop1, 1 , 'properties should be copied');
+			assert.equal(obj.prop2, 2 , 'properties should be copied');
 
 		Object.defineProperty(obj2, 'nonEnum', {
 			enumerable: false,
@@ -56,28 +56,28 @@ describe('proto object library', function() {
 
 		_.extend(obj, obj2);
 
-		assert.equal(obj.nonEnum, 3 , 'non-enumerable properties should be copied');
-		assert.doesNotThrow(function() {
-			for (var p in obj)
-				if (p == 'nonEnum')
-					throw new Error;
-		}, 'non-enumerable should be copied as non-enumerable');
+			assert.equal(obj.nonEnum, 3 , 'non-enumerable properties should be copied');
+			assert.doesNotThrow(function() {
+				for (var p in obj)
+					if (p == 'nonEnum')
+						throw new Error;
+			}, 'non-enumerable should be copied as non-enumerable');
 
 		Object.defineProperty(TestObject2.prototype, 'enum', {
 			enumerable: true,
 			value: 4
 		});
 
-		assert.throws(function() {
-			for (var p in obj2)
-				if (p == 'enum')
-					throw new Error;
-		}, 'enumerable prototype properties should be enumerated too - more like JS test');
+			assert.throws(function() {
+				for (var p in obj2)
+					if (p == 'enum')
+						throw new Error;
+			}, 'enumerable prototype properties should be enumerated too - more like JS test');
 
 		_.extend(obj, obj2);
 
-		assert.equal(obj2.enum, 4, 'prototype property is visible via object');
-		assert.equal(obj.enum, undefined, 'enumerable prototype properties should NOT be copied');
+			assert.equal(obj2.enum, 4, 'prototype property is visible via object');
+			assert.equal(obj.enum, undefined, 'enumerable prototype properties should NOT be copied');
 	});
 
 	it('should have clone function', function() {
@@ -87,8 +87,7 @@ describe('proto object library', function() {
 
 		var obj2 = _.clone(obj);
 
-		assert(obj2 instanceof TestObject, 'cloned object should be of the same class');
-
+			assert(obj2 instanceof TestObject, 'cloned object should be of the same class');
 	});
 
 	it('should have createSubclass function', function() {
@@ -98,11 +97,29 @@ describe('proto object library', function() {
 
 		var TestSubclass = _.createSubclass(TestObject, 'TestSubclass');
 
+			assert.throws(TestSubclass.method, 'class method of superclass should be copied');
+			assert.equal(TestSubclass.name, 'TestSubclass');
+
 		var obj = new TestSubclass;
 
-		assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
-		assert.equal(obj.property, 1, 'constructor of superclass should be called');
-		assert.throws(obj.method, 'instance method of superclass should be available');
-		assert.throws(TestSubclass.method, 'class method of superclass should be copied');
+			assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
+			assert.equal(obj.property, 1, 'constructor of superclass should be called');
+			assert.throws(obj.method, 'instance method of superclass should be available');
+
+		var TestSubclass2 = _.createSubclass(TestObject, '', false);
+
+			assert.equal(TestSubclass2.name, '');
+
+		var obj2 = new TestSubclass2;
+
+			assert(obj2 instanceof TestObject, 'objects should be instances of ancestor class');
+			assert.equal(obj2.property, undefined, 'constructor of superclass should NOT be called');
+
+		var TestSubclass3 = _.createSubclass(TestObject);
+		
+		var obj3 = new TestSubclass3;
+
+			assert(obj3 instanceof TestObject, 'objects should be instances of ancestor class');
+			assert.equal(obj3.property, 1, 'constructor of superclass should be called');
 	});
 });

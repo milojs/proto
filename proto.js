@@ -54,9 +54,11 @@ function clone(obj) {
 	return clonedObject;
 }
 
-function createSubclass(self, name, applyConstructor) {
-	var thisClass = self
-		, subclass;
+function createSubclass(thisClass, name, applyConstructor) {
+	var subclass;
+
+	// name is optional
+	name = name || '';
 
 	// apply superclass constructor
 	var constructorCode = applyConstructor === false
