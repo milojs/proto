@@ -14,5 +14,9 @@
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/MailOnline/proto/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-mocha-test": "~0.7.0"
   }
 }
