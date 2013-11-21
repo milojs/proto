@@ -6,7 +6,9 @@ var proto = _ = {
 	extend: extend,
 	clone: clone,
 	createSubclass: createSubclass,
-	eachKey: eachKey
+	eachKey: eachKey,
+	keyOf: keyOf,
+	allKeysOf: allKeysOf
 };
 
 
@@ -91,3 +93,20 @@ function eachKey(self, callback, thisArg, onlyEnumerable) {
 	});
 }
 
+
+function keyOf(self, searchElement, onlyEnumerable) {
+	var properties = onlyEnumerable 
+						? Object.keys(self)
+						: Object.getOwnPropertyNames(self);
+
+	for (var i = 0; i < properties.length; i++)
+		if (searchElement == self[properties[i]])
+			return properties[i];
+	
+	return undefined;
+}
+
+
+function allKeysOf(self, searchElement, onlyEnumerable) {
+	
+}
