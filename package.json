@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-mocha-test": "~0.7.0"
+    "grunt-mocha-test": "~0.7.0",
+    "async": "~0.2.9"
   }
 }
