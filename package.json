@@ -2,7 +2,7 @@
   "name": "proto",
   "version": "0.0.1",
   "description": "Prototypes aware object manipulation library for browser",
-  "main": "proto.js",
+  "main": "lib/proto.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

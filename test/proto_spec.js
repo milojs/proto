@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('../proto')
+var _ = require('../lib/proto')
 	, assert = require('assert');
 
 function throwError() { throw new Error(); }
@@ -144,6 +144,56 @@ describe('proto object library', function() {
 	});
 
 
+	it('should have keyOf function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+		};
+
+		Object.defineProperty(self, 'nonenum', {
+			enumerable: false,
+			value: 3
+		});
+
+		assert.equal(_.keyOf(self, 1), 'a', 'should find property value');
+		assert.equal(_.keyOf(self, 3), 'nonenum',
+			'should find non-enumerable property value');
+		assert.equal(_.keyOf(self, 3, true), undefined,
+			'should NOT find non-enumerable property value if nonEnumerable true is specified');
+	});
+
+	it('should have allKeysOf function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+			c: 2,
+			d: 3
+		};
+
+		Object.defineProperty(self, 'nonenum', {
+			enumerable: false,
+			value: 3
+		});
+
+		var keys = _.allKeysOf(self, 2);
+
+			assert.notEqual(keys.indexOf('b'), -1, 'should find keys for a given property value')
+			assert.notEqual(keys.indexOf('c'), -1, 'should find keys for a given property value')
+
+		var keys = _.allKeysOf(self, 3);
+
+			assert.notEqual(keys.indexOf('d'), -1, 'should find ALL keys for a given property value')
+			assert.notEqual(keys.indexOf('nonenum'), -1, 'should ALL find keys for a given property value')
+
+		var keys = _.allKeysOf(self, 3, true); // enumerable only
+
+			assert.notEqual(keys.indexOf('d'), -1,
+				'should find enumerable keys for a given property value if nonEnumerable true is specified')
+			assert.equal(keys.indexOf('nonenum'), -1,
+				'should NOT find non-enumerable keys for a given property value if nonEnumerable true is specified')
+	});
+
+
 	it('should have eachKey function', function() {
 		var self = {
 			a: 1,
@@ -173,7 +223,7 @@ describe('proto object library', function() {
 			assert.deepEqual(result, { a: 1, b: 2 }, 'only enumerable properties should be used in iteration');
 
 		function TestClass() {};
-		TestClass.protoProp = 4;
+		TestClass.prototype.protoProp = 4;
 		self = new TestClass;
 		self.a = 1
 		self.b = 2
@@ -185,7 +235,60 @@ describe('proto object library', function() {
 		var result = {}, thisArg = undefined;
 		_.eachKey(self, callback); // iterate over all properties
 
+			assert('protoProp' in self);
 			assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'prototype properties should NOT be used in iteration');
 
+	});
+
+
+	it('should have mapKeys function', function() {
+		var self = {
+			a: 1,
+			b: 2
+		};
+
+		Object.defineProperty(self, 'nonenum', {
+			enumerable: false,
+			value: 3
+		});
+
+		var result, thisArg;
+		function callback(value, key, obj) {
+			assert.equal(obj, self, 'iterated object should be passed as the third parameter');
+			assert.equal(this, thisArg, 'context should be correctly set from the third parameter of eachKey');
+			return value * 10;
+		}
+
+		var thisArg = this;
+		var result = _.mapKeys(self, callback, thisArg); // iterate over all properties
+
+			assert.deepEqual(result, {
+				a: 10,
+				b: 20
+			}, 'ALL properties should be used in iteration');
+			assert.equal(result.a, 10, 'ALL properties should be used in iteration');
+			assert.equal(result.b, 20, 'ALL properties should be used in iteration');
+			assert.equal(result.nonenum, 30, 'ALL properties should be used in iteration');
+
+		var thisArg = null;
+		var result = _.mapKeys(self, callback, thisArg, true); // iterate over enumerable properties
+
+			assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
+			assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
+			assert.equal(result.nonenum, undefined, 'only enumerable properties should be used in iteration');
+
+		function TestClass() {};
+		TestClass.prototype.protoProp = 4;
+		self = new TestClass;
+		self.a = 1
+		self.b = 2
+
+		var thisArg = undefined;
+		var result = _.mapKeys(self, callback); // iterate over all properties
+
+			assert('protoProp' in self);
+			assert.equal(result.protoProp, undefined, 'only enumerable properties should be used in iteration');
+			assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
+			assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
 	});
 });
