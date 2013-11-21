@@ -37,6 +37,7 @@ describe('proto object library', function() {
 			}, 'methods should be non-enumerable');
 	});
 
+
 	it('should have extend function', function() {
 		function TestObject() { this.property = 0; };
 		function TestObject2() { this.property = 0; };
@@ -65,6 +66,20 @@ describe('proto object library', function() {
 						throw new Error;
 			}, 'non-enumerable should be copied as non-enumerable');
 
+		var obj3 = new TestObject;
+		Object.defineProperty(obj3, 'prop3', {
+			enumerable: false,
+			value: 3
+		});
+
+		_.extend(obj, obj3, true); // only enumerable properties
+
+		assert.notEqual(obj.prop3, 3, 'non-enumerable properties should NOT be copied if onlyEnumerable is truthy');
+
+		_.extend(obj, obj3); // all properties
+
+		assert.equal(obj.prop3, 3, 'non-enumerable properties should be copied if onlyEnumerable is falsy');
+
 		Object.defineProperty(TestObject2.prototype, 'enum', {
 			enumerable: true,
 			value: 4
@@ -82,6 +97,7 @@ describe('proto object library', function() {
 			assert.equal(obj.enum, undefined, 'enumerable prototype properties should NOT be copied');
 	});
 
+
 	it('should have clone function', function() {
 		function TestObject() { this.property = 0; };
 		var obj = new TestObject;
@@ -91,6 +107,7 @@ describe('proto object library', function() {
 
 			assert(obj2 instanceof TestObject, 'cloned object should be of the same class');
 	});
+
 
 	it('should have createSubclass function', function() {
 		function TestObject() { this.property = 1; };
@@ -124,5 +141,51 @@ describe('proto object library', function() {
 
 			assert(obj3 instanceof TestObject, 'objects should be instances of ancestor class');
 			assert.equal(obj3.property, 1, 'constructor of superclass should be called');
+	});
+
+
+	it('should have eachKey function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+		};
+
+		Object.defineProperty(self, 'nonenum', {
+			enumerable: false,
+			value: 3
+		});
+
+		var result, thisArg;
+		function callback(value, key, obj) {
+			result[key] = value;
+			assert.equal(obj, self, 'iterated object should be passed as the third parameter');
+			assert.equal(this, thisArg, 'context should be correctly set from the third parameter of eachKey');
+		}
+
+		var result = {}, thisArg = this;
+		_.eachKey(self, callback, thisArg); // iterate over all properties
+
+			assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'ALL properties should be used in iteration');
+
+		var result = {}, thisArg = null;
+		_.eachKey(self, callback, thisArg, true); // iterate over enumerable properties
+
+			assert.deepEqual(result, { a: 1, b: 2 }, 'only enumerable properties should be used in iteration');
+
+		function TestClass() {};
+		TestClass.protoProp = 4;
+		self = new TestClass;
+		self.a = 1
+		self.b = 2
+		Object.defineProperty(self, 'nonenum', {
+			enumerable: false,
+			value: 3
+		});
+
+		var result = {}, thisArg = undefined;
+		_.eachKey(self, callback); // iterate over all properties
+
+			assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'prototype properties should NOT be used in iteration');
+
 	});
 });

@@ -5,7 +5,8 @@ var proto = _ = {
 	extendProto: extendProto,
 	extend: extend,
 	clone: clone,
-	createSubclass: createSubclass
+	createSubclass: createSubclass,
+	eachKey: eachKey
 };
 
 
@@ -34,14 +35,12 @@ function extendProto(self, methods) {
 }
 
 function extend(self, obj, onlyEnumerable) {
-	var properties = Object.getOwnPropertyNames(obj)
-		, propDescriptors = {};
+	var propDescriptors = {};
 
-	properties.forEach(function(prop) {
+	_.eachKey(obj, function(value, prop) {
 		var descriptor = Object.getOwnPropertyDescriptor(obj, prop);
-		if (! onlyEnumerable || descriptor.enumerable)
-			propDescriptors[prop] = descriptor;
-	});
+		propDescriptors[prop] = descriptor;
+	}, this, onlyEnumerable);
 
 	Object.defineProperties(self, propDescriptors);
 
@@ -80,3 +79,15 @@ function createSubclass(thisClass, name, applyConstructor) {
 
 	return subclass;
 }
+
+
+function eachKey(self, callback, thisArg, onlyEnumerable) {
+	var properties = onlyEnumerable 
+						? Object.keys(self)
+						: Object.getOwnPropertyNames(self);
+
+	properties.forEach(function(prop) {
+		callback.call(thisArg, self[prop], prop, self);
+	});
+}
+
