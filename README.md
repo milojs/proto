@@ -31,14 +31,19 @@ TODO: rename and publish on npm
 Use
 ---
 
-    var _ = require('proto');
+Node/browserify:
 
-Functions
----------
+    var _ = require('proto');
+    
+Browser: All functions are exported as properties of a global _ object.
+
+
+Prototype functions
+-------------------
 
 * __extendProto__(_Constructor_, _properties_)
 
-  Adds non-enumerable, non-configurable and non-writable to the prototype of constructor function
+  Adds non-enumerable, non-configurable and non-writable properties to the prototype of constructor function
 
       function MyClass() {}
       _.extendProto(MyClass, {
@@ -50,6 +55,17 @@ Functions
 
       _.extendProto(obj.constructor, { /* ... */ } );
 
+
+* __createSubclass__(_Constructor_ [, _name_ [, _applyConstructor_]])
+
+  Makes a subclass of class _Constructor_.
+  The returned function will have specified _name_ if supplied.
+  The constructor of superclass will be called in subclass constructor by default
+  unless _applyConstructor_ === false (not just falsy).
+
+
+Object functions
+----------------
 
 * __extend__(_self_, _obj_ [, _onlyEnumerable_])
   
@@ -70,14 +86,6 @@ Functions
   If you need to clone array, use
 
       var clonedArray = [].concat(arr);
-
-
-* __createSubclass__(_Constructor_ [, _name_ [, _applyConstructor_]])
-
-  Makes a subclass of class _Constructor_.
-  The returned function will have specified _name_ if supplied.
-  The constructor of superclass will be called in subclass constructor by default
-  unless _applyConstructor_ === false (not just falsy).
 
 
 * __keyOf__(_self_, _searchElement_ [, _onlyEnumerable_])
@@ -101,7 +109,7 @@ Functions
 
 * __eachKey__(_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
 
-  An analogue of _forEach_ method of Array prototype.
+  An analogue of [_forEach_ method][Array forEach] of Array prototype.
 
   Iterates all own properties of _self_ (or only enumerable own properties
   if _onlyEnumerable_ is truthy) calling callback for each key.
@@ -120,7 +128,7 @@ Functions
 
 * __mapKeys__(_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
 
-  An analogue of _map_ method of Array prototype.
+  An analogue of [_map_ method][Array map] of Array prototype.
 
   Returns the map that is the result of the application of callback to values
   in all own properties of _self_ (or only enumerable own properties
@@ -138,6 +146,12 @@ Functions
   To map array-like objects use:
 
       var result = Array.prototype.map.call(arguments, callback, thisArg);
+
+
+Array functions
+---------------
+
+Functions that Array [implements natively][Array methods] are not included.
 
 
 * __appendArray__(_self_, _arrayToAppend_)
@@ -160,3 +174,7 @@ Functions
   value of _self_. 
 
   TODO: test
+  
+[Array methods]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods
+[Array forEach]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+[Array map]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
