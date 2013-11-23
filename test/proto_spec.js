@@ -7,7 +7,7 @@ function throwError() { throw new Error(); }
 function doNothing() {}
 
 describe('proto object library', function() {
-	it('should have extendProto function', function() {
+	it('should define extendProto function', function() {
 		function TestObject() {
 			this.property = 1;
 		}
@@ -38,7 +38,7 @@ describe('proto object library', function() {
 	});
 
 
-	it('should have extend function', function() {
+	it('should define extend function', function() {
 		function TestObject() { this.property = 0; };
 		function TestObject2() { this.property = 0; };
 		var obj = new TestObject;
@@ -98,7 +98,7 @@ describe('proto object library', function() {
 	});
 
 
-	it('should have clone function', function() {
+	it('should define clone function', function() {
 		function TestObject() { this.property = 0; };
 		var obj = new TestObject;
 		obj.prop1 = 1;
@@ -109,7 +109,7 @@ describe('proto object library', function() {
 	});
 
 
-	it('should have createSubclass function', function() {
+	it('should define createSubclass function', function() {
 		function TestObject() { this.property = 1; };
 		TestObject.method = throwError;
 		TestObject.classMethod = throwError;
@@ -144,7 +144,7 @@ describe('proto object library', function() {
 	});
 
 
-	it('should have keyOf function', function() {
+	it('should define keyOf function', function() {
 		var self = {
 			a: 1,
 			b: 2,
@@ -162,7 +162,8 @@ describe('proto object library', function() {
 			'should NOT find non-enumerable property value if nonEnumerable true is specified');
 	});
 
-	it('should have allKeysOf function', function() {
+
+	it('should define allKeysOf function', function() {
 		var self = {
 			a: 1,
 			b: 2,
@@ -194,7 +195,7 @@ describe('proto object library', function() {
 	});
 
 
-	it('should have eachKey function', function() {
+	it('should define eachKey function', function() {
 		var self = {
 			a: 1,
 			b: 2,
@@ -241,7 +242,7 @@ describe('proto object library', function() {
 	});
 
 
-	it('should have mapKeys function', function() {
+	it('should define mapKeys function', function() {
 		var self = {
 			a: 1,
 			b: 2
@@ -290,5 +291,15 @@ describe('proto object library', function() {
 			assert.equal(result.protoProp, undefined, 'only enumerable properties should be used in iteration');
 			assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
 			assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
+	});
+
+	
+	it.skip('should define appendArray function', function() {
+		// TODO
+	});
+
+
+	it.skip('should define prependArray function', function() {
+		// TODO
 	});
 });
