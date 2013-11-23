@@ -38,10 +38,30 @@ Node/browserify:
 Browser: All functions are exported as properties of a global _ object.
 
 
+Functions
+---------
+
+* [__Prototype functions__](#prototype-functions)
+  * [extendProto](#extendproto-constructor-properties)
+  * [createSubclass](#createsubclass-constructor--name--applyconstructor)
+
+* [__Object functions__](#object-functions)
+  * [extend](#extend-self-obj--onlyenumerable)
+  * [clone](#clone-self)
+  * [keyOf](#keyof-self-searchelement--onlyenumerable)
+  * [allKeysOf](#allkeysof-self-searchelement--onlyenumerable)
+  * [eachKey](#eachkey-self-callback--thisarg--onlyenumerable)
+  * [mapKeys](#mapkeys-self-callback--thisarg--onlyenumerable)
+
+* [__Array functions__](#array-functions)
+  * [appendArray](#appendarray-self-arraytoappend)
+  * [prependArray](#prependarray-self-arraytoprepend)
+
+
 Prototype functions
 -------------------
 
-* __extendProto__(_Constructor_, _properties_)
+#### __extendProto__ (_Constructor_, _properties_)
 
   Adds non-enumerable, non-configurable and non-writable properties to the prototype of constructor function
 
@@ -56,7 +76,7 @@ Prototype functions
       _.extendProto(obj.constructor, { /* ... */ } );
 
 
-* __createSubclass__(_Constructor_ [, _name_ [, _applyConstructor_]])
+#### __createSubclass__ (_Constructor_ [, _name_ [, _applyConstructor_]])
 
   Makes a subclass of class _Constructor_.
   The returned function will have specified _name_ if supplied.
@@ -67,14 +87,14 @@ Prototype functions
 Object functions
 ----------------
 
-* __extend__(_self_, _obj_ [, _onlyEnumerable_])
+#### __extend__ (_self_, _obj_ [, _onlyEnumerable_])
   
   Extends object _self_ with an object _obj_ copying all own properties
   (not those inherited via prototype chain), including non-enumerable properties
   (unless _onlyEnumerable_ is truthy)
 
 
-* __clone__(_self_)
+#### __clone__ (_self_)
 
   Makes a shallow clone of object _self_ creating an instance of the same class.
 
@@ -88,7 +108,7 @@ Object functions
       var clonedArray = [].concat(arr);
 
 
-* __keyOf__(_self_, _searchElement_ [, _onlyEnumerable_])
+#### __keyOf__ (_self_, _searchElement_ [, _onlyEnumerable_])
 
   An analogue of _indexOf_ method of Array prototype.
 
@@ -101,13 +121,13 @@ Object functions
   including non-enumerable properties (unless _onlyEnumerable_ is truthy).
 
 
-* __allKeysOf__(_self_, _searchElement_ [, _onlyEnumerable_])
+#### __allKeysOf__ (_self_, _searchElement_ [, _onlyEnumerable_])
 
   Works similarly to the previous function, but returns the array of keys
   holding _searchElement_ as their value.
 
 
-* __eachKey__(_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
+#### __eachKey__ (_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
 
   An analogue of [_forEach_ method][Array forEach] of Array prototype.
 
@@ -126,7 +146,7 @@ Object functions
       Array.prototype.forEach.call(arguments, callback, thisArg);
 
 
-* __mapKeys__(_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
+#### __mapKeys__ (_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
 
   An analogue of [_map_ method][Array map] of Array prototype.
 
@@ -154,7 +174,7 @@ Array functions
 Functions that Array [implements natively][Array methods] are not included.
 
 
-* __appendArray__(_self_, _arrayToAppend_)
+#### __appendArray__ (_self_, _arrayToAppend_)
 
   Appends _arrayToAppend_ to the end of array _self_ in place (can be an instance
   of Array or array-like object).
@@ -165,7 +185,7 @@ Functions that Array [implements natively][Array methods] are not included.
   TODO: test
 
 
-* __prependArray__(_self_, _arrayToPrepend_)
+#### __prependArray__ (_self_, _arrayToPrepend_)
 
   Appends _arrayToPrepend_ to the end of array _self_ in place (can be an instance of
   Array or array-like object).
