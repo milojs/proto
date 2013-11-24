@@ -3,6 +3,8 @@ proto
 
 Prototypes aware object manipulation library for node and modern browsers
 
+[![Build Status](https://travis-ci.org/MailOnline/proto.png?branch=master)](https://travis-ci.org/MailOnline/proto)
+
 Why not use underscore or lo-dash
 ---------------------------------
 
