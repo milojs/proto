@@ -18,14 +18,15 @@ between arrays and objects (maps), e.g. when _each_ function is used.
 Install
 -------
 
-TODO: rename and publish on npm
+    npm install mol-proto --save
 
+To use and develop:
 
     git clone git@github.com:MailOnline/proto.git
     cd proto
     npm link
     cd ../<your project>
-    npm link proto
+    npm link mol-proto
 
 
 Use
@@ -33,7 +34,7 @@ Use
 
 Node/browserify:
 
-    var _ = require('proto');
+    var _ = require('mol-proto');
     
 Browser: All functions are exported as properties of a global _ object.
 
@@ -187,7 +188,7 @@ Functions that Array [implements natively][Array methods] are not included.
 
 #### __prependArray__ (_self_, _arrayToPrepend_)
 
-  Appends _arrayToPrepend_ to the end of array _self_ in place (can be an instance of
+  Appends _arrayToPrepend_ to the beginning of array _self_ in place (can be an instance of
   Array or array-like object).
 
   Changes the value of _self_ (it uses Array.prototype.splice) and returns the new
