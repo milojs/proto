@@ -302,4 +302,14 @@ describe('proto object library', function() {
 	it.skip('should define prependArray function', function() {
 		// TODO
 	});
+
+
+	it.skip('should define firstUpperCase function', function() {
+		// TODO
+	});
+
+
+	it.skip('should define firstLowerCase function', function() {
+		// TODO
+	});
 });
