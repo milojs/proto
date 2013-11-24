@@ -1,16 +1,16 @@
 {
-  "name": "proto",
-  "version": "0.0.1",
+  "name": "mol-proto",
+  "version": "0.0.2",
   "description": "Prototypes aware object manipulation library for browser",
   "main": "lib/proto.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/MailOnline/proto.git"
   },
-  "author": "",
+  "author": "MailOnline",
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/MailOnline/proto/issues"
