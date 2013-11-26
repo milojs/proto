@@ -144,6 +144,11 @@ describe('proto object library', function() {
 	});
 
 
+	it.skip('should define makeSubclass method', function() {
+
+	});
+
+
 	it('should define keyOf function', function() {
 		var self = {
 			a: 1,
@@ -301,6 +306,20 @@ describe('proto object library', function() {
 
 	it.skip('should define prependArray function', function() {
 		// TODO
+	});
+
+
+	it('should define toArray function', function() {
+		var arrayLikeObject = {};
+		arrayLikeObject[0] = 2;
+		arrayLikeObject[1] = 5;
+		arrayLikeObject[2] = 8;
+		arrayLikeObject.length = 3;
+
+		var arr = _.toArray(arrayLikeObject);
+
+		assert(Array.isArray(arr), 'should convert arrayLikeObject to array');
+		assert.deepEqual(arr, [2, 5, 8], 'should convert arrayLikeObject to array');
 	});
 
 
