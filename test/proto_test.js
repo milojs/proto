@@ -98,6 +98,101 @@ describe('proto object library', function() {
 	});
 
 
+	it('should define deepExtend', function() {
+		var obj = {
+			attr: {
+				bind: 'ml-bind',
+				load: 'ml-load'
+			}
+		};
+
+		_.deepExtend(obj, {
+			attr: {
+				load: 'cc-load',
+				ctrl: 'cc-ctrl'
+			}
+		});
+
+				assert.deepEqual(obj, {
+					attr: {
+						bind: 'ml-bind', // left untouched
+						load: 'cc-load', // changed
+						ctrl: 'cc-ctrl' // added
+					}
+				}, 'should extend inside properties without overwriting them');
+
+
+		var obj = {
+			wasScalar: 'overwrite',
+			wasObject: {
+				inside: 'overwrite too'
+			},
+			test: {
+				deeper: {
+					value1: 'not touched',
+					value2: 'will be changed'
+				}
+			}
+		};
+
+		_.deepExtend(obj, {
+			wasScalar: {
+				inside: 'overwritten scalar'
+			},
+			wasObject: 'overwritten object',
+			test: {
+				deeper: {
+					value2: 'was changed',
+					value3: 'just added'
+				}
+			}
+		});
+
+				assert.deepEqual(obj, {
+					wasScalar: {
+						inside: 'overwritten scalar'
+					},
+					wasObject: 'overwritten object',
+					test: {
+						deeper: {
+							value1: 'not touched', // left untouched
+							value2: 'was changed', // changed
+							value3: 'just added' // added
+						}
+					}
+				}, 'should extend deeply nested properties without overwriting them, and overwrite when specified');
+
+
+		var objWithRecursion = {
+			test: {
+				normal: 'property',
+				recursive: 'object itself will go here'
+			}
+		};
+
+		objWithRecursion.test.recursive = objWithRecursion;
+
+		var objWithoutRecursion = {
+			test: {
+				recursive: {
+					test: 'should not be overwritten'
+				}
+			}
+		};
+		_.deepExtend(objWithoutRecursion, objWithRecursion);
+
+
+				assert.deepEqual(objWithoutRecursion, {
+					test: {
+						normal: 'property',
+						recursive: {
+							test: 'should not be overwritten'
+						}
+					}
+				}, 'should NOT recreate recursion in this case and should not timeout, may recreate recursion in some cases');
+	});
+
+
 	it('should define clone function', function() {
 		function TestObject() { this.property = 0; };
 		var obj = new TestObject;
