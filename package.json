@@ -1,6 +1,6 @@
 {
   "name": "mol-proto",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Prototypes aware object manipulation library for node and modern browsers",
   "main": "lib/proto.js",
   "scripts": {
