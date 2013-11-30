@@ -1,10 +1,10 @@
 {
   "name": "mol-proto",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Prototypes aware object manipulation library for node and modern browsers",
   "main": "lib/proto.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter=spec"
   },
   "repository": {
     "type": "git",
@@ -16,8 +16,7 @@
     "url": "https://github.com/MailOnline/proto/issues"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-mocha-test": "~0.7.0",
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "mocha": "~1.14.0"
   }
 }

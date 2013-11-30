@@ -239,8 +239,38 @@ describe('proto object library', function() {
 	});
 
 
-	it.skip('should define makeSubclass method', function() {
+	it('should define makeSubclass method', function() {
+		function TestObject() { this.property = 1; };
+		TestObject.method = throwError;
+		TestObject.classMethod = throwError;
 
+		function TestSubclass() {};
+		_.makeSubclass(TestSubclass, TestObject)
+
+			assert(TestSubclass.prototype instanceof TestObject);
+			assert.throws(TestSubclass.method, 'class method of superclass should be copied');
+			assert.equal(TestSubclass.name, 'TestSubclass');
+
+		var obj = new TestSubclass;
+
+			assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
+			assert.throws(obj.method, 'instance method of superclass should be available');
+
+		var TestSubclass2 = _.createSubclass(TestObject, '', false);
+
+			assert.equal(TestSubclass2.name, '');
+
+		var obj2 = new TestSubclass2;
+
+			assert(obj2 instanceof TestObject, 'objects should be instances of ancestor class');
+			assert.equal(obj2.property, undefined, 'constructor of superclass should NOT be called');
+
+		var TestSubclass3 = _.createSubclass(TestObject);
+		
+		var obj3 = new TestSubclass3;
+
+			assert(obj3 instanceof TestObject, 'objects should be instances of ancestor class');
+			assert.equal(obj3.property, 1, 'constructor of superclass should be called');
 	});
 
 
@@ -394,13 +424,23 @@ describe('proto object library', function() {
 	});
 
 	
-	it.skip('should define appendArray function', function() {
-		// TODO
+	it('should define appendArray function', function() {
+		var arr = [1, 2, 3];
+
+		_.appendArray(arr, [4, 5, 6, 7]);
+
+		assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7],
+			'should add to the end of the array and change array in place');
 	});
 
 
-	it.skip('should define prependArray function', function() {
-		// TODO
+	it('should define prependArray function', function() {
+		var arr = [1, 2, 3];
+
+		_.prependArray(arr, [4, 5, 6, 7]);
+
+		assert.deepEqual(arr, [4, 5, 6, 7, 1, 2, 3],
+			'should add to the beginnning of the array and change array in place');
 	});
 
 
@@ -418,12 +458,20 @@ describe('proto object library', function() {
 	});
 
 
-	it.skip('should define firstUpperCase function', function() {
-		// TODO
+	it('should define firstUpperCase function', function() {
+		var upper = 'UPPERCASE'
+			, lower = 'lowercase';
+
+		assert(_.firstUpperCase(upper), 'UPPERCASE');
+		assert(_.firstUpperCase(lower), 'Lowercase');
 	});
 
 
-	it.skip('should define firstLowerCase function', function() {
-		// TODO
+	it('should define firstLowerCase function', function() {
+		var upper = 'UPPERCASE'
+			, lower = 'lowercase';
+
+		assert(_.firstLowerCase(upper), 'uPPERCASE');
+		assert(_.firstLowerCase(lower), 'lowercase');
 	});
 });
