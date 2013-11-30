@@ -47,10 +47,13 @@ Functions
 * [__Prototype functions__](#prototype-functions)
   * [extendProto](#extendproto-constructor-properties)
   * [createSubclass](#createsubclass-constructor--name--applyconstructor)
+  * [makeSubclass](#makesubclass-thisclass-superclass)
 
 * [__Object functions__](#object-functions)
   * [extend](#extend-self-obj--onlyenumerable)
   * [clone](#clone-self)
+  * [deepExtend](#deepextend-self-obj--onlyenumerable)
+  * [allKeys](#allkeys-self)
   * [keyOf](#keyof-self-searchelement--onlyenumerable)
   * [allKeysOf](#allkeysof-self-searchelement--onlyenumerable)
   * [eachKey](#eachkey-self-callback--thisarg--onlyenumerable)
@@ -59,6 +62,11 @@ Functions
 * [__Array functions__](#array-functions)
   * [appendArray](#appendarray-self-arraytoappend)
   * [prependArray](#prependarray-self-arraytoprepend)
+  * [toArray](#toarray-arraylike)
+
+* [__String functions__](#string-functions)
+  * [firstUpperCase](#firstuppercase-str)
+  * [firstLowerCase](#firstlowercase-str)  
 
 
 Prototype functions
@@ -68,15 +76,19 @@ Prototype functions
 
   Adds non-enumerable, non-configurable and non-writable properties to the prototype of constructor function
 
-      function MyClass() {}
-      _.extendProto(MyClass, {
-          method1: function() {},
-          method2: function() {}
-      });
+  ```javascript
+  function MyClass() {}
+  _.extendProto(MyClass, {
+      method1: function() {},
+      method2: function() {}
+  });
+  ```
 
   To extend class via object:
 
-      _.extendProto(obj.constructor, { /* ... */ } );
+  ```javascript
+  _.extendProto(obj.constructor, { /* ... */ } );
+  ```
 
 
 #### __createSubclass__ (_Constructor_ [, _name_ [, _applyConstructor_]])
@@ -85,6 +97,12 @@ Prototype functions
   The returned function will have specified _name_ if supplied.
   The constructor of superclass will be called in subclass constructor by default
   unless _applyConstructor_ === false (not just falsy).
+
+
+#### __makeSubclass__ (_thisClass_, _Superclass_)
+
+  Sets up prototype chain to change _thisClass_ (a constructor function)
+  so that it becomes a subclass of _Superclass_.
 
 
 Object functions
@@ -108,7 +126,46 @@ Object functions
 
   If you need to clone array, use
 
-      var clonedArray = [].concat(arr);
+  ```javascript
+  var clonedArray = [].concat(arr);
+  ```
+
+
+#### __deepExtend__ (_self_, _obj_ [, _onlyEnumerable_)
+
+  Extends object on all levels without overwriting existing properties that are
+  objects:
+
+  ```javascript
+  var obj = {
+      inner: {
+          a: 1
+      }
+  };
+
+  _.deepExtend(obj, {
+      inner: {
+          b: 2
+      }
+  });
+
+  assert.deepEqual(obj, {
+      inner: {
+          a: 1,
+          b: 2
+      }
+  }); // assert passes
+  ```
+
+
+#### __allKeys__ (_self_)
+
+  Returns array of property names of an object _self_.
+  This function is defined in this way:
+
+  ```javascript
+  _.allKeys = Object.getOwnPropertyNames.bind(Object)
+  ```
 
 
 #### __keyOf__ (_self_, _searchElement_ [, _onlyEnumerable_])
@@ -146,7 +203,9 @@ Object functions
 
   To iterate array-like objects (e.g., _arguments_ pseudo-array) use:
 
-      Array.prototype.forEach.call(arguments, callback, thisArg);
+  ```javascript
+  Array.prototype.forEach.call(arguments, callback, thisArg);
+  ```
 
 
 #### __mapKeys__ (_self_, _callback_ [, _thisArg_ [, _onlyEnumerable_]])
@@ -168,8 +227,10 @@ Object functions
 
   To map array-like objects use:
 
-      var result = Array.prototype.map.call(arguments, callback, thisArg);
-
+  ```javascript
+  var result = Array.prototype.map.call(arguments, callback, thisArg);
+  ```
+  
 
 Array functions
 ---------------
@@ -197,6 +258,25 @@ Functions that Array [implements natively][Array methods] are not included.
   value of _self_. 
 
   TODO: test
+
+
+#### __toArray__ (_arrayLike_)
+
+  Returns new array created from array like object (e.g., _arguments_ pseudo-array).
+
+
+String functions
+----------------
+
+#### __firstUpperCase__ (_str_)
+
+  Returns string with the first character changed to upper case.
+
+
+#### __firstLowerCase__ (_str_)
+
+  Returns string with the first character changed to lower case.
+
   
 [Array methods]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods
 [Array forEach]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
