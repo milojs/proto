@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "async": "~0.2.9",
-    "mocha": "~1.14.0"
+    "mocha": "~1.15.1"
   }
 }
