@@ -474,4 +474,21 @@ describe('proto object library', function() {
 		assert(_.firstLowerCase(upper), 'uPPERCASE');
 		assert(_.firstLowerCase(lower), 'lowercase');
 	});
+
+
+	it('should define partial function', function() {
+		function testFunc(a,b,c) {
+			return a + b + c;
+		}
+
+		var testPartial = _.partial(testFunc, 'my ');
+
+			assert.equal(testFunc('my ', 'partial ', 'function'),
+						testPartial('partial ', 'function'));
+
+		var testPartial2 = _.partial(testFunc, 'my ', 'partial ');
+
+			assert.equal(testFunc('my ', 'partial ', 'function'),
+						testPartial2('function'));
+	});
 });
