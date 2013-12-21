@@ -491,4 +491,55 @@ describe('proto object library', function() {
 			assert.equal(testFunc('my ', 'partial ', 'function'),
 						testPartial2('function'));
 	});
+
+
+	it('should define memoize function', function() {
+		var called = 0;
+
+		function factorial(x) {
+			called += 1;
+			return x <= 0 ? 1 : x * fastFactorial(x-1);
+		}
+
+		var fastFactorial = _.memoize(factorial, undefined, 11);
+
+			var fact10 = factorial(10);
+			assert.equal(fastFactorial(10), fact10, 'should return the same result');
+
+		called = 0;
+
+			assert.equal(fastFactorial(10), fact10, 'should return the same result when called second time');
+			assert.equal(called, 0, 'should take the value from cache without calling original function');
+			assert.equal(fastFactorial(11), fact10 * 11, 'should return correct result');
+			assert.equal(called, 1, 'should be called with new value');
+
+		called = 0;
+
+			assert.equal(fastFactorial(11), fact10 * 11, 'should return correct result');
+			assert.equal(called, 0, 'should not be called with old value');
+
+		called = 0;
+
+			assert.equal(fastFactorial(0), 1, 'should return correct result');
+			assert.equal(called, 1, 'should be called again as the first key will be pushed out of cache');
+
+
+		function testFunc(a, b) {
+			called += 1;
+			return a + b;
+		}
+
+		function hashFunc (a, b) {
+			return a + b;			
+		}
+
+		var memoTestFunc = _.memoize(testFunc, hashFunc);
+
+		var result = testFunc(10, 20);
+		assert.equal(memoTestFunc(10, 20), result);
+
+		called = 0;
+			assert.equal(memoTestFunc(10, 20), result);
+			assert.equal(called, 0, 'should not be called with same hash');
+	});
 });
