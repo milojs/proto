@@ -568,6 +568,50 @@ describe('proto object library', function() {
 	});
 
 
+	it('should allow chaining of Proto functions together with native array methods', function() {
+		var myMap = {
+			prop0: 0,
+			prop1: 1,
+			prop2: 2,
+			prop3: 3
+		};
+
+		var newMap = {}
+
+		var result = _(myMap)
+						.allKeys()
+						.map(function(prop) { return prop + '_test'; })
+						.appendArray(['prop4', 'prop5'])
+						.filter(function(prop) { return prop != 'prop1_test'; })
+						.slice(1)
+						.object()
+						.mapKeys(function(value, key) { return key + '_test2' })
+						._();
+
+		assert.deepEqual(result, {
+			prop2_test: 'prop2_test_test2',
+			prop3_test: 'prop3_test_test2',
+			prop4: 'prop4_test2',
+			prop5: 'prop5_test2',
+		});
+
+		// perfTest(
+		// 	function(){
+		// 		var arr = _(arrLike)
+		// 			.toArray()
+		// 			.prependArray([1, 2])
+		// 			.appendArray([6, 7, 8])
+		// 			._();
+		// 	},
+		// 	function() {
+		// 		var arr = _.toArray(arrLike);
+		// 		_.prependArray(arr, [1, 2]);
+		// 		_.appendArray(arr, [6, 7, 8]);
+		// 	}
+		// );
+	});
+
+
 	it('should define firstUpperCase function', function() {
 		var upper = 'UPPERCASE'
 			, lower = 'lowercase';

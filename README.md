@@ -69,6 +69,7 @@ Functions
    * [appendArray](http://mailonline.github.io/proto/array.js.html#appendArray)
    * [prependArray](http://mailonline.github.io/proto/array.js.html#prependArray)
    * [toArray](http://mailonline.github.io/proto/array.js.html#toArray)
+   * [object](http://mailonline.github.io/proto/array.js.html#object)
 
  * [__String functions__](http://mailonline.github.io/proto/string.js.html)
    * [firstUpperCase](http://mailonline.github.io/proto/string.js.html#firstUpperCase)
