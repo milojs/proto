@@ -1,7 +1,8 @@
 'use strict';
 
-var _ = require('../lib/proto')
+var _ = require('../lib/_')
 	, assert = require('assert');
+
 
 function throwError() { throw new Error(); }
 function doNothing() {}
@@ -95,6 +96,27 @@ describe('proto object library', function() {
 
 			assert.equal(obj2.enum, 4, 'prototype property is visible via object');
 			assert.equal(obj.enum, undefined, 'enumerable prototype properties should NOT be copied');
+	});
+
+
+	it('should allow extend to be used as method of wrapped object', function() {
+		var obj = { prop1: 1 };
+		var obj2 = { prop2: 2 };
+
+		_(obj).extend(obj2);
+
+			assert.equal(obj.prop2, 2 , 'properties should be copied');
+	});
+
+
+	it('should allow extend chaining', function() {
+		var obj = { prop1: 1 };
+		var obj2 = { prop2: 2 };
+		var obj3 = { prop3: 3 };
+
+		_(obj).extend(obj2).extend(obj3);
+
+			assert.deepEqual(obj, { prop1: 1, prop2: 2, prop3: 3 }, 'properties should be copied');
 	});
 
 
@@ -423,6 +445,29 @@ describe('proto object library', function() {
 			assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
 	});
 
+
+	it('should allow chaining of eachKey and mapKeys functions', function() {
+		var self = {
+			a: 1,
+			b: 2
+		};
+
+		function mapCallback(value) {
+			return value + 'test'
+		}
+
+		function eachCallback(value, key, obj) {
+			obj[key] = value * 10;
+		}
+
+		var result = _(self)
+						.eachKey(eachCallback)
+						.mapKeys(mapCallback)
+						._();
+
+			assert.deepEqual(result, { a: '10test', b: '20test' });
+	});
+
 	
 	it('should define appendArray function', function() {
 		var arr = [1, 2, 3];
@@ -455,6 +500,21 @@ describe('proto object library', function() {
 
 		assert(Array.isArray(arr), 'should convert arrayLikeObject to array');
 		assert.deepEqual(arr, [2, 5, 8], 'should convert arrayLikeObject to array');
+	});
+
+
+	it('should allow toArray, appendArray and prependArray chaining', function() {
+		var arrLike = { 0: 3, 1: 4, 2: 5, length: 3 };
+
+		var arr = _(arrLike)
+			.toArray()
+			.prependArray([1, 2])
+			.appendArray([6, 7, 8])
+			._();
+
+		assert(Array.isArray(arr), 'should be real array');
+		assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7, 8],
+			'should add to the end and to the beginning of the array');
 	});
 
 
@@ -497,7 +557,7 @@ describe('proto object library', function() {
 		var called = 0;
 
 		function factorial(x) {
-			called += 1;
+			called++;
 			return x <= 0 ? 1 : x * fastFactorial(x-1);
 		}
 
@@ -541,5 +601,25 @@ describe('proto object library', function() {
 		called = 0;
 			assert.equal(memoTestFunc(10, 20), result);
 			assert.equal(called, 0, 'should not be called with same hash');
+	});
+
+	
+	it('should allow chaining of partial and memoize', function() {
+		var called = 0;
+
+		function testFunc(a, b) {
+			called++;
+			return a + b;
+		}
+
+		var myFunc = _(testFunc).partial('my ').memoize()._();
+
+			assert.equal(testFunc('my ', 'function'),
+						myFunc('function'));
+
+		called = 0;
+
+			assert.equal(myFunc('function'), 'my function');
+			assert.equal(called, 0, 'value should be taken from cache');
 	});
 });
