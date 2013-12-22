@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('../lib/_')
+var _ = require('../lib/proto')
 	, assert = require('assert');
 
 

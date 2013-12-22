@@ -2,7 +2,7 @@
   "name": "mol-proto",
   "version": "0.0.6",
   "description": "ES5 object manipulation library for node and modern browsers",
-  "main": "lib/_.js",
+  "main": "lib/proto.js",
   "scripts": {
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter=spec"
   },
