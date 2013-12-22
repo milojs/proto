@@ -7,6 +7,27 @@ var _ = require('../lib/_')
 function throwError() { throw new Error(); }
 function doNothing() {}
 
+function perfTest(func1, func2, times) {
+	// remove return to run performance tests
+	return;
+
+	times = times || 100000;
+	var time1 = time(func1);
+	var time2 = time(func2);
+
+	// change cnsl to console and uncomment to run test
+	// cnsl.log('time1:', time1, 'time2:', time2, 'diff: func1 is ', time1 / time2, 'times slower (if < 1 - faster)');
+
+	function time(func) {
+		var start = Date.now()
+			, i = times;
+		while (i--)
+			func();
+		return Date.now() - start;
+	}
+}
+
+
 describe('proto object library', function() {
 	it('should define extendProto function', function() {
 		function TestObject() {
@@ -466,6 +487,20 @@ describe('proto object library', function() {
 						._();
 
 			assert.deepEqual(result, { a: '10test', b: '20test' });
+
+		perfTest(
+			function(){
+				var result = _(self)
+								.eachKey(eachCallback)
+								.mapKeys(mapCallback)
+								._();
+			},
+			function() {
+				_.eachKey(self, eachCallback);
+				var result = _.mapKeys(self, mapCallback);
+			},
+			20000
+		);
 	});
 
 	
@@ -515,6 +550,21 @@ describe('proto object library', function() {
 		assert(Array.isArray(arr), 'should be real array');
 		assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7, 8],
 			'should add to the end and to the beginning of the array');
+
+		perfTest(
+			function(){
+				var arr = _(arrLike)
+					.toArray()
+					.prependArray([1, 2])
+					.appendArray([6, 7, 8])
+					._();
+			},
+			function() {
+				var arr = _.toArray(arrLike);
+				_.prependArray(arr, [1, 2]);
+				_.appendArray(arr, [6, 7, 8]);
+			}
+		);
 	});
 
 
@@ -621,5 +671,15 @@ describe('proto object library', function() {
 
 			assert.equal(myFunc('function'), 'my function');
 			assert.equal(called, 0, 'value should be taken from cache');
+
+		perfTest(
+			function(){
+				var myFunc = _(testFunc).partial('my ').memoize()._();
+			},
+			function() {
+				var myFunc = _.partial(testFunc, 'my ')
+				myFunc = _.memoize(myFunc);
+			}
+		);
 	});
 });
