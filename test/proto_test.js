@@ -647,6 +647,23 @@ describe('proto object library', function() {
 	});
 
 
+	it('should define partialRight function', function() {
+		function testFunc(a,b,c) {
+			return a + b + c;
+		}
+
+		var testPartial = _.partialRight(testFunc, 'function');
+
+			assert.equal(testFunc('my ', 'partial ', 'function'),
+						testPartial('my ', 'partial '));
+
+		var testPartial2 = _.partialRight(testFunc, 'partial ', 'function');
+
+			assert.equal(testFunc('my ', 'partial ', 'function'),
+						testPartial2('my '));
+	});
+
+
 	it('should define memoize function', function() {
 		var called = 0;
 

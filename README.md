@@ -74,6 +74,7 @@ Functions
 
 * [__Function functions__](http://mailonline.github.io/proto/proto_function.js.html)
   * [partial](http://mailonline.github.io/proto/proto_function.js.html#partial)
+  * [partialRight](http://mailonline.github.io/proto/proto_function.js.html#partialRight)
   * [memoize](http://mailonline.github.io/proto/proto_function.js.html#memoize)
 
 * [__String functions__](http://mailonline.github.io/proto/proto_string.js.html)
