@@ -421,10 +421,7 @@ describe('proto object library', function() {
 			b: 2
 		};
 
-		Object.defineProperty(self, 'nonenum', {
-			enumerable: false,
-			value: 3
-		});
+		_.defineProperty(self, 'nonenum', 3);
 
 		var result, thisArg;
 		function callback(value, key, obj) {
@@ -464,6 +461,98 @@ describe('proto object library', function() {
 			assert.equal(result.protoProp, undefined, 'only enumerable properties should be used in iteration');
 			assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
 			assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
+	});
+
+
+	it('should define reduceKeys function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+			c: 3,
+		};
+		_.defineProperty(self, 'nonenum', 100);
+
+		var thisArg = {};
+
+		function callback(prevValue, value, key, obj) {
+			assert.equal(this, thisArg);
+			return prevValue + value;
+		}
+
+		assert.equal(_.reduceKeys(self, callback, 10, thisArg, true), 16);
+		assert.equal(_.reduceKeys(self, callback, 10, thisArg, false), 116);
+		assert.throws(_.partial(_.reduceKeys, self, callback, 0));
+	});
+
+
+	it('should define filterKeys function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+			c: 3,
+			d: 4,
+			e: 5
+		};
+		_.defineProperty(self, 'nonenum', 7);
+
+		var thisArg = {};
+
+		function callback(value, key, obj) {
+			assert.equal(this, thisArg);
+			return value % 2;
+		}
+
+		assert.deepEqual(_.filterKeys(self, callback, thisArg, true), {a:1,c:3,e:5});
+
+		var expected = {a:1,c:3,e:5};
+		_.defineProperty(expected, 'nonenum', 7);
+		var result = _.filterKeys(self, callback, thisArg);
+
+			assert.deepEqual(result, expected);
+			assert.equal(result.nonenum, expected.nonenum);
+			assert.throws(_.partial(_.filterKeys, self, callback));
+	});
+
+
+	it('should define someKey function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+			c: 3
+		};
+		_.defineProperty(self, 'nonenum', 4);
+
+		var thisArg = {};
+
+		function callback(value, key, obj) {
+			assert.equal(this, thisArg);
+			return value > 3;
+		}
+
+		assert.equal(_.someKey(self, callback, thisArg, true), false);
+		assert.equal(_.someKey(self, callback, thisArg), true);
+		assert.throws(_.partial(_.someKey, self, callback));
+	});
+
+
+	it('should define everyKey function', function() {
+		var self = {
+			a: 1,
+			b: 2,
+			c: 3
+		};
+		_.defineProperty(self, 'nonenum', 4);
+
+		var thisArg = {};
+
+		function callback(value, key, obj) {
+			assert.equal(this, thisArg);
+			return value < 4;
+		}
+
+		assert.equal(_.everyKey(self, callback, thisArg, true), true);
+		assert.equal(_.everyKey(self, callback, thisArg), false);
+		assert.throws(_.partial(_.everyKey, self, callback));
 	});
 
 

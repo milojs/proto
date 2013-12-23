@@ -64,6 +64,10 @@ Functions
   * [allKeysOf](http://mailonline.github.io/proto/proto_object.js.html#allKeysOf)
   * [eachKey](http://mailonline.github.io/proto/proto_object.js.html#eachKey)
   * [mapKeys](http://mailonline.github.io/proto/proto_object.js.html#mapKeys)
+  * [reduceKeys](http://mailonline.github.io/proto/proto_object.js.html#reduceKeys)
+  * [filterKeys](http://mailonline.github.io/proto/proto_object.js.html#filterKeys)
+  * [someKey](http://mailonline.github.io/proto/proto_object.js.html#someKey)
+  * [everyKey](http://mailonline.github.io/proto/proto_object.js.html#everyKey)
 
 * [__Array functions__](http://mailonline.github.io/proto/proto_array.js.html)
   * [appendArray](http://mailonline.github.io/proto/proto_array.js.html#appendArray)
