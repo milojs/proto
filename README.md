@@ -70,6 +70,7 @@ Functions
   * [prependArray](http://mailonline.github.io/proto/array.js.html#prependArray)
   * [toArray](http://mailonline.github.io/proto/array.js.html#toArray)
   * [object](http://mailonline.github.io/proto/array.js.html#object)
+  * [mapToObject](http://mailonline.github.io/proto/array.js.html#mapToObject)
 
 * [__Function functions__](http://mailonline.github.io/proto/function.js.html)
   * [partial](http://mailonline.github.io/proto/function.js.html#partial)

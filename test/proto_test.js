@@ -726,4 +726,28 @@ describe('proto object library', function() {
 			}
 		);
 	});
+
+
+	it('should define object function', function() {
+		var arr = ['a', 'b', 'c'];
+
+			assert.deepEqual(_.object(arr), {a: undefined, b: undefined, c: undefined});
+			assert.deepEqual(_.object(arr, 1), {a: 1, b: 1, c: 1});
+			assert.deepEqual(_.object(arr, [1, 2, 3]), {a: 1, b: 2, c: 3});
+	});
+
+
+	it('should define mapToObject function', function() {
+		var arr = ['a', 'b', 'c'];
+		var thisArg = {};
+		function callback(value, index, array) {
+			assert.equal(array, arr);
+			assert.equal(this, thisArg);
+			return value + index;
+		}
+
+		var result = _.mapToObject(arr, callback, thisArg);
+
+		assert.deepEqual(result, { a: 'a0', b: 'b1', c: 'c2' });
+	});
 });
