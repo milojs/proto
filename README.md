@@ -5,7 +5,7 @@ ES5-compatible object manipulation library for node and modern browsers
 
 [![Build Status](https://travis-ci.org/MailOnline/proto.png?branch=master)](https://travis-ci.org/MailOnline/proto)
 
-Check documentation at http://mailonline.github.io/proto/
+Documentation: http://mailonline.github.io/proto/
 
 
 Why not use underscore or lo-dash
@@ -42,7 +42,9 @@ Node/browserify:
 
     var _ = require('mol-proto');
     
-Browser: All functions are exported as properties of a global _ object.
+Browser:
+
+All functions are exported as properties of a global _ object when used with [milo](https://github.com/MailOnline/milo), there is no separate proto bundle yet (will be added shortly).
 
 
 Functions

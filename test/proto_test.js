@@ -458,7 +458,8 @@ describe('proto object library', function() {
 		var result = _.mapKeys(self, callback); // iterate over all properties
 
 			assert('protoProp' in self);
-			assert.equal(result.protoProp, undefined, 'only enumerable properties should be used in iteration');
+			assert.equal(result.hasOwnProperty('protoProp'), false, 'prototype properties should not be used in iteration');
+			assert.equal(result.protoProp, 4, 'result should have the same prototype');
 			assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
 			assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
 	});
