@@ -79,6 +79,7 @@ Functions
   * [mapToObject](http://mailonline.github.io/proto/proto_array.js.html#mapToObject)
 
 * [__Function functions__](http://mailonline.github.io/proto/proto_function.js.html)
+  * [makeFunction](http://mailonline.github.io/proto/proto_function.js.html#makeFunction)
   * [partial](http://mailonline.github.io/proto/proto_function.js.html#partial)
   * [partialRight](http://mailonline.github.io/proto/proto_function.js.html#partialRight)
   * [memoize](http://mailonline.github.io/proto/proto_function.js.html#memoize)
