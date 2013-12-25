@@ -274,6 +274,7 @@ function mapToObject(callback, thisArg) {
  * These methods can be [chained](proto.js.html#Proto)
  */
 var functionMethods = module.exports = {
+	makeFunction: makeFunction,
 	partial: partial,
 	partialRight: partialRight,
 	memoize: memoize
@@ -281,6 +282,30 @@ var functionMethods = module.exports = {
 
 
 var slice = Array.prototype.slice;
+
+
+/**
+ * Similarly to Function constructor creates a function from code.
+ * Unlike Function constructor, the first argument is a function name
+ *
+ * @param {String} name new function name
+ * @param {String} arg1, arg2, ... the names of function parameters
+ * @param {String} funcBody function body
+ * @return {Function}
+ */
+function makeFunction(arg1, arg2, funcBody) {
+	var name = this
+		, count = arguments.length - 1
+		, funcBody = arguments[count]
+		, func
+		, code = '';
+	for (var i = 0; i < count; i++)
+		code += ', ' + arguments[i];
+	code = ['func = function ', name, '(', code.slice(2), ') {\n'
+				, funcBody, '\n}'].join('');
+	eval(code);
+	return func;
+}
 
 
 /**
@@ -782,6 +807,8 @@ var prototypeMethods = module.exports = {
 
 var __ = require('./proto_object');
 
+__.extend.call(__, require('./proto_function'));
+
 
 /**
  * Adds non-enumerable, non-configurable and non-writable properties to the prototype of constructor function.
@@ -833,17 +860,18 @@ function extendProto(methods) {
  */
 function createSubclass(name, applyConstructor) {
 	var thisClass = this;
-	var subclass;
+	// var subclass;
 
 	// name is optional
-	name = name || '';
+	// name = name || '';
 
 	// apply superclass constructor
 	var constructorCode = applyConstructor === false
 			? ''
 			: 'thisClass.apply(this, arguments);';
 
-	eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
+	var subclass = __.makeFunction.call(name || '', constructorCode);
+	// eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
 
 	makeSubclass.call(subclass, thisClass);
 
@@ -875,7 +903,7 @@ function makeSubclass(Superclass) {
 	return this;
 }
 
-},{"./proto_object":4}],6:[function(require,module,exports){
+},{"./proto_function":3,"./proto_object":4}],6:[function(require,module,exports){
 'use strict';
 
 /**

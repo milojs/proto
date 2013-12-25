@@ -720,6 +720,17 @@ describe('proto object library', function() {
 	});
 
 
+	it('should define makeFunction function', function() {
+		var myFunc = _.makeFunction('myFunc', 'a', 'b', 'c'
+									, 'return a + b + c;');
+
+		assert(myFunc instanceof Function);
+		assert.doesNotThrow(myFunc);
+		assert.equal(myFunc.name, 'myFunc');
+		assert.equal(myFunc('1_', '2_', '3_'), '1_2_3_');
+	});
+
+
 	it('should define partial function', function() {
 		function testFunc(a,b,c) {
 			return a + b + c;
