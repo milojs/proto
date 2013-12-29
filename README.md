@@ -70,8 +70,12 @@ Functions
   * [filterKeys](http://mailonline.github.io/proto/proto_object.js.html#filterKeys)
   * [someKey](http://mailonline.github.io/proto/proto_object.js.html#someKey)
   * [everyKey](http://mailonline.github.io/proto/proto_object.js.html#everyKey)
+  * [findValue](http://mailonline.github.io/proto/proto_object.js.html#findValue)
+  * [findKey](http://mailonline.github.io/proto/proto_object.js.html#findKey)
 
 * [__Array functions__](http://mailonline.github.io/proto/proto_array.js.html)
+  * [find](http://mailonline.github.io/proto/proto_array.js.html#find)
+  * [findIndex](http://mailonline.github.io/proto/proto_array.js.html#findIndex)
   * [appendArray](http://mailonline.github.io/proto/proto_array.js.html#appendArray)
   * [prependArray](http://mailonline.github.io/proto/proto_array.js.html#prependArray)
   * [toArray](http://mailonline.github.io/proto/proto_array.js.html#toArray)

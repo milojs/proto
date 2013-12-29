@@ -868,4 +868,80 @@ describe('proto object library', function() {
 
 		assert.deepEqual(result, { a: 'a0', b: 'b1', c: 'c2' });
 	});
+
+
+	it('should define find function', function() {
+		var arr = [, 2, , 6, 7, 10, 12]
+			, thisArg = {};
+
+		function callback(value, index, array) {
+			assert(this, thisArg);
+			assert(array, arr);
+			return value != index * 2;
+		}
+
+		function callback2(value, index, array) {
+			return value > 20;
+		}
+
+		assert.equal(_.find(arr, callback, thisArg), 7);
+		assert.equal(_.find(arr, callback2, thisArg), undefined);
+	});
+
+
+	it('should define findIndex function', function() {
+		var arr = [, 2, , 6, 7, 10, 12]
+			, thisArg = {};
+
+		function callback(value, index, array) {
+			assert(this, thisArg);
+			assert(array, arr);
+			return value != index * 2;
+		}
+
+		function callback2(value, index, array) {
+			return value > 20;
+		}
+
+		assert.equal(_.findIndex(arr, callback, thisArg), 4);
+		assert.equal(_.findIndex(arr, callback2, thisArg), undefined);
+	});
+
+
+	it('should define findValue function', function() {
+		var obj = { a: 0, b: 2, c: 4, d: 6, e: 7, f: 10, g: 12 }
+			, thisArg = {};
+
+		function callback(value, key, object) {
+			assert(this, thisArg);
+			assert(object, obj);
+			return value % 2;
+		}
+
+		function callback2(value, key, array) {
+			return value > 20;
+		}
+
+		assert.equal(_.findValue(obj, callback, thisArg), 7);
+		assert.equal(_.findValue(obj, callback2, thisArg), undefined);
+	});
+
+
+	it('should define findKey function', function() {
+		var obj = { a: 0, b: 2, c: 4, d: 6, e: 7, f: 10, g: 12 }
+			, thisArg = {};
+
+		function callback(value, key, object) {
+			assert(this, thisArg);
+			assert(object, obj);
+			return value % 2;
+		}
+
+		function callback2(value, key, array) {
+			return value > 20;
+		}
+
+		assert.equal(_.findKey(obj, callback, thisArg), 'e');
+		assert.equal(_.findKey(obj, callback2, thisArg), undefined);
+	});
 });
