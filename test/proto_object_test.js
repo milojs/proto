@@ -506,4 +506,108 @@ describe('Object functions', function() {
 		assert.equal(_.findKey(obj, callback, thisArg), 'e');
 		assert.equal(_.findKey(obj, callback2, thisArg), undefined);
 	});	
+
+
+	it('should define defineProperty function', function(){
+		var obj1 = {}
+			, obj2 = {};
+
+		_.defineProperty(obj1, 'prop', 1);
+		Object.defineProperty(obj2, 'prop', {
+			value: 1
+		});
+
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'prop'),
+				Object.getOwnPropertyDescriptor(obj2, 'prop')
+			);
+
+		_.defineProperty(obj1, 'enumprop', 2, _.ENUMERABLE);
+		Object.defineProperty(obj2, 'enumprop', {
+			enumerable: true,
+			value: 2
+		});
+
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'enumprop'),
+				Object.getOwnPropertyDescriptor(obj2, 'enumprop')
+			);
+
+
+		_.defineProperty(obj1, 'enum_writ_prop', 3, _.ENUMERABLE + _.WRITABLE);
+		Object.defineProperty(obj2, 'enum_writ_prop', {
+			enumerable: true,
+			writable: true,
+			value: 3
+		});
+
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'enum_writ_prop'),
+				Object.getOwnPropertyDescriptor(obj2, 'enum_writ_prop')
+			);
+	});
+
+
+	it('should define defineProperties function', function(){
+		var obj1 = {}
+			, obj2 = {};
+
+		_.defineProperties(obj1, {
+			prop1: 1,
+			prop2: 2
+		});
+
+		Object.defineProperties(obj2, {
+			prop1: { value: 1 },
+			prop2: { value: 2 },
+		});
+
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'prop1'),
+				Object.getOwnPropertyDescriptor(obj2, 'prop1')
+			);
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'prop2'),
+				Object.getOwnPropertyDescriptor(obj2, 'prop2')
+			);
+
+
+		_.defineProperties(obj1, {
+			enumprop1: 3,
+			enumprop2: 4
+		}, _.ENUM);
+
+		Object.defineProperties(obj2, {
+			enumprop1: { value: 3, enumerable: true },
+			enumprop2: { value: 4, enumerable: true },
+		});
+
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'enumprop1'),
+				Object.getOwnPropertyDescriptor(obj2, 'enumprop1')
+			);
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'enumprop2'),
+				Object.getOwnPropertyDescriptor(obj2, 'enumprop2')
+			);
+
+		_.defineProperties(obj1, {
+			enum_writ_prop1: 5,
+			enum_writ_prop2: 6
+		}, _.ENUM + _.WRIT);
+
+		Object.defineProperties(obj2, {
+			enum_writ_prop1: { value: 5, enumerable: true, writable: true },
+			enum_writ_prop2: { value: 6, enumerable: true, writable: true },
+		});
+
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'enum_writ_prop1'),
+				Object.getOwnPropertyDescriptor(obj2, 'enum_writ_prop1')
+			);
+			assert.deepEqual(
+				Object.getOwnPropertyDescriptor(obj1, 'enum_writ_prop2'),
+				Object.getOwnPropertyDescriptor(obj2, 'enum_writ_prop2')
+			);
+	});
 });
