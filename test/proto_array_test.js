@@ -167,6 +167,6 @@ describe('Array functions', function() {
 		}
 
 		assert.equal(_.findIndex(arr, callback, thisArg), 4);
-		assert.equal(_.findIndex(arr, callback2, thisArg), undefined);
+		assert.equal(_.findIndex(arr, callback2, thisArg), -1);
 	});
 });
