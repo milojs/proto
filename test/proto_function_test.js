@@ -130,4 +130,46 @@ describe('Function functions', function() {
 			}
 		);
 	});
+
+
+	it('should define delay function', function(done) {
+		var called, args;
+
+		function myFunc() {
+			called = true;
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		_.delay(myFunc, 10, 1, 2, 3);
+
+		assert.equal(called, undefined);
+		assert.equal(args, undefined);
+
+		setTimeout(function() {
+			assert.equal(called, true);
+			assert.deepEqual(args, [1, 2, 3]);
+			done();
+		}, 20);
+	});
+
+
+	it('should define defer function', function(done) {
+		var called, args;
+
+		function myFunc() {
+			called = true;
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		_.defer(myFunc, 1, 2, 3);
+
+		assert.equal(called, undefined);
+		assert.equal(args, undefined);
+
+		setTimeout(function() {
+			assert.equal(called, true);
+			assert.deepEqual(args, [1, 2, 3]);
+			done();
+		}, 5);
+	});
 });

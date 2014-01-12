@@ -55,6 +55,7 @@ Functions
    * [createSubclass](http://mailonline.github.io/proto/proto_prototype.js.html#createSubclass)
    * [makeSubclass](http://mailonline.github.io/proto/proto_prototype.js.html#makeSubclass)
 
+
 * [__Object functions__](http://mailonline.github.io/proto/proto_object.js.html)
   * [extend](http://mailonline.github.io/proto/proto_object.js.html#extend)
   * [clone](http://mailonline.github.io/proto/proto_object.js.html#clone)
@@ -82,11 +83,15 @@ Functions
   * [object](http://mailonline.github.io/proto/proto_array.js.html#object)
   * [mapToObject](http://mailonline.github.io/proto/proto_array.js.html#mapToObject)
 
+
 * [__Function functions__](http://mailonline.github.io/proto/proto_function.js.html)
   * [makeFunction](http://mailonline.github.io/proto/proto_function.js.html#makeFunction)
   * [partial](http://mailonline.github.io/proto/proto_function.js.html#partial)
   * [partialRight](http://mailonline.github.io/proto/proto_function.js.html#partialRight)
   * [memoize](http://mailonline.github.io/proto/proto_function.js.html#memoize)
+  * [delay](http://mailonline.github.io/proto/proto_function.js.html#delay)
+  * [defer](http://mailonline.github.io/proto/proto_function.js.html#defer)
+
 
 * [__String functions__](http://mailonline.github.io/proto/proto_string.js.html)
   * [firstUpperCase](http://mailonline.github.io/proto/proto_string.js.html#firstUpperCase)
