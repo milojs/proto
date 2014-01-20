@@ -73,6 +73,8 @@ Functions
   * [everyKey](http://mailonline.github.io/proto/proto_object.js.html#everyKey)
   * [findValue](http://mailonline.github.io/proto/proto_object.js.html#findValue)
   * [findKey](http://mailonline.github.io/proto/proto_object.js.html#findKey)
+  * [pickKeys](http://mailonline.github.io/proto/proto_object.js.html#pickKeys)
+  * [omitKeys](http://mailonline.github.io/proto/proto_object.js.html#omitKeys)
 
 * [__Array functions__](http://mailonline.github.io/proto/proto_array.js.html)
   * [find](http://mailonline.github.io/proto/proto_array.js.html#find)
@@ -82,7 +84,7 @@ Functions
   * [toArray](http://mailonline.github.io/proto/proto_array.js.html#toArray)
   * [object](http://mailonline.github.io/proto/proto_array.js.html#object)
   * [mapToObject](http://mailonline.github.io/proto/proto_array.js.html#mapToObject)
-
+  * Functions that Array [implements natively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods) are also added - they can be used with array-like objects and for chaining (native functions are always called).
 
 * [__Function functions__](http://mailonline.github.io/proto/proto_function.js.html)
   * [makeFunction](http://mailonline.github.io/proto/proto_function.js.html#makeFunction)

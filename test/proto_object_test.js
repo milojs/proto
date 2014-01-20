@@ -610,4 +610,16 @@ describe('Object functions', function() {
 				Object.getOwnPropertyDescriptor(obj2, 'enum_writ_prop2')
 			);
 	});
+
+	it('should define pickKeys function', function() {
+		var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
+		var picked = _.pickKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
+		assert.deepEqual(picked, { a: 1, b: 2, e: 5, f: 6 })
+	});
+
+	it('should define omitKeys function', function() {
+		var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
+		var omitted = _.omitKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
+		assert.deepEqual(omitted, { c: 3, d: 4 })
+	});
 });
