@@ -172,4 +172,77 @@ describe('Function functions', function() {
 			done();
 		}, 5);
 	});
+
+
+	it('should define debounce function', function(done) {
+		var called = 0
+			, args;
+
+		function myFunc() {
+			called++;
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		var myDebounced = _.debounce(myFunc, 20);
+
+		myDebounced(1,2);
+		myDebounced(3,4);
+		assert.equal(called, 0);
+
+		setTimeout(function(){
+			myDebounced(5,6);
+			assert.equal(called, 0);
+
+			setTimeout(function() {
+				assert.equal(called, 1);
+				assert.deepEqual(args, [5, 6]);
+
+				setTimeout(function() {
+					assert.equal(called, 1);
+					assert.deepEqual(args, [5, 6]);
+					done();
+				}, 10)
+			}, 22);
+		}, 5);
+	});
+
+
+	it('should define debounce function with immediate', function(done) {
+		var called = 0
+			, args;
+
+		function myFunc() {
+			called++;
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		var myDebounced = _.debounce(myFunc, 20, true);
+
+		myDebounced(1,2);
+		assert.equal(called, 1);
+		assert.deepEqual(args, [1, 2]);
+
+		myDebounced(3,4);
+		assert.equal(called, 1);
+		assert.deepEqual(args, [1, 2]);
+
+		setTimeout(function(){
+			myDebounced(5,6);
+			assert.equal(called, 1);
+			assert.deepEqual(args, [1, 2]);
+
+			setTimeout(function() {
+				myDebounced(7,8);
+				assert.equal(called, 2);
+				assert.deepEqual(args, [7, 8]);
+
+				setTimeout(function() {
+					myDebounced(9,10);
+					assert.equal(called, 2);
+					assert.deepEqual(args, [7, 8]);
+					done();
+				}, 10)
+			}, 22);
+		}, 5);
+	});
 });
