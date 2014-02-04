@@ -93,6 +93,10 @@ Functions
   * [memoize](http://mailonline.github.io/proto/proto_function.js.html#memoize)
   * [delay](http://mailonline.github.io/proto/proto_function.js.html#delay)
   * [defer](http://mailonline.github.io/proto/proto_function.js.html#defer)
+  * [delayMethod](http://mailonline.github.io/proto/proto_function.js.html#delayMethod)
+  * [deferMethod](http://mailonline.github.io/proto/proto_function.js.html#deferMethod)
+  * [debounce](http://mailonline.github.io/proto/proto_function.js.html#debounce)
+  * [throttle](http://mailonline.github.io/proto/proto_function.js.html#throttle) 
 
 
 * [__String functions__](http://mailonline.github.io/proto/proto_string.js.html)
