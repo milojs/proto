@@ -87,7 +87,7 @@ describe('Object functions', function() {
 	});
 
 
-	it('should define deepExtend', function() {
+	it('should define deepExtend function', function() {
 		var obj = {
 			attr: {
 				bind: 'ml-bind',
@@ -179,6 +179,15 @@ describe('Object functions', function() {
 						}
 					}
 				}, 'should NOT recreate recursion in this case and should not timeout, may recreate recursion in some cases');
+	});
+
+
+	it('should define deepClone function', function() {
+		var obj = { a: 1, b: { c: 2, d: { e: 3 } } };
+
+		var cloned = _.deepClone(obj);
+
+		assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
 	});
 
 
