@@ -169,4 +169,22 @@ describe('Array functions', function() {
 		assert.equal(_.findIndex(arr, callback, thisArg), 4);
 		assert.equal(_.findIndex(arr, callback2, thisArg), -1);
 	});
+
+
+	it('should define unique function', function() {
+		var arr = [1, 2, 2, 3, 3, 4];
+
+		var result = _.unique(arr);
+
+		assert.deepEqual(result, [1, 2, 3, 4]);
+
+
+		var arr = [ {a: 1}, {a: 2}, {a: 2}, {a: 3}];
+
+		var result = _.unique(arr, function(x, y) {
+			return x.a == y.a;
+		});
+
+		assert.deepEqual(result, [ {a: 1}, {a: 2}, {a: 3}]);
+	});
 });

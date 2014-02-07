@@ -84,6 +84,7 @@ Functions
   * [toArray](http://mailonline.github.io/proto/proto_array.js.html#toArray)
   * [object](http://mailonline.github.io/proto/proto_array.js.html#object)
   * [mapToObject](http://mailonline.github.io/proto/proto_array.js.html#mapToObject)
+  * [unique](http://mailonline.github.io/proto/proto_array.js.html#unique)
   * Functions that Array [implements natively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods) are also added - they can be used with array-like objects and for chaining (native functions are always called).
 
 * [__Function functions__](http://mailonline.github.io/proto/proto_function.js.html)
