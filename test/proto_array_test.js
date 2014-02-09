@@ -128,8 +128,8 @@ describe('Array functions', function() {
 			, thisArg = {};
 
 		function callback(value, index, array) {
-			assert(this, thisArg);
-			assert(array, arr);
+			assert.equal(this, thisArg);
+			assert.equal(array, arr);
 			return value != index * 2;
 		}
 
@@ -157,8 +157,8 @@ describe('Array functions', function() {
 			, thisArg = {};
 
 		function callback(value, index, array) {
-			assert(this, thisArg);
-			assert(array, arr);
+			assert.equal(this, thisArg);
+			assert.equal(array, arr);
 			return value != index * 2;
 		}
 
@@ -186,5 +186,21 @@ describe('Array functions', function() {
 		});
 
 		assert.deepEqual(result, [ {a: 1}, {a: 2}, {a: 3}]);
+	});
+
+
+	it('should define deepForEach function', function() {
+		var arr = [0, [1, 2], [3, [4, 5], 6], 7, [8, 9, 10]]
+			, result = []
+			, thisArg = {};
+
+		_.deepForEach(arr, function(value, index, array) {
+			assert.equal(this, thisArg);
+			assert.equal(array, arr);
+			assert.equal(value, index);
+			result.push(value);
+		}, thisArg);
+
+		assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 	});
 });

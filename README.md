@@ -62,6 +62,7 @@ Functions
   * [defineProperty](http://mailonline.github.io/proto/proto_object.js.html#defineProperty)
   * [defineProperties](http://mailonline.github.io/proto/proto_object.js.html#defineProperties)
   * [deepExtend](http://mailonline.github.io/proto/proto_object.js.html#deepExtend)
+  * [deepClone](http://mailonline.github.io/proto/proto_object.js.html#deepClone)
   * [allKeys](http://mailonline.github.io/proto/proto_object.js.html#allKeys)
   * [keyOf](http://mailonline.github.io/proto/proto_object.js.html#keyOf)
   * [allKeysOf](http://mailonline.github.io/proto/proto_object.js.html#allKeysOf)
@@ -85,6 +86,7 @@ Functions
   * [object](http://mailonline.github.io/proto/proto_array.js.html#object)
   * [mapToObject](http://mailonline.github.io/proto/proto_array.js.html#mapToObject)
   * [unique](http://mailonline.github.io/proto/proto_array.js.html#unique)
+  * [deepForEach](http://mailonline.github.io/proto/proto_array.js.html#deepForEach)
   * Functions that Array [implements natively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods) are also added - they can be used with array-like objects and for chaining (native functions are always called).
 
 * [__Function functions__](http://mailonline.github.io/proto/proto_function.js.html)
@@ -103,3 +105,5 @@ Functions
 * [__String functions__](http://mailonline.github.io/proto/proto_string.js.html)
   * [firstUpperCase](http://mailonline.github.io/proto/proto_string.js.html#firstUpperCase)
   * [firstLowerCase](http://mailonline.github.io/proto/proto_string.js.html#firstLowerCase)
+  * [toRegExp](http://mailonline.github.io/proto/proto_string.js.html#toRegExp)
+  * [toFunction](http://mailonline.github.io/proto/proto_string.js.html#toFunction)

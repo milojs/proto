@@ -9,8 +9,8 @@ describe('String functions', function() {
 		var upper = 'UPPERCASE'
 			, lower = 'lowercase';
 
-		assert(_.firstUpperCase(upper), 'UPPERCASE');
-		assert(_.firstUpperCase(lower), 'Lowercase');
+		assert.equal(_.firstUpperCase(upper), 'UPPERCASE');
+		assert.equal(_.firstUpperCase(lower), 'Lowercase');
 	});
 
 
@@ -18,7 +18,33 @@ describe('String functions', function() {
 		var upper = 'UPPERCASE'
 			, lower = 'lowercase';
 
-		assert(_.firstLowerCase(upper), 'uPPERCASE');
-		assert(_.firstLowerCase(lower), 'lowercase');
-	});	
+		assert.equal(_.firstLowerCase(upper), 'uPPERCASE');
+		assert.equal(_.firstLowerCase(lower), 'lowercase');
+	});
+
+
+	it('should define toRegExp function', function() {
+		var pattern = /ab+c/i
+			, patternStr = pattern.toString();
+
+		assert.equal(patternStr, '/ab+c/i');
+
+		var regex = _.toRegExp(patternStr);
+		assert.equal(patternStr, regex.toString());
+		assert(regex instanceof RegExp);
+		assert(regex.test('ABBC'));
+	});
+
+
+	it('should define toFunction function', function() {
+		function myFunc() { return 1234; }
+		var funcStr = myFunc.toString();
+
+		assert.equal(funcStr, 'function myFunc() { return 1234; }');
+
+		var func = _.toFunction(funcStr);
+		assert.equal(funcStr, func.toString());
+		assert.equal(typeof func, 'function');
+		assert.equal(func(), 1234);
+	});
 });
