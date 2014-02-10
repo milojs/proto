@@ -107,3 +107,8 @@ Functions
   * [firstLowerCase](http://mailonline.github.io/proto/proto_string.js.html#firstLowerCase)
   * [toRegExp](http://mailonline.github.io/proto/proto_string.js.html#toRegExp)
   * [toFunction](http://mailonline.github.io/proto/proto_string.js.html#toFunction)
+
+
+* [__Utility functions__](http://mailonline.github.io/proto/proto_util.js.html)
+  * [tap](http://mailonline.github.io/proto/proto_util.js.html#tap)
+
