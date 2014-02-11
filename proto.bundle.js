@@ -22,6 +22,7 @@ var	prototypeMethods = require('./proto_prototype');
  * - [defineProperty](proto_object.js.html#defineProperty)
  * - [defineProperties](proto_object.js.html#defineProperties)
  * - [deepExtend](proto_object.js.html#deepExtend)
+ * - [deepClone](proto_object.js.html#deepClone)
  * - [allKeys](proto_object.js.html#allKeys)
  * - [keyOf](proto_object.js.html#keyOf)
  * - [allKeysOf](proto_object.js.html#allKeysOf)
@@ -31,6 +32,10 @@ var	prototypeMethods = require('./proto_prototype');
  * - [filterKeys](proto_object.js.html#filterKeys)
  * - [someKey](proto_object.js.html#someKey)
  * - [everyKey](proto_object.js.html#everyKey)
+ * - [findValue](proto_object.js.html#findValue)
+ * - [findKey](proto_object.js.html#findKey)
+ * - [pickKeys](proto_object.js.html#pickKeys)
+ * - [omitKeys](proto_object.js.html#omitKeys)
  */
 var	objectMethods = require('./proto_object');
 
@@ -38,11 +43,15 @@ var	objectMethods = require('./proto_object');
 /**
  * [__Array functions__](proto_array.js.html)
  *
+ * - [find](proto_array.js.html#find)
+ * - [findIndex](proto_array.js.html#findIndex)
  * - [appendArray](proto_array.js.html#appendArray)
  * - [prependArray](proto_array.js.html#prependArray)
  * - [toArray](proto_array.js.html#toArray)
  * - [object](proto_array.js.html#object)
  * - [mapToObject](proto_array.js.html#mapToObject)
+ * - [unique](proto_array.js.html#unique)
+ * - [deepForEach](proto_array.js.html#deepForEach)
  *
  * Functions that Array [implements natively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods) are also added - they can be used with array-like objects and for chaining (native functions are always called).
  */
@@ -52,9 +61,16 @@ var	arrayMethods = require('./proto_array');
 /**
  * [__Function functions__](proto_function.js.html)
  *
+ * - [makeFunction](proto_function.js.html#makeFunction)
  * - [partial](proto_function.js.html#partial)
  * - [partialRight](proto_function.js.html#partialRight)
  * - [memoize](proto_function.js.html#memoize)
+ * - [delay](proto_function.js.html#delay)
+ * - [defer](proto_function.js.html#defer)
+ * - [delayMethod](proto_function.js.html#delayMethod)
+ * - [deferMethod](proto_function.js.html#deferMethod)
+ * - [debounce](proto_function.js.html#debounce)
+ * - [throttle](proto_function.js.html#throttle) 
  */
 var	functionMethods = require('./proto_function');
 
@@ -64,8 +80,18 @@ var	functionMethods = require('./proto_function');
  *
  * - [firstUpperCase](proto_string.js.html#firstUpperCase)
  * - [firstLowerCase](proto_string.js.html#firstLowerCase)
+ * - [toRegExp](proto_string.js.html#toRegExp)
+ * - [toFunction](proto_string.js.html#toFunction)
  */
 var	stringMethods = require('./proto_string');
+
+
+/**
+ * [__Utility functions__](proto_util.js.html)
+ * 
+ * - [tap](proto_util.js.html#tap)
+ */
+var utilMethods = require('./proto_util');
 
 
 /**
@@ -102,11 +128,15 @@ var _ = Proto;
 
 
 // store raw methods from different modules in __ object (double "_")
-var __ = objectMethods.clone.call(objectMethods);
+var __ = {};
+
+objectMethods.extend.call(__, objectMethods);
 __.extend.call(__, prototypeMethods);
 __.extend.call(__, arrayMethods);
 __.extend.call(__, stringMethods);
 __.extend.call(__, functionMethods);
+__.extend.call(__, utilMethods);
+
 
 // add __ as property of Proto, so they can be used as mixins in other classes
 __.defineProperty(Proto, '__', __);
@@ -116,13 +146,15 @@ __.defineProperty(Proto, '__', __);
 function unwrapProto() { return this.self; }
 __.extendProto.call(Proto, { _: unwrapProto });
 
+// add constants (functions will be overwritten)
+__.extend.call(Proto, objectMethods._constants);
 
 // add functions that take first parameter instead of "this" to Proto
-var protoFuncs = __.mapKeys.call(__, utils.makeProtoFunction);
+var protoFuncs = __.mapKeys.call(__, utils.makeProtoFunction, true);
 __.extend.call(Proto, protoFuncs);
 
 // add Proto wrapped value instance methods to Proto prototype
-var protoInstanceMethods = __.mapKeys.call(__, utils.makeProtoInstanceMethod);
+var protoInstanceMethods = __.mapKeys.call(__, utils.makeProtoInstanceMethod, true);
 __.extendProto.call(Proto, protoInstanceMethods);
 
 
@@ -142,7 +174,7 @@ if (typeof module == 'object' && module.exports)
 	// export for node/browserify
 	module.exports = Proto;
 
-},{"./proto_array":2,"./proto_function":3,"./proto_object":4,"./proto_prototype":5,"./proto_string":6,"./utils":7}],2:[function(require,module,exports){
+},{"./proto_array":2,"./proto_function":3,"./proto_object":4,"./proto_prototype":5,"./proto_string":6,"./proto_util":7,"./utils":8}],2:[function(require,module,exports){
 'use strict';
 
 var __ = require('./proto_object')
@@ -150,24 +182,35 @@ var __ = require('./proto_object')
 
 
 /**
+ * - [find](#find)
+ * - [findIndex](#findIndex)
  * - [appendArray](#appendArray)
  * - [prependArray](#prependArray)
  * - [toArray](#toArray)
  * - [object](#object)
  * - [mapToObject](#mapToObject)
+ * - [unique](#unique)
+ * - [deepForEach](#deepForEach)
  *
- * Functions that Array [implements natively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods) are also included for convenience - they can be used with array-like objects and for chaining (native functions are always called)
- * All these methods can be [chained](proto.js.html#Proto).
+ * These methods can be [chained](proto.js.html#Proto).
  */
 var arrayMethods = module.exports = {
+	// find: see below
+	// findIndex: see below
 	appendArray: appendArray,
 	prependArray: prependArray,
 	toArray: toArray,
 	object: object,
-	mapToObject: mapToObject
+	mapToObject: mapToObject,
+	unique: unique,
+	deepForEach: deepForEach
 };
 
 
+/**
+ * Functions that Array [implements natively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods) are also included for convenience - they can be used with array-like objects and for chaining (native functions are always called).
+ * These methods can be [chained](proto.js.html#Proto) too.
+ */
 var nativeArrayMethodsNames = [ 'join', 'pop', 'push', 'concat',
 	'reverse', 'shift', 'unshift', 'slice', 'splice',
 	'sort', 'filter', 'forEach', 'some', 'every',
@@ -182,6 +225,32 @@ __.extend.call(arrayMethods, nativeArrayMethods);
 
 
 /**
+ * Implementation of ES6 [Array __find__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) (native method is used if available).
+ * Returns array element that passes callback test.
+ *
+ * @param {Array} self array to search in
+ * @param {Function} callback should return `true` for item to pass the test, passed `value`, `index` and `self` as parameters
+ * @param {Object} thisArg optional context (`this`) of callback call
+ * @return {Any}
+ */
+arrayMethods.find = Array.prototype.find
+	|| utils.makeFindMethod(arrayMethods.forEach, 'value');
+
+
+/**
+ * Implementation of ES6 [Array __findIndex__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex) (native method is used if available).
+ * Returns the index of array element that passes callback test. Returns `-1` if not found.
+ *
+ * @param {Array} self array to search in
+ * @param {Function} callback should return `true` for item to pass the test, passed `value`, `index` and `self` as parameters
+ * @param {Object} thisArg optional context (`this`) of callback call
+ * @return {Integer}
+ */
+arrayMethods.findIndex = Array.prototype.findIndex
+	|| utils.makeFindMethod(arrayMethods.forEach, 'index');
+
+
+/**
  * Appends `arrayToAppend` to the end of array `self` in place (can be an instance of Array or array-like object).
  * Changes the value of `self` (it uses `Array.prototype.splice`) and returns `self`.
  *
@@ -193,7 +262,7 @@ function appendArray(arrayToAppend) {
 	if (! arrayToAppend.length) return this;
 
     var args = [this.length, 0].concat(arrayToAppend);
-    Array.prototype.splice.apply(this, args);
+    arrayMethods.splice.apply(this, args);
 
     return this;
 }
@@ -211,7 +280,7 @@ function prependArray(arrayToPrepend) {
 	if (! arrayToPrepend.length) return this;
 
     var args = [0, 0].concat(arrayToPrepend);
-    Array.prototype.splice.apply(this, args);
+    arrayMethods.splice.apply(this, args);
 
     return this;
 }
@@ -224,7 +293,7 @@ function prependArray(arrayToPrepend) {
  * @return {Array}
  */
 function toArray() {
-	return Array.prototype.slice.call(this);
+	return arrayMethods.slice.call(this);
 }
 
 
@@ -238,7 +307,7 @@ function toArray() {
 function object(values) {
 	var obj = {}
 		, valuesIsArray = Array.isArray(values);
-	this.forEach(function(key, index) {
+	arrayMethods.forEach.call(this, function(key, index) {
 		obj[key] = valuesIsArray ? values[index] : values;
 	});
 
@@ -250,26 +319,88 @@ function object(values) {
  * Maps array to object.
  * Array elements become keys, value are taken from `callback`.
  * 
- * @param {Array} self An object which values will become keys of the result
+ * @param {Array} self An array which values will become keys of the result
  * @param {Function} callback Callback is passed `value`, `index` and `self` and should return value that will be included in the result.
  * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
  * @return {Object}
  */
 function mapToObject(callback, thisArg) {
 	var result = {};
-	this.forEach(function(value, index) {
+	Array.prototype.forEach.call(this, function(value, index) {
 		result[value] = callback.call(thisArg, value, index, this);
 	}, this);
 	return result;
 }
 
-},{"./proto_object":4,"./utils":7}],3:[function(require,module,exports){
+
+/**
+ * Returns array without duplicates. Does not modify original array.
+ *
+ * @param {Array} self original array
+ * @param {Function} callback comparison function, should return true for equal items, "===" is used if not passed.
+ * @return {Array}
+ */
+function unique(callback) {
+	var filtered = [];
+	if (! callback)
+		itemIndex = itemIndexOf;
+
+	this.forEach(function(item) {
+		var index = itemIndex(item);
+		if (index == -1)
+			filtered.push(item);
+	});
+
+	return filtered;
+
+
+	function itemIndex(item) {
+		return arrayMethods.findIndex.call(filtered, function(it) {
+			return callback(item, it);
+		});
+	}
+
+	function itemIndexOf(item) {
+		return filtered.indexOf(item);
+	}
+}
+
+
+/**
+ * Iterates array and elements that are arrays calling callback with each element that is not an array. Can be used to iterate over arguments list to avoid checking whether array or list of parameters is passed.
+ *
+ * @param {Array|Array-like} self array of elements and arraysto iterate.
+ * @param {Function} callback called for each item that is not an array. Callback is passed item, index and original array as parameters.
+ * @param {Any} thisArg optional callback envocation context
+ */
+function deepForEach(callback, thisArg) {
+	var index = 0, arr = this;
+	_deepForEach.call(this);
+
+	function _deepForEach() {
+		arrayMethods.forEach.call(this, function(value) {
+			if (Array.isArray(value))
+				_deepForEach.call(value);
+			else
+				callback.call(thisArg, value, index++, arr);
+		});
+	}
+}
+
+},{"./proto_object":4,"./utils":8}],3:[function(require,module,exports){
 'use strict';
 
 /**
+ * - [makeFunction](#makeFunction)
  * - [partial](#partial)
  * - [partialRight](#partialRight)
  * - [memoize](#memoize)
+ * - [delay](#delay)
+ * - [defer](#defer)
+ * - [delayMethod](#delayMethod)
+ * - [deferMethod](#deferMethod)
+ * - [debounce](#debounce)
+ * - [throttle](#throttle)
  *
  * These methods can be [chained](proto.js.html#Proto)
  */
@@ -277,7 +408,13 @@ var functionMethods = module.exports = {
 	makeFunction: makeFunction,
 	partial: partial,
 	partialRight: partialRight,
-	memoize: memoize
+	memoize: memoize,
+	delay: delay,
+	defer: defer,
+	delayMethod: delayMethod,
+	deferMethod: deferMethod,
+	debounce: debounce,
+	throttle: throttle
 };
 
 
@@ -311,7 +448,7 @@ function makeFunction(arg1, arg2, funcBody) {
 /**
  * Creates a function as a result of partial function application with the passed parameters.
  *
- * @param {Function} func Function to be applied
+ * @param {Function} self Function to be applied
  * @param {List} arguments Arguments after self will be prepended to the original function call when the partial function is called.
  * @return {Function}
  */
@@ -327,7 +464,7 @@ function partial() { // , ... arguments
 /**
  * Creates a function as a result of partial function application with the passed parameters, but parameters are appended on the right.
  *
- * @param {Function} func Function to be applied
+ * @param {Function} self Function to be applied
  * @param {List} arguments Arguments after self will be appended on the right to the original function call when the partial function is called.
  * @return {Function}
  */
@@ -343,7 +480,7 @@ function partialRight() { // , ... arguments
 /**
  * Creates a memoized version of the function using supplied hash function as key. If the hash is not supplied, uses its first parameter as the hash.
  * 
- * @param {Function} func function to be memoized
+ * @param {Function} self function to be memoized
  * @param {Function} hashFunc optional hash function that is passed all function arguments and should return cache key.
  * @param {Integer} limit optional maximum number of results to be stored in the cache. 1000 by default.
  * @return {Function} memoized function
@@ -368,8 +505,151 @@ function memoize(hashFunc, limit) {
 	};
 }
 
+
+/**
+ * Delays function execution by a given time in milliseconds.
+ * The context in function when it is executed is set to `null`.
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {Number} wait approximate dalay time in milliseconds
+ * @param {List} arguments optional arguments that will be passed to the function
+ */
+function delay(wait) { // , arguments
+    var args = slice.call(arguments, 1);
+	return _delay(this, wait, args);
+}
+ 
+
+/**
+ * Defers function execution (executes as soon as execution loop becomes free)
+ * The context in function when it is executed is set to `null`.
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {List} arguments optional arguments that will be passed to the function
+ */
+function defer() { // , arguments
+	return _delay(this, 1, arguments);
+}
+
+function _delay(func, wait, args) {
+	return setTimeout(func.apply.bind(func, null, args), wait);
+}
+
+
+/**
+ * Works like _.delay but allows to defer method call of `self` which will be the first _.delayMethod parameter
+ *
+ * @param {Object} self object to delay method call of
+ * @param {String} methodName name of method
+ * @param {Number} wait approximate dalay time in milliseconds
+ * @param {List} arguments arguments to pass to method
+ */
+function delayMethod(methodName, wait) { // , ... arguments
+	var args = slice.call(arguments, 2);
+	_delayMethod(this, methodName, wait, args);
+}
+
+
+/**
+ * Works like _.defer but allows to defer method call of `self` which will be the first _.deferMethod parameter
+ *
+ * @param {Object} self object to defer method call of
+ * @param {String} methodName name of method
+ * @param {List} arguments arguments to pass to method
+ */
+function deferMethod(methodName) { // , ... arguments
+	var args = slice.call(arguments, 1);
+	_delayMethod(this, methodName, 1, args);
+}
+
+function _delayMethod(object, methodName, wait, args) {
+	return setTimeout(function() {
+		object[methodName].apply(object, args);
+	}, wait);
+}
+
+
+/**
+ * Creates a function that will call original function once it has not been called for a specified time
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {Number} wait approximate dalay time in milliseconds
+ * @param {Boolean} immediate true to invoke funciton immediately and then ignore following calls for wait milliseconds
+ * @return {Function}
+ */
+function debounce(wait, immediate) {
+	var func = this; // first parameter of _.debounce
+    var timeout, args, context, timestamp, result;
+    return function() {
+		context = this; // store original context
+		args = arguments;
+		timestamp = Date.now();
+		var callNow = immediate && ! timeout;
+		if (! timeout)
+			timeout = setTimeout(later, wait);
+		if (callNow)
+			result = func.apply(context, args);
+		return result;
+
+		function later() {
+	        var last = Date.now() - timestamp;
+	        if (last < wait)
+	        	timeout = setTimeout(later, wait - last);
+	        else {
+	        	timeout = null;
+	        	if (! immediate)
+	        		result = func.apply(context, args);
+	        }
+		}
+    };
+}
+
+
+/**
+ * Returns a function, that, when invoked, will only be triggered at most once during a given window of time. 
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {Number} wait approximate delay time in milliseconds
+ * @param {Object} options `{leading: false}` to disable the execution on the leading edge
+ * @return {Function}
+ */
+function throttle(wait, options) {
+	var func = this; // first parameter of _.throttle
+	var context, args, result;
+	var timeout = null;
+	var previous = 0;
+	options || (options = {});
+
+	return function() {
+	    var now = Date.now();
+	    if (!previous && options.leading === false) previous = now;
+	    var remaining = wait - (now - previous);
+	    context = this;
+	    args = arguments;
+	    if (remaining <= 0) {
+	        clearTimeout(timeout);
+	        timeout = null;
+	        previous = now;
+	        result = func.apply(context, args);
+	    } else if (!timeout && options.trailing !== false)
+	        timeout = setTimeout(later, remaining);
+
+	    return result;
+	};
+
+	function later() {
+	    previous = options.leading === false ? 0 : Date.now();
+	    timeout = null;
+	    result = func.apply(context, args);
+	}
+}
+
 },{}],4:[function(require,module,exports){
 'use strict';
+
+
+var utils = require('./utils');
+
 
 /**
  * - [extend](#extend)
@@ -377,6 +657,7 @@ function memoize(hashFunc, limit) {
  * - [defineProperty](#defineProperty)
  * - [defineProperties](#defineProperties)
  * - [deepExtend](#deepExtend)
+ * - [deepClone](#deepClone)
  * - [allKeys](#allKeys)
  * - [keyOf](#keyOf)
  * - [allKeysOf](#allKeysOf)
@@ -386,6 +667,10 @@ function memoize(hashFunc, limit) {
  * - [filterKeys](#filterKeys)
  * - [someKey](#someKey)
  * - [everyKey](#everyKey)
+ * - [findValue](#findValue)
+ * - [findKey](#findKey)
+ * - [pickKeys](#pickKeys)
+ * - [omitKeys](#omitKeys)
  *
  * All these methods can be [chained](proto.js.html#Proto)
  */
@@ -395,6 +680,7 @@ var objectMethods = module.exports = {
 	defineProperty: defineProperty,
 	defineProperties: defineProperties,
 	deepExtend: deepExtend,
+	deepClone: deepClone,
 	allKeys: allKeys,
 	keyOf: keyOf,
 	allKeysOf: allKeysOf,
@@ -403,8 +689,51 @@ var objectMethods = module.exports = {
 	reduceKeys: reduceKeys,
 	filterKeys: filterKeys,
 	someKey: someKey,
-	everyKey: everyKey
+	everyKey: everyKey,
+	pickKeys: pickKeys,
+	omitKeys: omitKeys
 };
+
+
+/**
+ * ####Property descriptor constants####
+ * The sum of these constants can be used as last parameter of defineProperty and defineProperties to determine types of properties.
+ */
+var constants = {
+	ENUMERABLE: 1,
+	ENUM: 1,
+	CONFIGURABLE: 2,
+	CONF: 2,
+	WRITABLE: 4,
+	WRIT: 4
+};
+
+defineProperty.call(objectMethods, '_constants', constants);
+
+
+/**
+ * Analogue of ES6 [Array __find__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find).
+ * Returns the value of object property that passes callback test.
+ *
+ * @param {Object} self object to search in
+ * @param {Function} callback should return `true` for item to pass the test, passed `value`, `key` and `self` as parameters
+ * @param {Object} thisArg optional context (`this`) of callback call
+ * @return {Any}
+ */
+objectMethods.findValue = utils.makeFindMethod(eachKey, 'value');
+
+
+/**
+ * Analogue of ES6 [Array __findIndex__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex).
+ * Returns the key of object property that passes callback test. Returns `undefined` if not found (unlike `findIndex`, that returns -1 in this case).
+ *
+ * @param {Object} self object to search in
+ * @param {Function} callback should return `true` for item to pass the test, passed `value`, `key` and `self` as parameters
+ * @param {Object} thisArg optional context (`this`) of callback call
+ * @return {Integer}
+ */
+objectMethods.findKey = utils.makeFindMethod(eachKey, 'key');
+
 
 /**
  * Extends object `self` with the properties of the object `obj` copying all own properties (not those inherited via prototype chain), including non-enumerable properties (unless `onlyEnumerable` is truthy).
@@ -454,24 +783,36 @@ function clone() {
  * ```
  * _.defineProperty(obj, 'key', value);
  * ```
+ *
+ * To define some other properties use sum of the flags `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`):
+ * ```
+ * _.defineProperty(obj, 'key', value, _.ENUM + _.WRIT);
+ * ```
  * Returns `self`.
  *
  * @param {Object} self An object to add a property to
  * @param {String} propertyName the name of the property that will be added
  * @param {Any} value the value of added property
- * @param {Boolean} enumerable Optional `true` value to make property enumerable, `false` by default
- * @param {Boolean} configurable Optional `true` value to make property configurable, `false` by default
- * @param {Boolean} writable Optional `true` value to make property writable, `false` by default
+ * @param {Integer} decriptorFlags bit mask of property descriptor properties composed from `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`)
  * @return {Object}
  */
-function defineProperty(propertyName, value, enumerable, configurable, writable) {
-	Object.defineProperty(this, propertyName, {
-		enumerable: enumerable,
-		configurable: configurable,
-		writable: writable,
-		value: value
-	});
+function defineProperty(propertyName, value, decriptorFlags) {
+	Object.defineProperty(this, propertyName,
+		_getDescriptor(value, decriptorFlags));
 	return this;
+}
+
+
+function _getDescriptor(value, decriptorFlags) {
+	var descriptor = { value: value };
+	if (decriptorFlags)
+		extend.call(descriptor, {
+			enumerable: !! (decriptorFlags & constants.ENUMERABLE),
+			configurable: !! (decriptorFlags & constants.CONFIGURABLE),
+			writable: !! (decriptorFlags & constants.WRITABLE)
+		});
+
+	return descriptor;
 }
 
 
@@ -484,24 +825,24 @@ function defineProperty(propertyName, value, enumerable, configurable, writable)
  *     key2: value2	
  * });
  * ```
+ * To define some other properties use sum of the flags `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`):
+ * ```
+ * _.defineProperties(obj, {
+ *     key1: value1,
+ *     key2: value2	
+ * }, _.ENUM + _.WRIT);
+ * ```
  * Returns `self`.
  *
  * @param {Object} self An object to add a property to
  * @param {Object} propertyValues A map of keys and values of properties thatwill be added. The descriptors of properties will be defined by the following parameters.
- * @param {Boolean} enumerable Optional `true` value to make property enumerable, `false` by default
- * @param {Boolean} configurable Optional `true` value to make property configurable, `false` by default
- * @param {Boolean} writable Optional `true` value to make property writable, `false` by default
+ * @param {Integer} decriptorFlags bit mask of property descriptor properties composed from `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`)
  * @return {Object}
  */
-function defineProperties(propertyValues, enumerable, configurable, writable) {
+function defineProperties(propertyValues, decriptorFlags) {
 	var descriptors = mapKeys.call(propertyValues, function(value) {
-		return {
-			enumerable: enumerable,
-			configurable: configurable,
-			writable: writable,
-			value: value
-		};		
-	});
+		return _getDescriptor(value, decriptorFlags);		
+	}, true);
 	Object.defineProperties(this, descriptors);
 	return this;
 }
@@ -552,8 +893,9 @@ function _extendTree(selfNode, objNode, onlyEnumerable, objTraversed) {
 
 	eachKey.call(objNode, function(value, prop) {
 		var descriptor = Object.getOwnPropertyDescriptor(objNode, prop);
-		if (typeof value == 'object') {
-			if (! (selfNode.hasOwnProperty(prop) && typeof selfNode[prop] == 'object'))
+		if (typeof value == 'object' && value != null) {
+			if (! (selfNode.hasOwnProperty(prop)
+					&& typeof selfNode[prop] == 'object' && selfNode[prop] != null))
 				selfNode[prop] = {};
 			_extendTree(selfNode[prop], value, onlyEnumerable, objTraversed);
 		} else
@@ -561,6 +903,20 @@ function _extendTree(selfNode, objNode, onlyEnumerable, objTraversed) {
 	}, this, onlyEnumerable);
 
 	return selfNode;
+}
+
+
+/**
+ * Clones all object tree. Class of original object is not preserved. Returns `self`
+ *
+ * @param {Object} self An object to be extended
+ * @param {Boolean} onlyEnumerable Optional `true` to use only enumerable properties
+ * @return {Object}
+ */
+function deepClone(onlyEnumerable) {
+	var clonedObject = {};
+	deepExtend.call(clonedObject, this, onlyEnumerable);
+	return clonedObject;
 }
 
 
@@ -752,7 +1108,7 @@ function someKey(callback, thisArg, onlyEnumerable) {
 	try {
 		eachKey.call(this, testProperty, thisArg, onlyEnumerable);
 	} catch (test) {
-		if (test == _passed) return true;
+		if (test === _passed) return true;
 		else throw test;
 	}
 	return false;
@@ -777,7 +1133,7 @@ function everyKey(callback, thisArg, onlyEnumerable) {
 	try {
 		eachKey.call(this, testProperty, thisArg, onlyEnumerable);
 	} catch (test) {
-		if (test == _didNotPass) return false;
+		if (test === _didNotPass) return false;
 		else throw test;
 	}
 	return true;
@@ -788,7 +1144,44 @@ function everyKey(callback, thisArg, onlyEnumerable) {
 	}
 }
 
-},{}],5:[function(require,module,exports){
+
+var ArrayProto = Array.prototype
+	, concat = ArrayProto.concat;
+/**
+ * Returns object of the same class with only specified keys, that are passed as string parameters or array(s) of keys.
+ *
+ * @param {Object} self an object to pick keys from
+ * @param {List[String|Array]} arguments list of keys (or array(s) of keys)
+ * @return {Object} 
+ */
+function pickKeys() { // , ... keys
+	var keys = concat.apply(ArrayProto, arguments)
+		, obj = Object.create(this.constructor.prototype);
+	keys.forEach(function(key){
+		if (this.hasOwnProperty(key))
+			obj[key] = this[key];
+	}, this);
+	return obj;
+}
+
+
+/**
+ * Returns object of the same class without specified keys, that are passed as string parameters or array(s) of keys.
+ *
+ * @param {Object} self an object to omit keys in
+ * @param {List[String|Array]} arguments list of keys (or array(s) of keys)
+ * @return {Object} 
+ */
+function omitKeys() { // , ... keys
+	var keys = concat.apply(ArrayProto, arguments)
+		, obj = clone.call(this);
+	keys.forEach(function(key){
+		delete obj[key];
+	}, this);
+	return obj;
+}
+
+},{"./utils":8}],5:[function(require,module,exports){
 'use strict';
 
 /**
@@ -860,18 +1253,17 @@ function extendProto(methods) {
  */
 function createSubclass(name, applyConstructor) {
 	var thisClass = this;
-	// var subclass;
+	var subclass;
 
 	// name is optional
-	// name = name || '';
+	name = name || '';
 
 	// apply superclass constructor
 	var constructorCode = applyConstructor === false
 			? ''
 			: 'thisClass.apply(this, arguments);';
 
-	var subclass = __.makeFunction.call(name || '', constructorCode);
-	// eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
+	eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
 
 	makeSubclass.call(subclass, thisClass);
 
@@ -909,10 +1301,14 @@ function makeSubclass(Superclass) {
 /**
  * - [firstUpperCase](#firstUpperCase)
  * - [firstLowerCase](#firstLowerCase)
+ * - [toRegExp](#toRegExp)
+ * - [toFunction](#toFunction)
  */
  var stringMethods = module.exports = {
 	firstUpperCase: firstUpperCase,
-	firstLowerCase: firstLowerCase
+	firstLowerCase: firstLowerCase,
+	toRegExp: toRegExp,
+	toFunction: toFunction
 };
 
 
@@ -935,12 +1331,67 @@ function firstLowerCase() {
 	return this[0].toLowerCase() + this.slice(1);
 }
 
+
+/**
+ * Converts string created by `toString` method of RegExp back to RegExp
+ *
+ * @param {String} self string containing regular expression including enclosing "/" symbols and flags
+ * @return {RegExp}
+ */
+function toRegExp() {
+	var rx = this.match(regexpStringPattern);
+	if (rx) return new RegExp(rx[1], rx[2]);
+}
+var regexpStringPattern = /^\/(.*)\/([gimy]*)$/;
+
+
+/**
+ * Converts string created by `toString` method of function back to function
+ *
+ * @param {String} self string containing full function code
+ * @return {Function}
+ */
+function toFunction() {
+	var func;
+	var code = 'func = ' + this + ';';
+	try {
+		eval(code);
+		return func;
+	} catch(e) {
+		return;
+	}
+}
+
 },{}],7:[function(require,module,exports){
+'use strict';
+
+/**
+ * - [tap](#tap)
+ */
+var utilMethods = module.exports = {
+	tap: tap
+};
+
+
+/**
+ * Function to tap into chained methods and to inspect intermediary result
+ *
+ * @param {Any} self value that's passed between chained methods
+ * @param {Function} func function that will be called with the value
+ * @return {Any}
+ */
+function tap(func) {
+	func(this);
+	return this;
+};
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 var utils = module.exports = {
 	makeProtoInstanceMethod: makeProtoInstanceMethod,
-	makeProtoFunction: makeProtoFunction
+	makeProtoFunction: makeProtoFunction,
+	makeFindMethod: makeFindMethod
 }
 
 
@@ -958,6 +1409,45 @@ function makeProtoFunction(method) {
 		// other arguments starting from #1 will passed to method as parameters.
 		return method.call.apply(method, arguments);
 	};
+}
+
+
+var _error = new Error;
+
+/**
+ * Returns `find` or `findIndex` method, depending on parameter
+ *
+ * @param {Function} eachMethod - method to use for iteration (forEach for array or eachKey for object)
+ * @param {String} findWhat 'value' - returns find method of Array (implemented in ES6) or findValue method of Object, anything else = returns findIndex/findKey methods.
+ * @return {Function}
+ */
+function makeFindMethod(eachMethod, findWhat) {
+	var argIndex = findWhat == 'value' ? 0 : 1;
+
+	return function findValueOrIndex(callback, thisArg) {
+		var caughtError;
+		try {
+			eachMethod.call(this, testItem, thisArg);
+		} catch (found) {
+			if (found === _error) throw caughtError;
+			else return found;
+		}
+		// if looking for index and not found, return -1
+		if (argIndex && eachMethod == Array.prototype.forEach)
+			return -1; 
+
+		function testItem(value, index, self) {
+			var test;
+			try {
+				test = callback.call(this, value, index, self);
+			} catch(err) {
+				caughtError = err;
+				throw _error;
+			}
+			if (test)
+				throw arguments[argIndex];
+		}
+	}
 }
 
 },{}]},{},[1])

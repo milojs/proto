@@ -108,6 +108,9 @@ Functions
   * [toRegExp](http://mailonline.github.io/proto/proto_string.js.html#toRegExp)
   * [toFunction](http://mailonline.github.io/proto/proto_string.js.html#toFunction)
 
+* [__Number functions__](http://mailonline.github.io/proto/proto_number.js.html)
+  * [isNumeric](http://mailonline.github.io/proto/proto_number.js.html#isNumeric)
+
 
 * [__Utility functions__](http://mailonline.github.io/proto/proto_util.js.html)
   * [tap](http://mailonline.github.io/proto/proto_util.js.html#tap)
