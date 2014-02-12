@@ -113,5 +113,6 @@ Functions
 
 
 * [__Utility functions__](http://mailonline.github.io/proto/proto_util.js.html)
+  * [times](http://mailonline.github.io/proto/proto_util.js.html#times)
   * [tap](http://mailonline.github.io/proto/proto_util.js.html#tap)
 
