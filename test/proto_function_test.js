@@ -174,6 +174,35 @@ describe('Function functions', function() {
 	});
 
 
+	it('should define deferTicks function', function(done) {
+		var called, args;
+
+		function myFunc() {
+			called = true;
+			args = Array.prototype.slice.call(arguments);
+		}
+
+		_.deferTicks(myFunc, 3, 1, 2, 3);
+
+		assert.equal(called, undefined);
+		assert.equal(args, undefined);
+
+		setTimeout(function() {
+			assert.equal(called, undefined);
+			assert.equal(args, undefined);
+			setTimeout(function() {
+				assert.equal(called, undefined);
+				assert.equal(args, undefined);
+				setTimeout(function() {
+					assert.equal(called, true);
+					assert.deepEqual(args, [1, 2, 3]);
+					done();
+				}, 0);
+			}, 0);
+		}, 0);
+	});
+
+
 	it('should define delayMethod function', function(done) {
 		var called, args, object = {};
 

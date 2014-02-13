@@ -96,6 +96,7 @@ Functions
   * [memoize](http://mailonline.github.io/proto/proto_function.js.html#memoize)
   * [delay](http://mailonline.github.io/proto/proto_function.js.html#delay)
   * [defer](http://mailonline.github.io/proto/proto_function.js.html#defer)
+  * [deferTicks](http://mailonline.github.io/proto/proto_function.js.html#deferTicks)
   * [delayMethod](http://mailonline.github.io/proto/proto_function.js.html#delayMethod)
   * [deferMethod](http://mailonline.github.io/proto/proto_function.js.html#deferMethod)
   * [debounce](http://mailonline.github.io/proto/proto_function.js.html#debounce)
@@ -113,5 +114,7 @@ Functions
 
 
 * [__Utility functions__](http://mailonline.github.io/proto/proto_util.js.html)
+  * [times](http://mailonline.github.io/proto/proto_util.js.html#times)
+  * [repeat](http://mailonline.github.io/proto/proto_util.js.html#repeat)
   * [tap](http://mailonline.github.io/proto/proto_util.js.html#tap)
 
