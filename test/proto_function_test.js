@@ -316,4 +316,20 @@ describe('Function functions', function() {
 			}, 22);
 		}, 5);
 	});
+
+
+	it('should define once function', function() {
+		var called = 0;
+
+		function myFunc() {
+			called++;
+		}
+
+		var myOnce = _.once(myFunc);
+
+		myOnce();
+		myOnce();
+
+		assert.equal(called, 1);
+	});
 });

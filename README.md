@@ -101,6 +101,7 @@ Functions
   * [deferMethod](http://mailonline.github.io/proto/proto_function.js.html#deferMethod)
   * [debounce](http://mailonline.github.io/proto/proto_function.js.html#debounce)
   * [throttle](http://mailonline.github.io/proto/proto_function.js.html#throttle) 
+  * [once](http://mailonline.github.io/proto/proto_function.js.html#once)
 
 
 * [__String functions__](http://mailonline.github.io/proto/proto_string.js.html)
