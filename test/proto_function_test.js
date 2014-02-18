@@ -1,335 +1,335 @@
 'use strict';
 
 var _ = require('../lib/proto')
-	, assert = require('assert')
-	, perfTest = require('./perf');
+    , assert = require('assert')
+    , perfTest = require('./perf');
 
 
 describe('Function functions', function() {
-	it('should define makeFunction function', function() {
-		var myFunc = _.makeFunction('myFunc', 'a', 'b', 'c'
-									, 'return a + b + c;');
+    it('should define makeFunction function', function() {
+        var myFunc = _.makeFunction('myFunc', 'a', 'b', 'c'
+                                    , 'return a + b + c;');
 
-		assert(myFunc instanceof Function);
-		assert.doesNotThrow(myFunc);
-		assert.equal(myFunc.name, 'myFunc');
-		assert.equal(myFunc('1_', '2_', '3_'), '1_2_3_');
-	});
+        assert(myFunc instanceof Function);
+        assert.doesNotThrow(myFunc);
+        assert.equal(myFunc.name, 'myFunc');
+        assert.equal(myFunc('1_', '2_', '3_'), '1_2_3_');
+    });
 
 
-	it('should define partial function', function() {
-		function testFunc(a,b,c) {
-			return a + b + c;
-		}
+    it('should define partial function', function() {
+        function testFunc(a,b,c) {
+            return a + b + c;
+        }
 
-		var testPartial = _.partial(testFunc, 'my ');
+        var testPartial = _.partial(testFunc, 'my ');
 
-			assert.equal(testFunc('my ', 'partial ', 'function'),
-						testPartial('partial ', 'function'));
+            assert.equal(testFunc('my ', 'partial ', 'function'),
+                        testPartial('partial ', 'function'));
 
-		var testPartial2 = _.partial(testFunc, 'my ', 'partial ');
+        var testPartial2 = _.partial(testFunc, 'my ', 'partial ');
 
-			assert.equal(testFunc('my ', 'partial ', 'function'),
-						testPartial2('function'));
-	});
+            assert.equal(testFunc('my ', 'partial ', 'function'),
+                        testPartial2('function'));
+    });
 
 
-	it('should define partialRight function', function() {
-		function testFunc(a,b,c) {
-			return a + b + c;
-		}
+    it('should define partialRight function', function() {
+        function testFunc(a,b,c) {
+            return a + b + c;
+        }
 
-		var testPartial = _.partialRight(testFunc, 'function');
+        var testPartial = _.partialRight(testFunc, 'function');
 
-			assert.equal(testFunc('my ', 'partial ', 'function'),
-						testPartial('my ', 'partial '));
+            assert.equal(testFunc('my ', 'partial ', 'function'),
+                        testPartial('my ', 'partial '));
 
-		var testPartial2 = _.partialRight(testFunc, 'partial ', 'function');
+        var testPartial2 = _.partialRight(testFunc, 'partial ', 'function');
 
-			assert.equal(testFunc('my ', 'partial ', 'function'),
-						testPartial2('my '));
-	});
+            assert.equal(testFunc('my ', 'partial ', 'function'),
+                        testPartial2('my '));
+    });
 
 
-	it('should define memoize function', function() {
-		var called = 0;
+    it('should define memoize function', function() {
+        var called = 0;
 
-		function factorial(x) {
-			called++;
-			return x <= 0 ? 1 : x * fastFactorial(x-1);
-		}
+        function factorial(x) {
+            called++;
+            return x <= 0 ? 1 : x * fastFactorial(x-1);
+        }
 
-		var fastFactorial = _.memoize(factorial, undefined, 11);
+        var fastFactorial = _.memoize(factorial, undefined, 11);
 
-			var fact10 = factorial(10);
-			assert.equal(fastFactorial(10), fact10, 'should return the same result');
+            var fact10 = factorial(10);
+            assert.equal(fastFactorial(10), fact10, 'should return the same result');
 
-		called = 0;
+        called = 0;
 
-			assert.equal(fastFactorial(10), fact10, 'should return the same result when called second time');
-			assert.equal(called, 0, 'should take the value from cache without calling original function');
-			assert.equal(fastFactorial(11), fact10 * 11, 'should return correct result');
-			assert.equal(called, 1, 'should be called with new value');
+            assert.equal(fastFactorial(10), fact10, 'should return the same result when called second time');
+            assert.equal(called, 0, 'should take the value from cache without calling original function');
+            assert.equal(fastFactorial(11), fact10 * 11, 'should return correct result');
+            assert.equal(called, 1, 'should be called with new value');
 
-		called = 0;
+        called = 0;
 
-			assert.equal(fastFactorial(11), fact10 * 11, 'should return correct result');
-			assert.equal(called, 0, 'should not be called with old value');
+            assert.equal(fastFactorial(11), fact10 * 11, 'should return correct result');
+            assert.equal(called, 0, 'should not be called with old value');
 
-		called = 0;
+        called = 0;
 
-			assert.equal(fastFactorial(0), 1, 'should return correct result');
-			assert.equal(called, 1, 'should be called again as the first key will be pushed out of cache');
+            assert.equal(fastFactorial(0), 1, 'should return correct result');
+            assert.equal(called, 1, 'should be called again as the first key will be pushed out of cache');
 
 
-		function testFunc(a, b) {
-			called += 1;
-			return a + b;
-		}
+        function testFunc(a, b) {
+            called += 1;
+            return a + b;
+        }
 
-		function hashFunc (a, b) {
-			return a + b;			
-		}
+        function hashFunc (a, b) {
+            return a + b;           
+        }
 
-		var memoTestFunc = _.memoize(testFunc, hashFunc);
+        var memoTestFunc = _.memoize(testFunc, hashFunc);
 
-		var result = testFunc(10, 20);
-		assert.equal(memoTestFunc(10, 20), result);
+        var result = testFunc(10, 20);
+        assert.equal(memoTestFunc(10, 20), result);
 
-		called = 0;
-			assert.equal(memoTestFunc(10, 20), result);
-			assert.equal(called, 0, 'should not be called with same hash');
-	});
+        called = 0;
+            assert.equal(memoTestFunc(10, 20), result);
+            assert.equal(called, 0, 'should not be called with same hash');
+    });
 
-	
-	it('should allow chaining of partial and memoize', function() {
-		var called = 0;
+    
+    it('should allow chaining of partial and memoize', function() {
+        var called = 0;
 
-		function testFunc(a, b) {
-			called++;
-			return a + b;
-		}
+        function testFunc(a, b) {
+            called++;
+            return a + b;
+        }
 
-		var myFunc = _(testFunc).partial('my ').memoize()._();
+        var myFunc = _(testFunc).partial('my ').memoize()._();
 
-			assert.equal(testFunc('my ', 'function'),
-						myFunc('function'));
+            assert.equal(testFunc('my ', 'function'),
+                        myFunc('function'));
 
-		called = 0;
+        called = 0;
 
-			assert.equal(myFunc('function'), 'my function');
-			assert.equal(called, 0, 'value should be taken from cache');
+            assert.equal(myFunc('function'), 'my function');
+            assert.equal(called, 0, 'value should be taken from cache');
 
-		perfTest(
-			function(){
-				var myFunc = _(testFunc).partial('my ').memoize()._();
-			},
-			function() {
-				var myFunc = _.partial(testFunc, 'my ')
-				myFunc = _.memoize(myFunc);
-			}
-		);
-	});
+        perfTest(
+            function(){
+                var myFunc = _(testFunc).partial('my ').memoize()._();
+            },
+            function() {
+                var myFunc = _.partial(testFunc, 'my ')
+                myFunc = _.memoize(myFunc);
+            }
+        );
+    });
 
 
-	it('should define delay function', function(done) {
-		var called, args;
+    it('should define delay function', function(done) {
+        var called, args;
 
-		function myFunc() {
-			called = true;
-			args = Array.prototype.slice.call(arguments);
-		}
+        function myFunc() {
+            called = true;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		_.delay(myFunc, 10, 1, 2, 3);
+        _.delay(myFunc, 10, 1, 2, 3);
 
-		assert.equal(called, undefined);
-		assert.equal(args, undefined);
+        assert.equal(called, undefined);
+        assert.equal(args, undefined);
 
-		setTimeout(function() {
-			assert.equal(called, true);
-			assert.deepEqual(args, [1, 2, 3]);
-			done();
-		}, 20);
-	});
+        setTimeout(function() {
+            assert.equal(called, true);
+            assert.deepEqual(args, [1, 2, 3]);
+            done();
+        }, 20);
+    });
 
 
-	it('should define defer function', function(done) {
-		var called, args;
+    it('should define defer function', function(done) {
+        var called, args;
 
-		function myFunc() {
-			called = true;
-			args = Array.prototype.slice.call(arguments);
-		}
+        function myFunc() {
+            called = true;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		_.defer(myFunc, 1, 2, 3);
+        _.defer(myFunc, 1, 2, 3);
 
-		assert.equal(called, undefined);
-		assert.equal(args, undefined);
+        assert.equal(called, undefined);
+        assert.equal(args, undefined);
 
-		setTimeout(function() {
-			assert.equal(called, true);
-			assert.deepEqual(args, [1, 2, 3]);
-			done();
-		}, 5);
-	});
+        setTimeout(function() {
+            assert.equal(called, true);
+            assert.deepEqual(args, [1, 2, 3]);
+            done();
+        }, 5);
+    });
 
 
-	it('should define deferTicks function', function(done) {
-		var called, args;
+    it('should define deferTicks function', function(done) {
+        var called, args;
 
-		function myFunc() {
-			called = true;
-			args = Array.prototype.slice.call(arguments);
-		}
+        function myFunc() {
+            called = true;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		_.deferTicks(myFunc, 3, 1, 2, 3);
+        _.deferTicks(myFunc, 3, 1, 2, 3);
 
-		assert.equal(called, undefined);
-		assert.equal(args, undefined);
+        assert.equal(called, undefined);
+        assert.equal(args, undefined);
 
-		setTimeout(function() {
-			assert.equal(called, undefined);
-			assert.equal(args, undefined);
-			setTimeout(function() {
-				assert.equal(called, undefined);
-				assert.equal(args, undefined);
-				setTimeout(function() {
-					assert.equal(called, true);
-					assert.deepEqual(args, [1, 2, 3]);
-					done();
-				}, 0);
-			}, 0);
-		}, 0);
-	});
+        setTimeout(function() {
+            assert.equal(called, undefined);
+            assert.equal(args, undefined);
+            setTimeout(function() {
+                assert.equal(called, undefined);
+                assert.equal(args, undefined);
+                setTimeout(function() {
+                    assert.equal(called, true);
+                    assert.deepEqual(args, [1, 2, 3]);
+                    done();
+                }, 0);
+            }, 0);
+        }, 0);
+    });
 
 
-	it('should define delayMethod function', function(done) {
-		var called, args, object = {};
+    it('should define delayMethod function', function(done) {
+        var called, args, object = {};
 
-		object.myFunc = function() {
-			called = true;
-			args = Array.prototype.slice.call(arguments);
-		}
+        object.myFunc = function() {
+            called = true;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		_.delayMethod(object, 'myFunc', 10, 1, 2, 3);
+        _.delayMethod(object, 'myFunc', 10, 1, 2, 3);
 
-		assert.equal(called, undefined);
-		assert.equal(args, undefined);
-
-		setTimeout(function() {
-			assert.equal(called, true);
-			assert.deepEqual(args, [1, 2, 3]);
-			done();
-		}, 20);
-	});
+        assert.equal(called, undefined);
+        assert.equal(args, undefined);
+
+        setTimeout(function() {
+            assert.equal(called, true);
+            assert.deepEqual(args, [1, 2, 3]);
+            done();
+        }, 20);
+    });
 
 
-	it('should define defer function', function(done) {
-		var called, args, object = {};
+    it('should define defer function', function(done) {
+        var called, args, object = {};
 
-		object.myFunc = function () {
-			called = true;
-			args = Array.prototype.slice.call(arguments);
-		}
+        object.myFunc = function () {
+            called = true;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		_.deferMethod(object, 'myFunc', 1, 2, 3);
+        _.deferMethod(object, 'myFunc', 1, 2, 3);
 
-		assert.equal(called, undefined);
-		assert.equal(args, undefined);
+        assert.equal(called, undefined);
+        assert.equal(args, undefined);
 
-		setTimeout(function() {
-			assert.equal(called, true);
-			assert.deepEqual(args, [1, 2, 3]);
-			done();
-		}, 5);
-	});
+        setTimeout(function() {
+            assert.equal(called, true);
+            assert.deepEqual(args, [1, 2, 3]);
+            done();
+        }, 5);
+    });
 
 
-	it('should define debounce function', function(done) {
-		var called = 0
-			, args;
+    it('should define debounce function', function(done) {
+        var called = 0
+            , args;
 
-		function myFunc() {
-			called++;
-			args = Array.prototype.slice.call(arguments);
-		}
+        function myFunc() {
+            called++;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		var myDebounced = _.debounce(myFunc, 20);
+        var myDebounced = _.debounce(myFunc, 20);
 
-		myDebounced(1,2);
-		myDebounced(3,4);
-		assert.equal(called, 0);
+        myDebounced(1,2);
+        myDebounced(3,4);
+        assert.equal(called, 0);
 
-		setTimeout(function(){
-			myDebounced(5,6);
-			assert.equal(called, 0);
+        setTimeout(function(){
+            myDebounced(5,6);
+            assert.equal(called, 0);
 
-			setTimeout(function() {
-				assert.equal(called, 1);
-				assert.deepEqual(args, [5, 6]);
+            setTimeout(function() {
+                assert.equal(called, 1);
+                assert.deepEqual(args, [5, 6]);
 
-				setTimeout(function() {
-					assert.equal(called, 1);
-					assert.deepEqual(args, [5, 6]);
-					done();
-				}, 10)
-			}, 22);
-		}, 5);
-	});
+                setTimeout(function() {
+                    assert.equal(called, 1);
+                    assert.deepEqual(args, [5, 6]);
+                    done();
+                }, 10)
+            }, 22);
+        }, 5);
+    });
 
 
-	it('should define debounce function with immediate', function(done) {
-		var called = 0
-			, args;
+    it('should define debounce function with immediate', function(done) {
+        var called = 0
+            , args;
 
-		function myFunc() {
-			called++;
-			args = Array.prototype.slice.call(arguments);
-		}
+        function myFunc() {
+            called++;
+            args = Array.prototype.slice.call(arguments);
+        }
 
-		var myDebounced = _.debounce(myFunc, 20, true);
+        var myDebounced = _.debounce(myFunc, 20, true);
 
-		myDebounced(1,2);
-		assert.equal(called, 1);
-		assert.deepEqual(args, [1, 2]);
+        myDebounced(1,2);
+        assert.equal(called, 1);
+        assert.deepEqual(args, [1, 2]);
 
-		myDebounced(3,4);
-		assert.equal(called, 1);
-		assert.deepEqual(args, [1, 2]);
+        myDebounced(3,4);
+        assert.equal(called, 1);
+        assert.deepEqual(args, [1, 2]);
 
-		setTimeout(function(){
-			myDebounced(5,6);
-			assert.equal(called, 1);
-			assert.deepEqual(args, [1, 2]);
+        setTimeout(function(){
+            myDebounced(5,6);
+            assert.equal(called, 1);
+            assert.deepEqual(args, [1, 2]);
 
-			setTimeout(function() {
-				myDebounced(7,8);
-				assert.equal(called, 2);
-				assert.deepEqual(args, [7, 8]);
+            setTimeout(function() {
+                myDebounced(7,8);
+                assert.equal(called, 2);
+                assert.deepEqual(args, [7, 8]);
 
-				setTimeout(function() {
-					myDebounced(9,10);
-					assert.equal(called, 2);
-					assert.deepEqual(args, [7, 8]);
-					done();
-				}, 10)
-			}, 22);
-		}, 5);
-	});
+                setTimeout(function() {
+                    myDebounced(9,10);
+                    assert.equal(called, 2);
+                    assert.deepEqual(args, [7, 8]);
+                    done();
+                }, 10)
+            }, 22);
+        }, 5);
+    });
 
 
-	it('should define once function', function() {
-		var called = 0;
+    it('should define once function', function() {
+        var called = 0;
 
-		function myFunc() {
-			called++;
-		}
+        function myFunc() {
+            called++;
+        }
 
-		var myOnce = _.once(myFunc);
+        var myOnce = _.once(myFunc);
 
-		myOnce();
-		myOnce();
+        myOnce();
+        myOnce();
 
-		assert.equal(called, 1);
-	});
+        assert.equal(called, 1);
+    });
 });

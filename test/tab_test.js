@@ -7,7 +7,7 @@ var assert = require('assert')
 describe('tab characters', function() {
 
     it('should be replaced with 4 spaces before committing', function(done) {
-        async.each(['lib', 'public', 'routes', 'test'], detectTabs, done);
+        async.each(['lib', 'test'], detectTabs, done);
     });
 
     function detectTabs(dir, next) {
