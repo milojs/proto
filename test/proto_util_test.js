@@ -40,4 +40,19 @@ describe('Utility functions', function() {
         
         assert.deepEqual(result, ['a','b','c']);
     });
+
+
+    it('should define result function', function() {
+        var func1 = 'test1'
+            , thisArg = {};
+            
+        function func2() {
+            assert.equal(this, thisArg);
+            assert.deepEqual(_.slice(arguments), [ 'param0', 'param1' ]);
+            return 'test2';
+        }
+
+        assert.equal(_.result(func1), 'test1');
+        assert.equal(_.result(func2, thisArg, 'param0', 'param1'), 'test2');
+    });
 });
