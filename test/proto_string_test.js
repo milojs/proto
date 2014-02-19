@@ -47,4 +47,18 @@ describe('String functions', function() {
         assert.equal(typeof func, 'function');
         assert.equal(func(), 1234);
     });
+
+    it('should define toQueryString function', function() {
+        var params = {name: 'Jason', age: 30};
+
+        var str = _.toQueryString(params);
+        assert.equal(str, '?name=Jason&age=30');
+    });
+
+    it('should define fromQueryString function', function() {
+        var str = '?name=Jason&age=30'; ;
+
+        var params = _.fromQueryString(str);
+        assert.deepEqual(params, {name: 'Jason', age: 30});
+    });
 });

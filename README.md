@@ -109,6 +109,8 @@ Functions
   * [firstLowerCase](http://mailonline.github.io/proto/proto_string.js.html#firstLowerCase)
   * [toRegExp](http://mailonline.github.io/proto/proto_string.js.html#toRegExp)
   * [toFunction](http://mailonline.github.io/proto/proto_string.js.html#toFunction)
+  * [toQueryString](http://mailonline.github.io/proto/proto_string.js.html#toQueryString)
+  * [fromQueryString](http://mailonline.github.io/proto/proto_string.js.html#fromQueryString)
 
 * [__Number functions__](http://mailonline.github.io/proto/proto_number.js.html)
   * [isNumeric](http://mailonline.github.io/proto/proto_number.js.html#isNumeric)
