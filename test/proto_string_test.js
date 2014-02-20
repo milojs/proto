@@ -48,6 +48,7 @@ describe('String functions', function() {
         assert.equal(func(), 1234);
     });
 
+
     it('should define toQueryString function', function() {
         var params = {name: 'Jason', age: 30};
 
@@ -55,10 +56,21 @@ describe('String functions', function() {
         assert.equal(str, 'name=Jason&age=30');
     });
 
+
     it('should define fromQueryString function', function() {
         var str = 'name=Jason&age=30'; ;
 
         var params = _.fromQueryString(str);
         assert.deepEqual(params, {name: 'Jason', age: 30});
+    });
+
+
+    it('should define toDate function', function() {
+        assert.equal(_.toDate(null), undefined);
+        assert.equal(_.toDate(undefined), undefined);
+        assert.equal(_.toDate(''), undefined);
+        assert.equal(_.toDate('abc'), undefined);
+        assert.equal(_.toDate('2014-19-02'), undefined);
+        assert.equal(_.toDate('2014-02-19').toString(), new Date('2014-02-19').toString());
     });
 });
