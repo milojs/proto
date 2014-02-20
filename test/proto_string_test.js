@@ -52,11 +52,11 @@ describe('String functions', function() {
         var params = {name: 'Jason', age: 30};
 
         var str = _.toQueryString(params);
-        assert.equal(str, '?name=Jason&age=30');
+        assert.equal(str, 'name=Jason&age=30');
     });
 
     it('should define fromQueryString function', function() {
-        var str = '?name=Jason&age=30'; ;
+        var str = 'name=Jason&age=30'; ;
 
         var params = _.fromQueryString(str);
         assert.deepEqual(params, {name: 'Jason', age: 30});
