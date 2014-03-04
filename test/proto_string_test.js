@@ -73,4 +73,13 @@ describe('String functions', function() {
         assert.equal(_.toDate('2014-19-02'), undefined);
         assert.equal(_.toDate('2014-02-19').toString(), new Date('2014-02-19').toString());
     });
+
+
+    it('should define hashCode function', function() {
+        var result1 = _.hashCode('This was no small decision. Four generations of Orr men had been Eagles, including Ron and Andrew\'s older brother. Andrew had spent years working toward Scouting\'s highest rank, and was just months from reaching it.');
+        assert.equal(typeof result1, 'number');
+        var result2 = _.hashCode('But the Boy Scouts had decided to admit gays, and Ron Orr, a tall, soft-spoken man with a firm handshake, is clear about his Christian faith and what it says about homosexuality: It is a sin that cannot be tolerated.');
+        assert.equal(typeof result2, 'number');
+        assert(result1 != result2);
+    })
 });
