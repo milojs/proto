@@ -82,6 +82,7 @@ Functions
   * [findIndex](http://mailonline.github.io/proto/proto_array.js.html#findIndex)
   * [appendArray](http://mailonline.github.io/proto/proto_array.js.html#appendArray)
   * [prependArray](http://mailonline.github.io/proto/proto_array.js.html#prependArray)
+  * [spliceItem](http://mailonline.github.io/proto/proto_array.js.html/proto_array.js.html#spliceItem)
   * [toArray](http://mailonline.github.io/proto/proto_array.js.html#toArray)
   * [object](http://mailonline.github.io/proto/proto_array.js.html#object)
   * [mapToObject](http://mailonline.github.io/proto/proto_array.js.html#mapToObject)

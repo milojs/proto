@@ -11,8 +11,7 @@ describe('Array functions', function() {
 
         _.appendArray(arr, [4, 5, 6, 7]);
 
-        assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7],
-            'should add to the end of the array and change array in place');
+        assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7]);
     });
 
 
@@ -21,8 +20,17 @@ describe('Array functions', function() {
 
         _.prependArray(arr, [4, 5, 6, 7]);
 
-        assert.deepEqual(arr, [4, 5, 6, 7, 1, 2, 3],
-            'should add to the beginnning of the array and change array in place');
+        assert.deepEqual(arr, [4, 5, 6, 7, 1, 2, 3]);
+    });
+
+
+    it('should define spliceItem function', function() {
+        var arr = ['a', 'b', 'c'];
+
+        var result = _.spliceItem(arr, 'b');
+
+        assert.deepEqual(arr, ['a', 'c']);
+        assert.equal(result, arr);
     });
 
 
