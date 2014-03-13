@@ -221,6 +221,25 @@ describe('Object functions', function() {
     });
 
 
+    it('should define keys, allKeys and values', function() {
+        var self = {
+            a: 1,
+            b: 2,
+            c: 3
+        };
+
+        Object.defineProperty(self, 'nonenum', {
+            enumerable: false,
+            value: 4
+        });
+
+        assert.deepEqual(_.keys(self), ['a', 'b', 'c']);
+        assert.deepEqual(_.allKeys(self), ['a', 'b', 'c', 'nonenum']);
+        assert.deepEqual(_.values(self), [1, 2, 3, 4]);
+        assert.deepEqual(_.values(self, true), [1, 2, 3]);
+    });
+
+
     it('should define allKeysOf function', function() {
         var self = {
             a: 1,
