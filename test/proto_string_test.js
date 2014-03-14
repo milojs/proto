@@ -75,6 +75,18 @@ describe('String functions', function() {
     });
 
 
+    it('should define jsonParse', function() {
+        var json = '{"test":1, "name":"milo"}'
+            , badJson = '{"test:1';
+
+        assert.deepEqual(_.jsonParse(json), { test: 1, name: 'milo' });
+        assert.equal(_.jsonParse(badJson), undefined);
+        assert.throws(function() {
+            JSON.parse(badJson);
+        });        
+    });
+
+
     it('should define hashCode function', function() {
         var result1 = _.hashCode('This was no small decision. Four generations of Orr men had been Eagles, including Ron and Andrew\'s older brother. Andrew had spent years working toward Scouting\'s highest rank, and was just months from reaching it.');
         assert.equal(typeof result1, 'number');

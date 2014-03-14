@@ -117,6 +117,7 @@ Functions
   * [toDate](http://mailonline.github.io/proto/proto_string.js.html#toDate)
   * [toQueryString](http://mailonline.github.io/proto/proto_string.js.html#toQueryString)
   * [fromQueryString](http://mailonline.github.io/proto/proto_string.js.html#fromQueryString)
+  * [jsonParse](http://mailonline.github.io/proto/proto_string.js.html#jsonParse)
   * [hashCode](http://mailonline.github.io/proto/proto_string.js.html#hashCode)
 
 * [__Number functions__](http://mailonline.github.io/proto/proto_number.js.html)
