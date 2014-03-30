@@ -55,4 +55,10 @@ describe('Utility functions', function() {
         assert.equal(_.result(func1), 'test1');
         assert.equal(_.result(func2, thisArg, 'param0', 'param1'), 'test2');
     });
+
+
+    it('should define identity function', function() {
+        var obj = {};
+        assert.equal(_.identity(obj), obj);
+    });
 });
