@@ -119,6 +119,7 @@ Functions
   * [fromQueryString](http://mailonline.github.io/proto/proto_string.js.html#fromQueryString)
   * [jsonParse](http://mailonline.github.io/proto/proto_string.js.html#jsonParse)
   * [hashCode](http://mailonline.github.io/proto/proto_string.js.html#hashCode)
+  * [unPrefix](http://mailonline.github.io/proto/proto_string.js.html#unPrefix)
 
 * [__Number functions__](http://mailonline.github.io/proto/proto_number.js.html)
   * [isNumeric](http://mailonline.github.io/proto/proto_number.js.html#isNumeric)
