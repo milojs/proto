@@ -93,5 +93,11 @@ describe('String functions', function() {
         var result2 = _.hashCode('But the Boy Scouts had decided to admit gays, and Ron Orr, a tall, soft-spoken man with a firm handshake, is clear about his Christian faith and what it says about homosexuality: It is a sin that cannot be tolerated.');
         assert.equal(typeof result2, 'number');
         assert(result1 != result2);
-    })
+    });
+
+
+    it('should define unPrefix function', function() {
+        assert.equal(_.unPrefix('root_string', 'root_'), 'string');
+        assert.equal(_.unPrefix('other_string', 'root_'), undefined);
+    });
 });
