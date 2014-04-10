@@ -54,6 +54,7 @@ Functions
    * [extendProto](http://mailonline.github.io/proto/proto_prototype.js.html#extendProto)
    * [createSubclass](http://mailonline.github.io/proto/proto_prototype.js.html#createSubclass)
    * [makeSubclass](http://mailonline.github.io/proto/proto_prototype.js.html#makeSubclass)
+   * [newApply](http://mailonline.github.io/proto/proto_prototype.js.html#newApply)
 
 
 * [__Object functions__](http://mailonline.github.io/proto/proto_object.js.html)

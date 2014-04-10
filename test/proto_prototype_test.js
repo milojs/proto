@@ -108,4 +108,26 @@ describe('Prototype functions', function() {
             assert(obj3 instanceof TestObject, 'objects should be instances of ancestor class');
             assert.equal(obj3.property, 1, 'constructor of superclass should be called');
     });
+
+
+    it('should define newApply method', function() {
+        function MyClass(a, b, c) {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+
+        var obj1 = new MyClass(1, 2, 3);
+        var obj2 = _.newApply(MyClass, [1, 2, 3]);
+
+            assert.deepEqual(obj1, obj2);
+
+        function createMyClass() {
+            return _.newApply(MyClass, arguments);
+        }
+
+        var obj3 = createMyClass(1, 2, 3);
+
+            assert.deepEqual(obj1, obj3);        
+    });
 });
