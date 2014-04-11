@@ -265,12 +265,22 @@ describe('Function functions', function() {
         setTimeout(function() {
             assert.equal(called, true);
             assert.deepEqual(args, [1, 2, 3]);
-            done();
+
+            called = false;
+            args = undefined;
+
+            _.delayMethod(object, object.myFunc, 10, 1, 2, 3);
+
+            setTimeout(function() {
+                assert.equal(called, true);
+                assert.deepEqual(args, [1, 2, 3]);
+                done();
+            }, 20);
         }, 20);
     });
 
 
-    it('should define defer function', function(done) {
+    it('should define deferMethod function', function(done) {
         var called, args, object = {};
 
         object.myFunc = function () {
@@ -286,7 +296,17 @@ describe('Function functions', function() {
         setTimeout(function() {
             assert.equal(called, true);
             assert.deepEqual(args, [1, 2, 3]);
-            done();
+
+            called = false;
+            args = undefined;
+
+            _.deferMethod(object, object.myFunc, 1, 2, 3);
+
+            setTimeout(function() {
+                assert.equal(called, true);
+                assert.deepEqual(args, [1, 2, 3]);
+                done();
+            }, 5);
         }, 5);
     });
 
