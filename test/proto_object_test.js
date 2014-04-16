@@ -514,6 +514,11 @@ describe('Object functions', function() {
 
         assert.equal(_.findValue(obj, callback, thisArg), 7);
         assert.equal(_.findValue(obj, callback2, thisArg), undefined);
+
+        _.defineProperty(obj, 'nonenum', 100)
+
+        assert.equal(_.findValue(obj, callback2, thisArg), 100);
+        assert.equal(_.findValue(obj, callback2, thisArg, true), undefined);
     });
 
 
@@ -533,6 +538,11 @@ describe('Object functions', function() {
 
         assert.equal(_.findKey(obj, callback, thisArg), 'e');
         assert.equal(_.findKey(obj, callback2, thisArg), undefined);
+
+        _.defineProperty(obj, 'nonenum', 100)
+
+        assert.equal(_.findKey(obj, callback2, thisArg), 'nonenum');
+        assert.equal(_.findKey(obj, callback2, thisArg, true), undefined);
     }); 
 
 
