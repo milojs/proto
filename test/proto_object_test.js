@@ -7,8 +7,8 @@ var _ = require('../lib/proto')
 
 describe('Object functions', function() {
     it('should define extend function', function() {
-        function TestObject() { this.property = 0; };
-        function TestObject2() { this.property = 0; };
+        function TestObject() { this.property = 0; }
+        function TestObject2() { this.property = 0; }
         var obj = new TestObject;
         var obj2 = new TestObject2;
 
@@ -111,7 +111,7 @@ describe('Object functions', function() {
                 }, 'should extend inside properties without overwriting them');
 
 
-        var obj = {
+        obj = {
             wasScalar: 'overwrite',
             wasObject: {
                 inside: 'overwrite too'
@@ -188,11 +188,17 @@ describe('Object functions', function() {
         var cloned = _.deepClone(obj);
 
         assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
+
+        cloned = _.deepClone({a: 1, b: [ {c: 2, d: [3, 4] } ] });
+        assert.deepEqual(cloned, {a: 1, b: [ {c: 2, d: [3, 4] } ] });
+
+        cloned = _.deepClone([ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+        assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
     });
 
 
     it('should define clone function', function() {
-        function TestObject() { this.property = 0; };
+        function TestObject() { this.property = 0; }
         var obj = new TestObject;
         obj.prop1 = 1;
 
@@ -205,7 +211,7 @@ describe('Object functions', function() {
     it('should define keyOf function', function() {
         var self = {
             a: 1,
-            b: 2,
+            b: 2
         };
 
         Object.defineProperty(self, 'nonenum', {
@@ -255,27 +261,27 @@ describe('Object functions', function() {
 
         var keys = _.allKeysOf(self, 2);
 
-            assert.notEqual(keys.indexOf('b'), -1, 'should find keys for a given property value')
-            assert.notEqual(keys.indexOf('c'), -1, 'should find keys for a given property value')
+            assert.notEqual(keys.indexOf('b'), -1, 'should find keys for a given property value');
+            assert.notEqual(keys.indexOf('c'), -1, 'should find keys for a given property value');
 
-        var keys = _.allKeysOf(self, 3);
+        keys = _.allKeysOf(self, 3);
 
-            assert.notEqual(keys.indexOf('d'), -1, 'should find ALL keys for a given property value')
-            assert.notEqual(keys.indexOf('nonenum'), -1, 'should ALL find keys for a given property value')
+            assert.notEqual(keys.indexOf('d'), -1, 'should find ALL keys for a given property value');
+            assert.notEqual(keys.indexOf('nonenum'), -1, 'should ALL find keys for a given property value');
 
-        var keys = _.allKeysOf(self, 3, true); // enumerable only
+        keys = _.allKeysOf(self, 3, true); // enumerable only
 
             assert.notEqual(keys.indexOf('d'), -1,
-                'should find enumerable keys for a given property value if nonEnumerable true is specified')
+                'should find enumerable keys for a given property value if nonEnumerable true is specified');
             assert.equal(keys.indexOf('nonenum'), -1,
-                'should NOT find non-enumerable keys for a given property value if nonEnumerable true is specified')
+                'should NOT find non-enumerable keys for a given property value if nonEnumerable true is specified');
     });
 
 
     it('should define eachKey function', function() {
         var self = {
             a: 1,
-            b: 2,
+            b: 2
         };
 
         Object.defineProperty(self, 'nonenum', {
@@ -300,11 +306,11 @@ describe('Object functions', function() {
 
             assert.deepEqual(result, { a: 1, b: 2 }, 'only enumerable properties should be used in iteration');
 
-        function TestClass() {};
+        function TestClass() {}
         TestClass.prototype.protoProp = 4;
         self = new TestClass;
-        self.a = 1
-        self.b = 2
+        self.a = 1;
+        self.b = 2;
         Object.defineProperty(self, 'nonenum', {
             enumerable: false,
             value: 3
@@ -352,11 +358,11 @@ describe('Object functions', function() {
             assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
             assert.equal(result.nonenum, undefined, 'only enumerable properties should be used in iteration');
 
-        function TestClass() {};
+        function TestClass() {}
         TestClass.prototype.protoProp = 4;
         self = new TestClass;
-        self.a = 1
-        self.b = 2
+        self.a = 1;
+        self.b = 2;
 
         var thisArg = undefined;
         var result = _.mapKeys(self, callback); // iterate over all properties
@@ -373,7 +379,7 @@ describe('Object functions', function() {
         var self = {
             a: 1,
             b: 2,
-            c: 3,
+            c: 3
         };
         _.defineProperty(self, 'nonenum', 100);
 
@@ -407,9 +413,9 @@ describe('Object functions', function() {
             return value % 2;
         }
 
-        assert.deepEqual(_.filterKeys(self, callback, thisArg, true), {a:1,c:3,e:5});
+        assert.deepEqual(_.filterKeys(self, callback, thisArg, true), {a: 1, c: 3, e: 5});
 
-        var expected = {a:1,c:3,e:5};
+        var expected = {a: 1, c: 3, e: 5};
         _.defineProperty(expected, 'nonenum', 7);
         var result = _.filterKeys(self, callback, thisArg);
 
@@ -468,7 +474,7 @@ describe('Object functions', function() {
         };
 
         function mapCallback(value) {
-            return value + 'test'
+            return value + 'test';
         }
 
         function eachCallback(value, key, obj) {
@@ -483,7 +489,7 @@ describe('Object functions', function() {
             assert.deepEqual(result, { a: '10test', b: '20test' });
 
         perfTest(
-            function(){
+            function() {
                 var result = _(self)
                                 .eachKey(eachCallback)
                                 .mapKeys(mapCallback)
@@ -546,7 +552,7 @@ describe('Object functions', function() {
     }); 
 
 
-    it('should define defineProperty function', function(){
+    it('should define defineProperty function', function() {
         var obj1 = {}
             , obj2 = {};
 
@@ -586,7 +592,7 @@ describe('Object functions', function() {
     });
 
 
-    it('should define defineProperties function', function(){
+    it('should define defineProperties function', function() {
         var obj1 = {}
             , obj2 = {};
 
@@ -597,7 +603,7 @@ describe('Object functions', function() {
 
         Object.defineProperties(obj2, {
             prop1: { value: 1 },
-            prop2: { value: 2 },
+            prop2: { value: 2 }
         });
 
             assert.deepEqual(
@@ -617,7 +623,7 @@ describe('Object functions', function() {
 
         Object.defineProperties(obj2, {
             enumprop1: { value: 3, enumerable: true },
-            enumprop2: { value: 4, enumerable: true },
+            enumprop2: { value: 4, enumerable: true }
         });
 
             assert.deepEqual(
@@ -636,7 +642,7 @@ describe('Object functions', function() {
 
         Object.defineProperties(obj2, {
             enum_writ_prop1: { value: 5, enumerable: true, writable: true },
-            enum_writ_prop2: { value: 6, enumerable: true, writable: true },
+            enum_writ_prop2: { value: 6, enumerable: true, writable: true }
         });
 
             assert.deepEqual(
@@ -652,12 +658,12 @@ describe('Object functions', function() {
     it('should define pickKeys function', function() {
         var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
         var picked = _.pickKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
-        assert.deepEqual(picked, { a: 1, b: 2, e: 5, f: 6 })
+        assert.deepEqual(picked, { a: 1, b: 2, e: 5, f: 6 });
     });
 
     it('should define omitKeys function', function() {
         var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
         var omitted = _.omitKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
-        assert.deepEqual(omitted, { c: 3, d: 4 })
+        assert.deepEqual(omitted, { c: 3, d: 4 });
     });
 });
