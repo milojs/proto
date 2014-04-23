@@ -183,9 +183,7 @@ describe('Object functions', function() {
 
 
     it('should define deepClone function', function() {
-        var obj = { a: 1, b: { c: 2, d: { e: 3 } } };
-
-        var cloned = _.deepClone(obj);
+        var cloned = _.deepClone({ a: 1, b: { c: 2, d: { e: 3 } } });
 
         assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
 
@@ -194,6 +192,11 @@ describe('Object functions', function() {
 
         cloned = _.deepClone([ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
         assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+
+        cloned = _.deepClone({ elem: [ 'hello', 'hello',
+                { x: [ new Date(), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
+        assert.deepEqual(cloned, { elem: [ 'hello', 'hello',
+                { x: [ new Date(), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
     });
 
 
