@@ -184,19 +184,28 @@ describe('Object functions', function() {
 
     it('should define deepClone function', function() {
         var cloned = _.deepClone({ a: 1, b: { c: 2, d: { e: 3 } } });
-
-        assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
+            assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
 
         cloned = _.deepClone({a: 1, b: [ {c: 2, d: [3, 4] } ] });
-        assert.deepEqual(cloned, {a: 1, b: [ {c: 2, d: [3, 4] } ] });
+            assert.deepEqual(cloned, {a: 1, b: [ {c: 2, d: [3, 4] } ] });
 
         cloned = _.deepClone([ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
-        assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+            assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+
+        var tempDate = new Date();
 
         cloned = _.deepClone({ elem: [ 'hello', 'hello',
-                { x: [ new Date(), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
-        assert.deepEqual(cloned, { elem: [ 'hello', 'hello',
-                { x: [ new Date(), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
+                { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
+            assert.deepEqual(cloned, { elem: [ 'hello', 'hello',
+                    { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
+
+        cloned = _.deepClone(new Date(tempDate));
+            assert.deepEqual(cloned, new Date(tempDate));
+            assert(cloned instanceof Date, 'cloned object should be the same class');
+
+        cloned = _.deepClone(new RegExp('hello'));
+            assert.deepEqual(cloned, new RegExp('hello'));
+            assert(cloned instanceof RegExp, 'cloned object should be the same class');
     });
 
 
@@ -206,8 +215,16 @@ describe('Object functions', function() {
         obj.prop1 = 1;
 
         var obj2 = _.clone(obj);
-
             assert(obj2 instanceof TestObject, 'cloned object should be of the same class');
+
+        var tempDate = new Date();
+        var cloned = _.clone(new Date(tempDate));
+            assert(cloned, new Date(tempDate), 'cloned object should be the same');
+            assert(cloned instanceof Date, 'cloned object should be the same class');
+
+        cloned = _.clone(new RegExp('hello'));
+            assert(cloned, new RegExp('hello'), '');
+            assert(cloned instanceof RegExp, 'cloned object should be the same class');
     });
 
 
