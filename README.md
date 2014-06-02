@@ -79,6 +79,7 @@ Functions
   * [findKey](http://mailonline.github.io/proto/proto_object.js.html#findKey)
   * [pickKeys](http://mailonline.github.io/proto/proto_object.js.html#pickKeys)
   * [omitKeys](http://mailonline.github.io/proto/proto_object.js.html#omitKeys)
+  * [isEqual](http://mailonline.github.io/proto/proto_object.js.html#isEqual)
 
 * [__Array functions__](http://mailonline.github.io/proto/proto_array.js.html)
   * [find](http://mailonline.github.io/proto/proto_array.js.html#find)

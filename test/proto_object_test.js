@@ -675,15 +675,38 @@ describe('Object functions', function() {
             );
     });
 
+
     it('should define pickKeys function', function() {
         var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
         var picked = _.pickKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
         assert.deepEqual(picked, { a: 1, b: 2, e: 5, f: 6 });
     });
 
+
     it('should define omitKeys function', function() {
         var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
         var omitted = _.omitKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
         assert.deepEqual(omitted, { c: 3, d: 4 });
     });
+
+
+    it('should define isEqual function', function() {
+        var obj1 = { name: 'milo', info: { test: 1 } }
+            , obj2 = { name: 'milo', info: { test: 1 } }
+            , obj3 = { name: 'milo', info: { test: 2 } }
+            , arr1 = [ 1, 2, [ 3, 4, { test: 5 } ] ]
+            , arr2 = [ 1, 2, [ 3, 4, { test: 5 } ] ]
+            , arr3 = [ 1, 2, [ 3, 4, { test: 6 } ] ];
+
+        assert(_.isEqual(null, null));
+        assert(_.isEqual(NaN, NaN));
+        assert(_.isEqual(undefined, undefined));
+        assert(! _.isEqual(0, -0));
+        assert(_.isEqual(obj1, obj2));
+        assert(! _.isEqual(obj1, obj3));
+        assert(_.isEqual(arr1, arr2));
+        assert(! _.isEqual(arr1, arr3));
+        assert(_.isEqual(/[a-c]/, /[a-c]/));
+        assert(! _.isEqual(/[a-c]/, /[a-c]/i));
+    })
 });
