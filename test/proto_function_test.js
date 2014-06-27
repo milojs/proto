@@ -425,6 +425,7 @@ describe('Function functions', function() {
 
     it('should define waitFor function 2', function(done) {
         var counter = 0;
+        var timedOut = false;
 
         _.waitFor(function (){
             counter++;
@@ -432,10 +433,15 @@ describe('Function functions', function() {
         },
         function (){
             counter = "cannot pass here";
-        }, 500, 50);
+        }, 500, 
+        function (){
+            timedOut = true;
+        },
+        50);
 
         setTimeout(function (){
             assert.equal(counter, 11);
+            assert.equal(timedOut, true);
             done();
         }, 1000);
 
