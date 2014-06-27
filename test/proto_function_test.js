@@ -440,11 +440,10 @@ describe('Function functions', function() {
         50);
 
         setTimeout(function (){
-            assert.equal(counter, 11);
+            assert.equal(counter, 10);
             assert.equal(timedOut, true);
             done();
-        }, 1000);
-
+        }, 600);
     });
 
 });
