@@ -398,4 +398,47 @@ describe('Function functions', function() {
 
         assert.equal(called, 1);
     });
+
+
+    it('should define waitFor function', function(done) {
+        var semaphore = 'red',
+            state = 'stopped';
+
+        _.waitFor(function (){
+            return semaphore == 'green';
+        },
+        function (){
+            state = 'running';
+        }, 1000);
+
+        assert.equal(state, 'stopped');
+        setTimeout(function (){
+            assert.equal(state, 'stopped');
+            semaphore = 'green';
+            setTimeout(function (){
+                assert.equal(state, 'running');
+                done();
+            }, 100);
+        }, 200);
+
+    });
+
+    it('should define waitFor function 2', function(done) {
+        var counter = 0;
+
+        _.waitFor(function (){
+            counter++;
+            return false;
+        },
+        function (){
+            counter = "cannot pass here";
+        }, 500, 50);
+
+        setTimeout(function (){
+            assert.equal(counter, 11);
+            done();
+        }, 1000);
+
+    });
+
 });
