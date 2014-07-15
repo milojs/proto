@@ -175,16 +175,17 @@ describe('Function functions', function() {
 
 
     it('should define delayed function', function(done) {
-        var called, args;
+        var called, args, context = {};
 
         function myFunc() {
             called = true;
             args = Array.prototype.slice.call(arguments);
+            assert.equal(this, context);
         }
 
         var delayedFunc = _.delayed(myFunc, 10, 1, 2, 3);
 
-        delayedFunc();
+        delayedFunc.call(context);
 
         assert.equal(called, undefined);
         assert.equal(args, undefined);
@@ -198,16 +199,17 @@ describe('Function functions', function() {
 
 
     it('should define deferred function', function(done) {
-        var called, args;
+        var called, args, context = {};
 
         function myFunc() {
             called = true;
             args = Array.prototype.slice.call(arguments);
+            assert.equal(this, context);
         }
 
         var deferredFunc = _.deferred(myFunc, 1, 2, 3);
 
-        deferredFunc();
+        deferredFunc.call(context);
 
         assert.equal(called, undefined);
         assert.equal(args, undefined);
