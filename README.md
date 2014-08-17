@@ -134,3 +134,4 @@ Functions
   * [tap](http://mailonline.github.io/proto/proto_util.js.html#tap)
   * [result](http://mailonline.github.io/proto/proto_util.js.html#result)
   * [identity](http://mailonline.github.io/proto/proto_util.js.html#identity)
+  * [property](http://mailonline.github.io/proto/proto_util.js.html#property)

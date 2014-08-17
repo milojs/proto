@@ -61,4 +61,13 @@ describe('Utility functions', function() {
         var obj = {};
         assert.equal(_.identity(obj), obj);
     });
+
+
+    it('should define property function', function() {
+        var obj = { prop1: 1, prop2: 2 }
+            , p1 = _.property('prop1')
+            , p2 = _.property('prop2');
+        assert.equal(p1(obj), 1);
+        assert.equal(p2(obj), 2);
+    });
 });
