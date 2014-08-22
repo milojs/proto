@@ -1,6 +1,8 @@
 proto
 =====
 
+[![Code Climate](https://codeclimate.com/github/MailOnline/proto/badges/gpa.svg)](https://codeclimate.com/github/MailOnline/proto)
+
 ES5-compatible object manipulation library for node and modern browsers
 
 [![Build Status](https://travis-ci.org/MailOnline/proto.png?branch=master)](https://travis-ci.org/MailOnline/proto)
