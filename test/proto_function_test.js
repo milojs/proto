@@ -185,14 +185,14 @@ describe('Function functions', function() {
 
         var delayedFunc = _.delayed(myFunc, 10, 1, 2, 3);
 
-        delayedFunc.call(context);
+        delayedFunc.call(context, 4, 5);
 
         assert.equal(called, undefined);
         assert.equal(args, undefined);
 
         setTimeout(function() {
             assert.equal(called, true);
-            assert.deepEqual(args, [1, 2, 3]);
+            assert.deepEqual(args, [1, 2, 3, 4, 5]);
             done();
         }, 20);
     });
@@ -209,14 +209,14 @@ describe('Function functions', function() {
 
         var deferredFunc = _.deferred(myFunc, 1, 2, 3);
 
-        deferredFunc.call(context);
+        deferredFunc.call(context, 4, 5);
 
         assert.equal(called, undefined);
         assert.equal(args, undefined);
 
         setTimeout(function() {
             assert.equal(called, true);
-            assert.deepEqual(args, [1, 2, 3]);
+            assert.deepEqual(args, [1, 2, 3, 4, 5]);
             done();
         }, 5);
     });
