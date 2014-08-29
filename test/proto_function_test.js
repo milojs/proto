@@ -448,4 +448,22 @@ describe('Function functions', function() {
         }, 600);
     });
 
+
+    it('should define not function', function() {
+        function odd(number) {
+            return !!(number % 2);
+        }
+
+        var even = _.not(odd);
+
+        assert.equal(odd(3), true);
+        assert.equal(odd(5), true);
+        assert.equal(odd(2), false);
+        assert.equal(odd(4), false);
+
+        assert.equal(even(3), false);
+        assert.equal(even(5), false);
+        assert.equal(even(2), true);
+        assert.equal(even(4), true);
+    });
 });
