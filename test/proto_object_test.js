@@ -694,6 +694,7 @@ describe('Object functions', function() {
         var obj1 = { name: 'milo', info: { test: 1 } }
             , obj2 = { name: 'milo', info: { test: 1 } }
             , obj3 = { name: 'milo', info: { test: 2 } }
+            , obj4 = { name: 'milo' }
             , arr1 = [ 1, 2, [ 3, 4, { test: 5 } ] ]
             , arr2 = [ 1, 2, [ 3, 4, { test: 5 } ] ]
             , arr3 = [ 1, 2, [ 3, 4, { test: 6 } ] ];
@@ -708,5 +709,8 @@ describe('Object functions', function() {
         assert(! _.isEqual(arr1, arr3));
         assert(_.isEqual(/[a-c]/, /[a-c]/));
         assert(! _.isEqual(/[a-c]/, /[a-c]/i));
+
+        assert(! _.isEqual(obj3, obj4));
+        assert(! _.isEqual(obj4, obj3));
     })
 });
