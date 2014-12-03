@@ -70,4 +70,30 @@ describe('Utility functions', function() {
         assert.equal(p1(obj), 1);
         assert.equal(p2(obj), 2);
     });
+
+
+    it('should define compareProperty function', function() {
+        var arr = [
+            { value: 1, label: 'a'},
+            { value: 4, label: 'c'},
+            { value: 3, label: 'd'},
+            { value: 2, label: 'b'}
+        ];
+
+        arr.sort(_.compareProperty('value'));
+        assert.deepEqual(arr, [
+            { value: 1, label: 'a'},
+            { value: 2, label: 'b'},
+            { value: 3, label: 'd'},
+            { value: 4, label: 'c'}
+        ]);
+
+        arr.sort(_.compareProperty('label'));
+        assert.deepEqual(arr, [
+            { value: 1, label: 'a'},
+            { value: 2, label: 'b'},
+            { value: 4, label: 'c'},
+            { value: 3, label: 'd'}
+        ]);
+    });
 });

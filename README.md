@@ -135,4 +135,5 @@ Functions
   * [result](http://mailonline.github.io/proto/proto_util.js.html#result)
   * [identity](http://mailonline.github.io/proto/proto_util.js.html#identity)
   * [property](http://mailonline.github.io/proto/proto_util.js.html#property)
+  * [compareProperty](http://mailonline.github.io/proto/proto_util.js.html#compareProperty)
   * [noop](http://mailonline.github.io/proto_util.js.html#noop)
