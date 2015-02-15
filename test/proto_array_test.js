@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel/register');
+
 var _ = require('../lib/proto')
     , assert = require('assert')
     , perfTest = require('./perf');
@@ -132,7 +134,7 @@ describe('Array functions', function() {
 
 
     it('should define find function', function() {
-        var arr = [, 2, , 6, 7, 10, 12]
+        var arr = [0, 2, 4, 6, 7, 10, 12]
             , thisArg = {};
 
         function callback(value, index, array) {
@@ -161,7 +163,7 @@ describe('Array functions', function() {
 
 
     it('should define findIndex function', function() {
-        var arr = [, 2, , 6, 7, 10, 12]
+        var arr = [0, 2, 4, 6, 7, 10, 12]
             , thisArg = {};
 
         function callback(value, index, array) {

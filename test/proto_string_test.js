@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel/register');
+
 var _ = require('../lib/proto')
     , assert = require('assert');
 
@@ -40,7 +42,7 @@ describe('String functions', function() {
         function myFunc() { return 1234; }
         var funcStr = myFunc.toString();
 
-        assert.equal(funcStr, 'function myFunc() { return 1234; }');
+        assert.equal(funcStr.replace(/\s+/g,' '), 'function myFunc() { return 1234; }');
 
         var func = _.toFunction(funcStr);
         assert.equal(funcStr, func.toString());

@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel/register');
+
 var _ = require('../lib/proto')
     , assert = require('assert');
 
