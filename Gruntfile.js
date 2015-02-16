@@ -12,9 +12,6 @@ module.exports = function(grunt) {
             proto: {
                 files: {
                     'proto.bundle.js': 'lib/proto.js'
-                },
-                options: {
-                    transform: ['babelify']
                 }
             }
         },
