@@ -1,13 +1,13 @@
 {
   "name": "proto",
   "version": "0.1.12",
-  "homepage": "https://github.com/MailOnline/proto",
+  "homepage": "https://github.com/milojs/proto",
   "authors": [
     "MOL Technical <MOL_Technical@assocnews.co.uk>"
   ],
   "description": "Prototypes aware object manipulation library for node and modern browsers",
   "main": "lib/proto.js",
-  "license": "MIT",
+  "license": "BSD",
   "ignore": [
     "**/.*",
     "node_modules",

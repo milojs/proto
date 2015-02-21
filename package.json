@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/MailOnline/proto.git"
+    "url": "git://github.com/milojs/proto.git"
   },
   "author": "MailOnline",
   "license": "BSD",
   "bugs": {
-    "url": "https://github.com/MailOnline/proto/issues"
+    "url": "https://github.com/milojs/proto/issues"
   },
   "devDependencies": {
     "async": "~0.2.9",
