@@ -182,6 +182,49 @@ describe('Object functions', function() {
     });
 
 
+    it('should allow deepExtend with preserving structure', function() {
+        var obj = {
+            attr: {
+                bind: 'ml-bind',
+                load: 'ml-load'
+            }
+        };
+
+        assert.doesNotThrow(function() {
+            _.deepExtend(obj, {
+                attr: {
+                    load: 'cc-load',
+                    ctrl: 'cc-ctrl'
+                }
+            }, false, true);
+        });
+
+        obj = {
+            wasScalar: 'overwrite'
+        };
+
+        assert.throws(function() {
+            _.deepExtend(obj, {
+                wasScalar: {
+                    inside: 'overwritten scalar'
+                }
+            }, false, true);
+        });
+
+        obj = {
+            wasObject: {
+                inside: 'overwrite too'
+            }
+        };
+
+        assert.throws(function() {
+            _.deepExtend(obj, {
+                wasObject: 'overwritten object'
+            }, false, true);
+        });
+    });
+
+
     it('should define deepClone function', function() {
         var cloned = _.deepClone({ a: 1, b: { c: 2, d: { e: 3 } } });
             assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
