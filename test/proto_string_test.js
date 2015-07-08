@@ -100,4 +100,9 @@ describe('String functions', function() {
         assert.equal(_.unPrefix('root_string', 'root_'), 'string');
         assert.equal(_.unPrefix('other_string', 'root_'), undefined);
     });
+
+    it('should define format function', function() {
+        assert.equal(_.format('foo$1and$2bar$1', 'x', 'y'), 'fooxandybarx')
+        assert.equal(_.format('this $1 is a $$ test', 'yo'), 'this yo is a $ test')
+    });
 });
