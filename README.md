@@ -123,6 +123,7 @@ Functions
   * [jsonParse](http://milojs.github.io/proto/proto_string.js.html#jsonParse)
   * [hashCode](http://milojs.github.io/proto/proto_string.js.html#hashCode)
   * [unPrefix](http://milojs.github.io/proto/proto_string.js.html#unPrefix)
+  * [format](http://milojs.github.io/proto/proto_string.js.html#format)
 
 * [__Number functions__](http://milojs.github.io/proto/proto_number.js.html)
   * [isNumeric](http://milojs.github.io/proto/proto_number.js.html#isNumeric)
