@@ -42,13 +42,13 @@ describe('Prototype functions', function() {
 
     it('should define createSubclass function', function() {
         function TestObject() { this.property = 1; };
-        TestObject.method = throwError;
+        TestObject.prototype.method = throwError;
         TestObject.classMethod = throwError;
 
         var TestSubclass = _.createSubclass(TestObject, 'TestSubclass');
 
             assert(TestSubclass.prototype instanceof TestObject);
-            assert.throws(TestSubclass.method, 'class method of superclass should be copied');
+            assert.throws(TestSubclass.classMethod, 'class method of superclass should be copied');
             assert.equal(TestSubclass.name, 'TestSubclass');
 
         var obj = new TestSubclass;
@@ -77,14 +77,13 @@ describe('Prototype functions', function() {
 
     it('should define makeSubclass method', function() {
         function TestObject() { this.property = 1; };
-        TestObject.method = throwError;
+        TestObject.prototype.method = throwError;
         TestObject.classMethod = throwError;
 
         function TestSubclass() {};
         _.makeSubclass(TestSubclass, TestObject)
 
             assert(TestSubclass.prototype instanceof TestObject);
-            assert.throws(TestSubclass.method, 'class method of superclass should be copied');
             assert.equal(TestSubclass.name, 'TestSubclass');
 
         var obj = new TestSubclass;
