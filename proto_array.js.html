@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li class="active"><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#arrayMethods"><i class="alert alert-success"></i><span>arrayMethods</span></a>
+              </li>
+              <li><a href="#nativeArrayMethodsNames"><i class="alert alert-success"></i><span>nativeArrayMethodsNames</span></a>
+              </li>
+              <li><a href="#find"><i class="alert alert-success"></i><span>find</span></a>
+              </li>
+              <li><a href="#findIndex"><i class="alert alert-success"></i><span>findIndex</span></a>
+              </li>
+              <li><a href="#appendArray"><i class="alert alert-info"></i><span>appendArray</span></a>
+              </li>
+              <li><a href="#prependArray"><i class="alert alert-info"></i><span>prependArray</span></a>
+              </li>
+              <li><a href="#spliceItem"><i class="alert alert-info"></i><span>spliceItem</span></a>
+              </li>
+              <li><a href="#toArray"><i class="alert alert-info"></i><span>toArray</span></a>
+              </li>
+              <li><a href="#object"><i class="alert alert-info"></i><span>object</span></a>
+              </li>
+              <li><a href="#mapToObject"><i class="alert alert-info"></i><span>mapToObject</span></a>
+              </li>
+              <li><a href="#unique"><i class="alert alert-info"></i><span>unique</span></a>
+              </li>
+              <li><a href="#deepForEach"><i class="alert alert-info"></i><span>deepForEach</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="arrayMethods">
+            <h1>arrayMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>arrayMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><ul>
+<li><a href="#find">find</a></li>
+<li><a href="#findIndex">findIndex</a></li>
+<li><a href="#appendArray">appendArray</a></li>
+<li><a href="#prependArray">prependArray</a></li>
+<li><a href="#spliceItem">spliceItem</a></li>
+<li><a href="#toArray">toArray</a></li>
+<li><a href="#object">object</a></li>
+<li><a href="#mapToObject">mapToObject</a></li>
+<li><a href="#unique">unique</a></li>
+<li><a href="#deepForEach">deepForEach</a></li>
+</ul>
+<p>These methods can be <a href="proto.js.html#Proto">chained</a>.</p></div>
+          <pre><code class="language-javascript">var arrayMethods = module.exports = {
+    // find: see below
+    // findIndex: see below
+    appendArray: appendArray,
+    prependArray: prependArray,
+    toArray: toArray,
+    object: object,
+    mapToObject: mapToObject,
+    unique: unique,
+    deepForEach: deepForEach,
+    spliceItem: spliceItem
+};</code></pre>
+          <section id="nativeArrayMethodsNames">
+            <h1>nativeArrayMethodsNames</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>nativeArrayMethodsNames</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Functions that Array <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods">implements natively</a> are also included for convenience - they can be used with array-like objects and for chaining (native functions are always called).<br />These methods can be <a href="proto.js.html#Proto">chained</a> too.</p></div>
+          <pre><code class="language-javascript">var nativeArrayMethodsNames = [ 'join', 'pop', 'push', 'concat',
+    'reverse', 'shift', 'unshift', 'slice', 'splice',
+    'sort', 'filter', 'forEach', 'some', 'every',
+    'map', 'indexOf', 'lastIndexOf', 'reduce', 'reduceRight'];
+
+var nativeArrayMethods = mapToObject.call(nativeArrayMethodsNames,
+        function(methodName) {
+            return Array.prototype[methodName];
+        });
+
+__.extend.call(arrayMethods, nativeArrayMethods);</code></pre>
+          <section id="find">
+            <h1>find</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>arrayMethods.find</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>array to search in</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>should return <code>true</code> for item to pass the test, passed <code>value</code>, <code>index</code> and <code>self</code> as parameters</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>optional context (<code>this</code>) of callback call</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Any</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Implementation of ES6 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">Array <strong>find</strong> method</a> (native method is used if available).<br />Returns array element that passes callback test.</p></div>
+          <pre><code class="language-javascript">arrayMethods.find = Array.prototype.find
+    || utils.makeFindMethod(arrayMethods.some, 'value');</code></pre>
+          <section id="findIndex">
+            <h1>findIndex</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>arrayMethods.findIndex</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>array to search in</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>should return <code>true</code> for item to pass the test, passed <code>value</code>, <code>index</code> and <code>self</code> as parameters</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>optional context (<code>this</code>) of callback call</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Integer</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Implementation of ES6 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">Array <strong>findIndex</strong> method</a> (native method is used if available).<br />Returns the index of array element that passes callback test. Returns <code>-1</code> if not found.</p></div>
+          <pre><code class="language-javascript">arrayMethods.findIndex = Array.prototype.findIndex
+    || utils.makeFindMethod(arrayMethods.some, 'index');</code></pre>
+          <section id="appendArray">
+            <h1>appendArray</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>appendArray()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>An array that will be modified</p></td>
+              </tr>
+              <tr>
+                <td>arrayToAppend</td>
+                <td>Array</td>
+                <td><p>An array that will be appended</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Appends <code>arrayToAppend</code> to the end of array <code>self</code> in place (can be an instance of Array or array-like object).<br />Changes the value of <code>self</code> (it uses <code>Array.prototype.splice</code>) and returns <code>self</code>.</p></div>
+          <pre><code class="language-javascript">function appendArray(arrayToAppend) {
+    if (! arrayToAppend.length) return this;
+    if (! Array.isArray(arrayToAppend))
+        arrayToAppend = toArray.call(arrayToAppend);
+    
+    var args = [this.length, 0].concat(arrayToAppend);
+    arrayMethods.splice.apply(this, args);
+
+    return this;
+}</code></pre>
+          <section id="prependArray">
+            <h1>prependArray</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>prependArray()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>An array that will be modified</p></td>
+              </tr>
+              <tr>
+                <td>arrayToAppend</td>
+                <td>Array</td>
+                <td><p>An array that will be prepended</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Prepends <code>arrayToPrepend</code> to the beginnig of array <code>self</code> in place (can be an instance of Array or array-like object).<br />Changes the value of <code>self</code> (it uses <code>Array.prototype.splice</code>) and returns <code>self</code>.</p></div>
+          <pre><code class="language-javascript">function prependArray(arrayToPrepend) {
+    if (! arrayToPrepend.length) return this;
+    if (! Array.isArray(arrayToPrepend))
+        arrayToPrepend = toArray.call(arrayToPrepend);
+
+    var args = [0, 0].concat(arrayToPrepend);
+    arrayMethods.splice.apply(this, args);
+
+    return this;
+}</code></pre>
+          <section id="spliceItem">
+            <h1>spliceItem</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>spliceItem()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>An array that will be modified</p></td>
+              </tr>
+              <tr>
+                <td>item</td>
+                <td>Any</td>
+                <td><p>item to be removed</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Removes item from array that is found using indexOf (i.e. &#39;===&#39;)<br />Modifies original array and returns the reference to it.</p></div>
+          <pre><code class="language-javascript">function spliceItem(item) {
+    var index = this.indexOf(item);
+    if (index &gt;= 0) this.splice(index, 1);
+    return this;
+}</code></pre>
+          <section id="toArray">
+            <h1>toArray</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>toArray()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>PseudoArray</td>
+                <td><p>Object with numeric property length</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns new array created from array-like object (e.g., <code>arguments</code> pseudo-array).</p></div>
+          <pre><code class="language-javascript">function toArray() {
+    return arrayMethods.slice.call(this);
+}</code></pre>
+          <section id="object">
+            <h1>object</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>object()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>Array of keys</p></td>
+              </tr>
+              <tr>
+                <td>values</td>
+                <td>Array, any</td>
+                <td><p>Optional array of values or the value to be assigned to each property.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns an object created from the array of <code>keys</code> and optional array of <code>values</code>.</p></div>
+          <pre><code class="language-javascript">function object(values) {
+    var obj = {}
+        , valuesIsArray = Array.isArray(values);
+    arrayMethods.forEach.call(this, function(key, index) {
+        obj[key] = valuesIsArray ? values[index] : values;
+    });
+
+    return obj;
+}</code></pre>
+          <section id="mapToObject">
+            <h1>mapToObject</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>mapToObject()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>An array which values will become keys of the result</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>value</code>, <code>index</code> and <code>self</code> and should return value that will be included in the result.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Maps array to object.<br />Array elements become keys, value are taken from <code>callback</code>.</p></div>
+          <pre><code class="language-javascript">function mapToObject(callback, thisArg) {
+    var result = {};
+    Array.prototype.forEach.call(this, function(value, index) {
+        result[value] = callback.call(thisArg, value, index, this);
+    }, this);
+    return result;
+}</code></pre>
+          <section id="unique">
+            <h1>unique</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>unique()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>original array</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>comparison function, should return true for equal items, &quot;===&quot; is used if not passed.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns array without duplicates. Does not modify original array.</p></div>
+          <pre><code class="language-javascript">function unique(callback) {
+    var filtered = [];
+    if (! callback)
+        itemIndex = itemIndexOf;
+
+    this.forEach(function(item) {
+        var index = itemIndex(item);
+        if (index == -1)
+            filtered.push(item);
+    });
+
+    return filtered;
+
+
+    function itemIndex(item) {
+        return arrayMethods.findIndex.call(filtered, function(it) {
+            return callback(item, it);
+        });
+    }
+
+    function itemIndexOf(item) {
+        return filtered.indexOf(item);
+    }
+}</code></pre>
+          <section id="deepForEach">
+            <h1>deepForEach</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>deepForEach()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Array</td>
+                <td><p>array of elements and arraysto iterate.</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>called for each item that is not an array. Callback is passed item, index and original array as parameters.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Any</td>
+                <td><p>optional callback envocation context</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Iterates array and elements that are arrays calling callback with each element that is not an array. Can be used to iterate over arguments list to avoid checking whether array or list of parameters is passed.</p></div>
+          <pre><code class="language-javascript">function deepForEach(callback, thisArg) {
+    var index = 0, arr = this;
+    _deepForEach.call(this);
+
+    function _deepForEach() {
+        arrayMethods.forEach.call(this, function(value) {
+            if (Array.isArray(value))
+                _deepForEach.call(value);
+            else
+                callback.call(thisArg, value, index++, arr);
+        });
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

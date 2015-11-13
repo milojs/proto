@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li class="active"><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#prototypeMethods"><i class="alert alert-success"></i><span>prototypeMethods</span></a>
+              </li>
+              <li><a href="#extendProto"><i class="alert alert-info"></i><span>extendProto</span></a>
+              </li>
+              <li><a href="#createSubclass"><i class="alert alert-info"></i><span>createSubclass</span></a>
+              </li>
+              <li><a href="#makeSubclass"><i class="alert alert-info"></i><span>makeSubclass</span></a>
+              </li>
+              <li><a href="#newApply"><i class="alert alert-info"></i><span>newApply</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="prototypeMethods">
+            <h1>prototypeMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>prototypeMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><ul>
+<li><a href="#extendProto">extendProto</a></li>
+<li><a href="#createSubclass">createSubclass</a></li>
+<li><a href="#makeSubclass">makeSubclass</a></li>
+<li><a href="#newApply">newApply</a></li>
+</ul>
+<p>These methods can be <a href="proto.js.html#Proto">chained</a></p></div>
+          <pre><code class="language-javascript">var prototypeMethods = module.exports = {
+    extendProto: extendProto,
+    createSubclass: createSubclass,
+    makeSubclass: makeSubclass,
+    newApply: newApply
+};
+
+
+var __ = require('./proto_object');
+
+__.extend.call(__, require('./proto_function'));</code></pre>
+          <section id="extendProto">
+            <h1>extendProto</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>extendProto()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>constructor function</p></td>
+              </tr>
+              <tr>
+                <td>methods</td>
+                <td>Object</td>
+                <td><p>a map of functions, keys will be instance methods (properties of the constructor prototype)</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Adds non-enumerable, non-configurable and non-writable properties to the prototype of constructor function.<br />Usage:</p><pre><code>function MyClass() {}
+_.extendProto(MyClass, {
+    method1: function() {},
+    method2: function() {}
+});
+</code></pre><p>To extend class via object:</p><pre><code>_.extendProto(obj.constructor, methods);
+</code></pre><p>Returns passed constructor, so functions <em>.extendProto, [</em>.extend](object.js.html#extend) and _.makeSubclass can be <a href="proto.js.html">chained</a>. </p></div>
+          <pre><code class="language-javascript">function extendProto(methods) {
+    var propDescriptors = {};
+
+    __.eachKey.call(methods, function(method, name) {
+        propDescriptors[name] = {
+            enumerable: false,
+            configurable: false,
+            writable: false,
+            value: method
+        };
+    });
+
+    Object.defineProperties(this.prototype, propDescriptors);
+    return this;
+}</code></pre>
+          <section id="createSubclass">
+            <h1>createSubclass</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>createSubclass()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>thisClass</td>
+                <td>Function</td>
+                <td><p>A class to make subclass of</p></td>
+              </tr>
+              <tr>
+                <td>name</td>
+                <td>String</td>
+                <td><p>Optional name of subclass constructor function</p></td>
+              </tr>
+              <tr>
+                <td>applyConstructor</td>
+                <td>Boolean</td>
+                <td><p>Optional false value (not falsy) to prevent call of inherited constructor in the constructor of subclass</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Makes a subclass of class <code>thisClass</code>.<br />The returned function will have specified <code>name</code> if supplied.<br />The constructor of superclass will be called in subclass constructor by default unless <code>applyConstructor === false</code> (not just falsy).<br />Copies <code>thisClass</code> class methods to created subclass. For them to work correctly they should use <code>this</code> to refer to the class rather than explicit superclass name.</p></div>
+          <pre><code class="language-javascript">function createSubclass(name, applyConstructor) {
+    var thisClass = this;
+    var subclass;
+
+    // name is optional
+    name = name || '';
+
+    // apply superclass constructor
+    var constructorCode = applyConstructor === false
+            ? ''
+            : 'thisClass.apply(this, arguments);';
+
+    eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
+
+    makeSubclass.call(subclass, thisClass);
+
+    // copy class methods
+    // - for them to work correctly they should not explictly use superclass name
+    // and use &quot;this&quot; instead
+    __.deepExtend.call(subclass, thisClass, true);
+
+    return subclass;
+}</code></pre>
+          <section id="makeSubclass">
+            <h1>makeSubclass</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>makeSubclass()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>thisClass</td>
+                <td>Function</td>
+                <td><p>A class that will become a subclass of Superclass</p></td>
+              </tr>
+              <tr>
+                <td>Superclass</td>
+                <td>Function</td>
+                <td><p>A class that will become a superclass of thisClass</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Sets up prototype chain to change <code>thisClass</code> (a constructor function) so that it becomes a subclass of <code>Superclass</code>.<br />Returns <code>thisClass</code> so it can be <a href="proto.js.html">chained</a> with <em>.extendProto and [</em>.extend](object.js.html#extend).</p></div>
+          <pre><code class="language-javascript">function makeSubclass(Superclass) {
+    // prototype chain
+    this.prototype = Object.create(Superclass.prototype);
+    
+    // subclass identity
+    extendProto.call(this, {
+        constructor: this
+    });
+    return this;
+}</code></pre>
+          <section id="newApply">
+            <h1>newApply</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>newApply()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>thisClass</td>
+                <td>Function</td>
+                <td><p>A class constructor that will be called</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td><p>args Array of arguments that will be passed to constructor</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Calls constructor <code>this</code> with arguments passed as array</p></div>
+          <pre><code class="language-javascript">function newApply(args) {
+    if (! Array.isArray(args))
+        args = Array.prototype.slice.call(args);
+    // &quot;null&quot; is context to pass to class constructor, first parameter of bind
+    var args = [null].concat(args);
+    return new (Function.prototype.bind.apply(this, args));
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li class="active"><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="Main" class="readme"><h1>proto</h1>
+<p>ES5-compatible object manipulation library for node and modern browsers</p>
+<p><a href="https://travis-ci.org/milojs/proto"><img src="https://travis-ci.org/milojs/proto.png?branch=master" alt="Build Status"></a>
+<a href="https://badge.fury.io/js/mol-proto"><img src="https://badge.fury.io/js/mol-proto.svg" alt="npm version"></a>
+<a href="https://codeclimate.com/github/milojs/proto"><img src="https://codeclimate.com/github/milojs/proto/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/milojs/proto/coverage"><img src="https://codeclimate.com/github/milojs/proto/badges/coverage.svg" alt="Test Coverage"></a></p>
+<p>Documentation: http://milojs.github.io/proto/</p>
+<h2>Why not use underscore or lo-dash</h2>
+<ol>
+<li>They do NOT use properties that are non-enumerable when they extend/clone/etc.</li>
+<li>They DO use enumerable properties from prototypes when they extend/clone/etc.</li>
+<li>When they clone, they create instances of Object rather than of the same class as cloned object.</li>
+<li>They implement many methods that are already implemented natively.</li>
+<li>They don't implement methods for inheritance and extention of prototypes.</li>
+<li>They create confusion when you read code as you can't clearly differentiate
+between arrays and objects (maps), e.g. when <em>each</em> function is used.</li>
+<li>Underscore has clumbersome chaining syntax, chaining in proto is more succinct.</li>
+</ol>
+<h2>Install</h2>
+<pre><code>npm install mol-proto --save
+</code></pre>
+<p>To use and develop:</p>
+<pre><code>git clone git@github.com:milojs/proto.git
+cd proto
+npm link
+cd ../&lt;your project&gt;
+npm link mol-proto
+</code></pre>
+<h2>Use</h2>
+<p>Node/browserify:</p>
+<pre><code>var _ = require('mol-proto');
+</code></pre>
+<p>Browser:</p>
+<p>All functions are exported as properties of a global _ object when used with <a href="https://github.com/milojs/milo">milo</a>, there is no separate proto bundle yet (will be added shortly).</p>
+<h2>Functions</h2>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_prototype.js.html"><strong>Prototype functions</strong></a>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_prototype.js.html#extendProto">extendProto</a></li>
+<li><a href="http://milojs.github.io/proto/proto_prototype.js.html#createSubclass">createSubclass</a></li>
+<li><a href="http://milojs.github.io/proto/proto_prototype.js.html#makeSubclass">makeSubclass</a></li>
+<li><a href="http://milojs.github.io/proto/proto_prototype.js.html#newApply">newApply</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><a href="http://milojs.github.io/proto/proto_object.js.html"><strong>Object functions</strong></a></p>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#extend">extend</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#clone">clone</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#defineProperty">defineProperty</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#defineProperties">defineProperties</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#deepExtend">deepExtend</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#deepClone">deepClone</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#keys">keys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#allKeys">allKeys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#values">values</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#keyOf">keyOf</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#allKeysOf">allKeysOf</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#eachKey">eachKey</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#mapKeys">mapKeys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#reduceKeys">reduceKeys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#filterKeys">filterKeys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#someKey">someKey</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#everyKey">everyKey</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#findValue">findValue</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#findKey">findKey</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#pickKeys">pickKeys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#omitKeys">omitKeys</a></li>
+<li><a href="http://milojs.github.io/proto/proto_object.js.html#isEqual">isEqual</a></li>
+</ul>
+</li>
+<li>
+<p><a href="http://milojs.github.io/proto/proto_array.js.html"><strong>Array functions</strong></a></p>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#find">find</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#findIndex">findIndex</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#appendArray">appendArray</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#prependArray">prependArray</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html/proto_array.js.html#spliceItem">spliceItem</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#toArray">toArray</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#object">object</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#mapToObject">mapToObject</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#unique">unique</a></li>
+<li><a href="http://milojs.github.io/proto/proto_array.js.html#deepForEach">deepForEach</a></li>
+<li>Functions that Array <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods">implements natively</a> are also added - they can be used with array-like objects and for chaining (native functions are always called).</li>
+</ul>
+</li>
+<li>
+<p><a href="http://milojs.github.io/proto/proto_function.js.html"><strong>Function functions</strong></a></p>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#makeFunction">makeFunction</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#partial">partial</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#partialRight">partialRight</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#memoize">memoize</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#delay">delay</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#defer">defer</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#delayed">delayed</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#deferred">deferred</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#deferTicks">deferTicks</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#delayMethod">delayMethod</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#deferMethod">deferMethod</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#debounce">debounce</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#throttle">throttle</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#once">once</a></li>
+<li><a href="http://milojs.github.io/proto/proto_function.js.html#waitFor">waitFor</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><a href="http://milojs.github.io/proto/proto_string.js.html"><strong>String functions</strong></a></p>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#firstUpperCase">firstUpperCase</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#firstLowerCase">firstLowerCase</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#toRegExp">toRegExp</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#toFunction">toFunction</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#toDate">toDate</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#toQueryString">toQueryString</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#fromQueryString">fromQueryString</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#jsonParse">jsonParse</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#hashCode">hashCode</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#unPrefix">unPrefix</a></li>
+<li><a href="http://milojs.github.io/proto/proto_string.js.html#format">format</a></li>
+</ul>
+</li>
+<li>
+<p><a href="http://milojs.github.io/proto/proto_number.js.html"><strong>Number functions</strong></a></p>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_number.js.html#isNumeric">isNumeric</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html"><strong>Utility functions</strong></a>
+<ul>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#times">times</a></li>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#repeat">repeat</a></li>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#tap">tap</a></li>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#result">result</a></li>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#identity">identity</a></li>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#property">property</a></li>
+<li><a href="http://milojs.github.io/proto/proto_util.js.html#compareProperty">compareProperty</a></li>
+<li><a href="http://milojs.github.io/proto_util.js.html#noop">noop</a></li>
+</ul>
+</li>
+</ul>
+</section>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

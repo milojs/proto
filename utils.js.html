@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li class="active"><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#makeFindMethod"><i class="alert alert-info"></i><span>makeFindMethod</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="makeFindMethod">
+            <h1>makeFindMethod</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>makeFindMethod()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>eachMethod</td>
+                <td>Function</td>
+                <td><ul>
+<li>method to use for iteration (forEach for array or eachKey for object)</li>
+</ul>
+</td>
+              </tr>
+              <tr>
+                <td>findWhat</td>
+                <td>String</td>
+                <td><p>&#39;value&#39; - returns find method of Array (implemented in ES6) or findValue method of Object, anything else = returns findIndex/findKey methods.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns <code>find</code> or <code>findIndex</code> method, depending on parameter</p></div>
+          <pre><code class="language-javascript">function makeFindMethod(someMethod, findWhat) {
+    var argIndex = findWhat == 'value' ? 0 : 1;
+
+    return function findValueOrIndex(callback, thisArg, onlyEnumerable) {
+        var foundValueOrIndex;
+        var found = someMethod.call(this, testItem, thisArg, onlyEnumerable);
+        if (found)
+            return foundValueOrIndex;
+        // if looking for index and not found, return -1
+        else if (argIndex &amp;&amp; someMethod == Array.prototype.some)
+            return -1;
+
+        function testItem(value, index, self) {
+            var test = callback.call(this, value, index, self);
+            if (test) {
+                foundValueOrIndex = arguments[argIndex]
+                return test;
+            }
+        }
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

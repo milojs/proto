@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li class="active"><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#prototypeMethods"><i class="alert alert-success"></i><span>prototypeMethods</span></a>
+              </li>
+              <li><a href="#objectMethods"><i class="alert alert-success"></i><span>objectMethods</span></a>
+              </li>
+              <li><a href="#arrayMethods"><i class="alert alert-success"></i><span>arrayMethods</span></a>
+              </li>
+              <li><a href="#functionMethods"><i class="alert alert-success"></i><span>functionMethods</span></a>
+              </li>
+              <li><a href="#stringMethods"><i class="alert alert-success"></i><span>stringMethods</span></a>
+              </li>
+              <li><a href="#numberMethods"><i class="alert alert-success"></i><span>numberMethods</span></a>
+              </li>
+              <li><a href="#utilMethods"><i class="alert alert-success"></i><span>utilMethods</span></a>
+              </li>
+              <li><a href="#Proto"><i class="alert alert-info"></i><span>Proto</span></a>
+              </li>
+              <li><a href="#if"><i class="alert alert-info"></i><span>if</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="prototypeMethods">
+            <h1>prototypeMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>prototypeMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_prototype.js.html"><strong>Prototype functions</strong></a></p><ul>
+<li><a href="proto_prototype.js.html#extendProto">extendProto</a></li>
+<li><a href="proto_prototype.js.html#createSubclass">createSubclass</a></li>
+<li><a href="proto_prototype.js.html#makeSubclass">makeSubclass</a></li>
+<li><a href="proto_prototype.js.html#newApply">newApply</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var prototypeMethods = require('./proto_prototype');</code></pre>
+          <section id="objectMethods">
+            <h1>objectMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>objectMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_object.js.html"><strong>Object functions</strong></a></p><ul>
+<li><a href="proto_object.js.html#extend">extend</a></li>
+<li><a href="proto_object.js.html#clone">clone</a></li>
+<li><a href="proto_object.js.html#defineProperty">defineProperty</a></li>
+<li><a href="proto_object.js.html#defineProperties">defineProperties</a></li>
+<li><a href="proto_object.js.html#deepExtend">deepExtend</a></li>
+<li><a href="proto_object.js.html#deepClone">deepClone</a></li>
+<li><a href="proto_object.js.html#keys">keys</a></li>
+<li><a href="proto_object.js.html#allKeys">allKeys</a></li>
+<li><a href="proto_object.js.html#values">values</a></li>
+<li><a href="proto_object.js.html#keyOf">keyOf</a></li>
+<li><a href="proto_object.js.html#allKeysOf">allKeysOf</a></li>
+<li><a href="proto_object.js.html#eachKey">eachKey</a></li>
+<li><a href="proto_object.js.html#mapKeys">mapKeys</a></li>
+<li><a href="proto_object.js.html#reduceKeys">reduceKeys</a></li>
+<li><a href="proto_object.js.html#filterKeys">filterKeys</a></li>
+<li><a href="proto_object.js.html#someKey">someKey</a></li>
+<li><a href="proto_object.js.html#everyKey">everyKey</a></li>
+<li><a href="proto_object.js.html#findValue">findValue</a></li>
+<li><a href="proto_object.js.html#findKey">findKey</a></li>
+<li><a href="proto_object.js.html#pickKeys">pickKeys</a></li>
+<li><a href="proto_object.js.html#omitKeys">omitKeys</a></li>
+<li><a href="proto_object.js.html#isEqual">isEqual</a></li>
+<li><a href="proto_object.js.html#isNot">isNot</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var objectMethods = require('./proto_object');</code></pre>
+          <section id="arrayMethods">
+            <h1>arrayMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>arrayMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_array.js.html"><strong>Array functions</strong></a></p><ul>
+<li><a href="proto_array.js.html#find">find</a></li>
+<li><a href="proto_array.js.html#findIndex">findIndex</a></li>
+<li><a href="proto_array.js.html#appendArray">appendArray</a></li>
+<li><a href="proto_array.js.html#prependArray">prependArray</a></li>
+<li><a href="proto_array.js.html#spliceItem">spliceItem</a></li>
+<li><a href="proto_array.js.html#toArray">toArray</a></li>
+<li><a href="proto_array.js.html#object">object</a></li>
+<li><a href="proto_array.js.html#mapToObject">mapToObject</a></li>
+<li><a href="proto_array.js.html#unique">unique</a></li>
+<li><a href="proto_array.js.html#deepForEach">deepForEach</a></li>
+</ul>
+<p>Functions that Array <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods">implements natively</a> are also added - they can be used with array-like objects and for chaining (native functions are always called).</p></div>
+          <pre><code class="language-javascript">var arrayMethods = require('./proto_array');</code></pre>
+          <section id="functionMethods">
+            <h1>functionMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>functionMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_function.js.html"><strong>Function functions</strong></a></p><ul>
+<li><a href="proto_function.js.html#makeFunction">makeFunction</a></li>
+<li><a href="proto_function.js.html#partial">partial</a></li>
+<li><a href="proto_function.js.html#partialRight">partialRight</a></li>
+<li><a href="proto_function.js.html#memoize">memoize</a></li>
+<li><a href="proto_function.js.html#delay">delay</a></li>
+<li><a href="proto_function.js.html#defer">defer</a></li>
+<li><a href="proto_function.js.html#delayed">delayed</a></li>
+<li><a href="proto_function.js.html#deferred">deferred</a></li>
+<li><a href="proto_function.js.html#deferTicks">deferTicks</a></li>
+<li><a href="proto_function.js.html#delayMethod">delayMethod</a></li>
+<li><a href="proto_function.js.html#deferMethod">deferMethod</a></li>
+<li><a href="proto_function.js.html#debounce">debounce</a></li>
+<li><a href="proto_function.js.html#throttle">throttle</a></li>
+<li><a href="proto_function.js.html#once">once</a></li>
+<li><a href="proto_function.js.html#waitFor">waitFor</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var functionMethods = require('./proto_function');</code></pre>
+          <section id="stringMethods">
+            <h1>stringMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>stringMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_string.js.html"><strong>String functions</strong></a></p><ul>
+<li><a href="proto_string.js.html#firstUpperCase">firstUpperCase</a></li>
+<li><a href="proto_string.js.html#firstLowerCase">firstLowerCase</a></li>
+<li><a href="proto_string.js.html#toRegExp">toRegExp</a></li>
+<li><a href="proto_string.js.html#toFunction">toFunction</a></li>
+<li><a href="proto_string.js.html#toDate">toDate</a></li>
+<li><a href="proto_string.js.html#toQueryString">toQueryString</a></li>
+<li><a href="proto_string.js.html#fromQueryString">fromQueryString</a></li>
+<li><a href="proto_string.js.html#jsonParse">jsonParse</a></li>
+<li><a href="proto_string.js.html#hashCode">hashCode</a></li>
+<li><a href="proto_string.js.html#unPrefix">unPrefix</a></li>
+<li><a href="proto_string.js.html#format">format</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var stringMethods = require('./proto_string');</code></pre>
+          <section id="numberMethods">
+            <h1>numberMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>numberMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_number.js.html"><strong>Number functions</strong></a></p><ul>
+<li><a href="proto_number.js.html#isNumeric">isNumeric</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var numberMethods = require('./proto_number');</code></pre>
+          <section id="utilMethods">
+            <h1>utilMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>utilMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p><a href="proto_util.js.html"><strong>Utility functions</strong></a></p><ul>
+<li><a href="proto_util.js.html#times">times</a></li>
+<li><a href="proto_util.js.html#repeat">repeat</a></li>
+<li><a href="proto_util.js.html#tap">tap</a></li>
+<li><a href="proto_util.js.html#result">result</a></li>
+<li><a href="proto_util.js.html#identity">identity</a></li>
+<li><a href="proto_util.js.html#property">property</a></li>
+<li><a href="proto_util.js.html#compareProperty">compareProperty</a></li>
+<li><a href="proto_util.js.html#noop">noop</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var utilMethods = require('./proto_util');</code></pre>
+          <section id="Proto">
+            <h1>Proto</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>Proto()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Any</td>
+                <td><p>A value to be wrapped</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Proto</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><h1>Chaining</h1>
+<p><code>_</code> can be used to create a wrapped value (object, function, array, etc.) to allow chaining of Proto functions.<br />To unwrap, <code>_</code> method of a wrapped value should be used.<br />Usage:</p><pre><code>var arr = _({ 0: 3, 1: 4, 2: 5, length: 3})
+             .toArray()
+             .prependArray([1, 2])
+             .appendArray([6, 7, 8])
+             ._();
+</code></pre><p>A wrapped object is an instance of <code>_</code> (<code>Proto</code> class).</p><p>Chaining is implemented for development convenience, but it has performance overhead, not only to wrap and unwrap values but in each function call.<br />Although all Proto functions are implemented as methods operating on this and the overhead to redefine them as functions is very small, the overhead to redefine them as methods of wrapped value is slightly higher - chaining is 15-25% slower than using functions (properties of _ that take the first parameter).<br />In cases when performance is critical, you may want to avoid using chaining.</p></div>
+          <pre><code class="language-javascript">function Proto(self) {
+    // wrap passed parameter in _ object
+    var wrapped = Object.create(Proto.prototype);
+    wrapped.self = self;
+    return wrapped;
+};
+
+var _ = Proto;
+
+
+// store raw methods from different modules in __ object (double &quot;_&quot;)
+var __ = {};
+
+objectMethods.extend.call(__, objectMethods);
+__.extend.call(__, prototypeMethods);
+__.extend.call(__, arrayMethods);
+__.extend.call(__, stringMethods);
+__.extend.call(__, numberMethods);
+__.extend.call(__, functionMethods);
+__.extend.call(__, utilMethods);
+
+
+// add __ as property of Proto, so they can be used as mixins in other classes
+__.defineProperty(Proto, '__', __);
+
+
+// add _ method to unwrap wrapped value (Proto instance)
+function unwrapProto() { return this.self; }
+__.extendProto.call(Proto, { _: unwrapProto });
+
+// add constants (functions will be overwritten)
+__.extend.call(Proto, objectMethods._constants);
+
+// add functions that take first parameter instead of &quot;this&quot; to Proto
+var protoFuncs = __.mapKeys.call(__, utils.makeProtoFunction, true);
+__.extend.call(Proto, protoFuncs);
+
+// add Proto wrapped value instance methods to Proto prototype
+var protoInstanceMethods = __.mapKeys.call(__, utils.makeProtoInstanceMethod, true);
+__.extendProto.call(Proto, protoInstanceMethods);</code></pre>
+          <section id="if">
+            <h1>if</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>&nbsp;</span><span>if()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>In windows environment, a global <code>_</code> value is preserved in <code>_.underscore</code></p></div>
+          <pre><code class="language-javascript">if (typeof window == 'object') {
+    // preserve existing _ object
+    if (window._)
+        Proto.underscore = window._
+
+    // expose global _ and Proto
+    window._ = Proto;
+}
+
+if (typeof module == 'object' &amp;&amp; module.exports)
+    // export for node/browserify
+    module.exports = Proto;</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

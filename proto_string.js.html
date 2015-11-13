@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li class="active"><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#stringMethods"><i class="alert alert-success"></i><span>stringMethods</span></a>
+              </li>
+              <li><a href="#firstUpperCase"><i class="alert alert-info"></i><span>firstUpperCase</span></a>
+              </li>
+              <li><a href="#firstLowerCase"><i class="alert alert-info"></i><span>firstLowerCase</span></a>
+              </li>
+              <li><a href="#toRegExp"><i class="alert alert-info"></i><span>toRegExp</span></a>
+              </li>
+              <li><a href="#toFunction"><i class="alert alert-info"></i><span>toFunction</span></a>
+              </li>
+              <li><a href="#toDate"><i class="alert alert-info"></i><span>toDate</span></a>
+              </li>
+              <li><a href="#toQueryString"><i class="alert alert-info"></i><span>toQueryString</span></a>
+              </li>
+              <li><a href="#fromQueryString"><i class="alert alert-info"></i><span>fromQueryString</span></a>
+              </li>
+              <li><a href="#jsonParse"><i class="alert alert-info"></i><span>jsonParse</span></a>
+              </li>
+              <li><a href="#hashCode"><i class="alert alert-info"></i><span>hashCode</span></a>
+              </li>
+              <li><a href="#unPrefix"><i class="alert alert-info"></i><span>unPrefix</span></a>
+              </li>
+              <li><a href="#formatRegexp"><i class="alert alert-success"></i><span>formatRegexp</span></a>
+              </li>
+              <li><a href="#format"><i class="alert alert-info"></i><span>format</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="stringMethods">
+            <h1>stringMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>stringMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><ul>
+<li><a href="#firstUpperCase">firstUpperCase</a></li>
+<li><a href="#firstLowerCase">firstLowerCase</a></li>
+<li><a href="#toRegExp">toRegExp</a></li>
+<li><a href="#toFunction">toFunction</a></li>
+<li><a href="#toDate">toDate</a></li>
+<li><a href="#toQueryString">toQueryString</a></li>
+<li><a href="#fromQueryString">fromQueryString</a></li>
+<li><a href="#jsonParse">jsonParse</a></li>
+<li><a href="#hashCode">hashCode</a></li>
+<li><a href="#unPrefix">unPrefix</a></li>
+<li><a href="#format">format</a></li>
+</ul>
+</div>
+          <pre><code class="language-javascript">var stringMethods = module.exports = {
+   firstUpperCase: firstUpperCase,
+   firstLowerCase: firstLowerCase,
+   toRegExp: toRegExp,
+   toFunction: toFunction,
+   toDate: toDate,
+   toQueryString: toQueryString,
+   fromQueryString: fromQueryString,
+   jsonParse: jsonParse,
+   hashCode: hashCode,
+   unPrefix: unPrefix,
+   format: format
+};</code></pre>
+          <section id="firstUpperCase">
+            <h1>firstUpperCase</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>firstUpperCase()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>A string that will have its first character replaced</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns string with the first character changed to upper case.</p></div>
+          <pre><code class="language-javascript">function firstUpperCase() {
+    return this ? this[0].toUpperCase() + this.slice(1) : this;
+}</code></pre>
+          <section id="firstLowerCase">
+            <h1>firstLowerCase</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>firstLowerCase()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>A string that will have its first character replaced</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns string with the first character changed to lower case.</p></div>
+          <pre><code class="language-javascript">function firstLowerCase() {
+    return this ? this[0].toLowerCase() + this.slice(1) : this;
+}</code></pre>
+          <section id="toRegExp">
+            <h1>toRegExp</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>toRegExp()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>string containing regular expression including enclosing &quot;/&quot; symbols and flags</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>RegExp</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts string created by <code>toString</code> method of RegExp back to RegExp</p></div>
+          <pre><code class="language-javascript">function toRegExp() {
+    var rx = this.match(regexpStringPattern);
+    if (rx) return new RegExp(rx[1], rx[2]);
+}
+var regexpStringPattern = /^\/(.*)\/([gimy]*)$/;</code></pre>
+          <section id="toFunction">
+            <h1>toFunction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>toFunction()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>string containing full function code</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts string created by <code>toString</code> method of function back to function</p></div>
+          <pre><code class="language-javascript">function toFunction() {
+    var func;
+    var code = 'func = ' + this + ';';
+    try {
+        eval(code);
+        return func;
+    } catch(e) {
+        return;
+    }
+}</code></pre>
+          <section id="toDate">
+            <h1>toDate</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>toDate()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String, Date</td>
+                <td><p>string or date object to convert to VALID date</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Date</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Converts string to date in a safe way so that the resiult is undefined if date is invalid</p></div>
+          <pre><code class="language-javascript">function toDate() {
+    if (! this) return;
+    try {
+        var date = new Date(this);
+    } catch (e) {}
+    if (date &amp;&amp; date.getTime &amp;&amp; !isNaN(date.getTime()))
+        return date;
+}</code></pre>
+          <section id="toQueryString">
+            <h1>toQueryString</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>toQueryString()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>The object hash to be converted</p></td>
+              </tr>
+              <tr>
+                <td>encode</td>
+                <td>Function</td>
+                <td><p>optional function used to encode data, encodeURIComponent is used if not specified</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>the resulting query string</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Convert params object to a url style query string (without &quot;?&quot;)</p></div>
+          <pre><code class="language-javascript">function toQueryString(encode) {
+    var qs = ''
+        , params = this || {}
+        , encode = encode || encodeURIComponent;
+
+    __.eachKey.call(params, function(value, key) {
+        qs += key + '=' + encode(value) + '&amp;';
+    });
+    
+    return qs.slice(0, -1);
+}</code></pre>
+          <section id="fromQueryString">
+            <h1>fromQueryString</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>fromQueryString()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>The string to be converted</p></td>
+              </tr>
+              <tr>
+                <td>decode</td>
+                <td>Function</td>
+                <td><p>optional decode function, decodeURIComponent will be used if not supplied</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td><p>The resulting object hash</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Convert url style query string (without &quot;?&quot;) into object hash</p></div>
+          <pre><code class="language-javascript">function fromQueryString(decode) {
+    var pairs = this.split('&amp;')
+        , results = {}
+        , decode = decode || decodeURIComponent;
+
+    pairs.forEach(function(pair) {
+        var splitPair = pair.split('=');
+        if (splitPair.length &lt; 2) return;
+        var key = splitPair[0]
+            , value = decode(splitPair[1] || '');
+        if (!key) return;
+        results[key] = value;
+    });
+
+    return results;
+}</code></pre>
+          <section id="jsonParse">
+            <h1>jsonParse</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>jsonParse()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>JSON string representation of object</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Safe JSON.parse, returns undefined if JSON.parse throws an exception</p></div>
+          <pre><code class="language-javascript">function jsonParse() {
+    try {
+        return JSON.parse(this);
+    } catch (e) {}
+}</code></pre>
+          <section id="hashCode">
+            <h1>hashCode</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>hashCode()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td><p>string to convert to hash</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Number</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Dan Bernstein&#39;s algorythm to create hash from string</p></div>
+          <pre><code class="language-javascript">function hashCode() {
+    var hash = 5381
+        , str = this
+        , len = str.length;
+    for (var i = 0; i &lt; len; i++) {
+        var char = str.charCodeAt(i);
+        hash = ((hash &lt;&lt; 5) + hash) + char;</code></pre>
+          <div class="description"><p>hash * 33 + c</p></div>
+          <pre><code class="language-javascript">}
+return hash;
+}</code></pre>
+          <section id="unPrefix">
+            <h1>unPrefix</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>unPrefix()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>String</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Removes given prefix from the string. If string does not begin from the prefix, returns undefined</p></div>
+          <pre><code class="language-javascript">function unPrefix(str) {
+    if (this.indexOf(str) == 0)
+        return this.replace(str, '');
+}</code></pre>
+          <section id="formatRegexp">
+            <h1>formatRegexp</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>formatRegexp</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Regex used to identify format vars</p></div>
+          <pre><code class="language-javascript">var formatRegexp = /\$[0-9]+|\$\$/g;</code></pre>
+          <section id="format">
+            <h1>format</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>format()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>this</td>
+                <td>String</td>
+                <td><p>The string to be formatted</p></td>
+              </tr>
+              <tr>
+                <td>args</td>
+                <td>Array</td>
+                <td><p>The values to be formatted</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td><p>The formatted string</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>String formatting utility to swap out tokens for variables.</p></div>
+          <pre><code class="language-javascript">function format() { // , ... arguments
+    var str = this;
+    var args = arguments;
+    return str.replace(formatRegexp, function (item) {
+        if (item == '$$') return '$';
+        item = item.slice(1);
+        return args[item - 1];
+    });
+};</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

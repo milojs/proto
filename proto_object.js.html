@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li class="active"><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#objectMethods"><i class="alert alert-success"></i><span>objectMethods</span></a>
+              </li>
+              <li><a href="#constants"><i class="alert alert-success"></i><span>constants</span></a>
+              </li>
+              <li><a href="#findValue"><i class="alert alert-success"></i><span>findValue</span></a>
+              </li>
+              <li><a href="#findKey"><i class="alert alert-success"></i><span>findKey</span></a>
+              </li>
+              <li><a href="#extend"><i class="alert alert-info"></i><span>extend</span></a>
+              </li>
+              <li><a href="#clone"><i class="alert alert-info"></i><span>clone</span></a>
+              </li>
+              <li><a href="#defineProperty"><i class="alert alert-info"></i><span>defineProperty</span></a>
+              </li>
+              <li><a href="#defineProperties"><i class="alert alert-info"></i><span>defineProperties</span></a>
+              </li>
+              <li><a href="#deepExtend"><i class="alert alert-info"></i><span>deepExtend</span></a>
+              </li>
+              <li><a href="#deepClone"><i class="alert alert-info"></i><span>deepClone</span></a>
+              </li>
+              <li><a href="#keys"><i class="alert alert-info"></i><span>keys</span></a>
+              </li>
+              <li><a href="#values"><i class="alert alert-info"></i><span>values</span></a>
+              </li>
+              <li><a href="#allKeys"><i class="alert alert-info"></i><span>allKeys</span></a>
+              </li>
+              <li><a href="#keyOf"><i class="alert alert-info"></i><span>keyOf</span></a>
+              </li>
+              <li><a href="#allKeysOf"><i class="alert alert-info"></i><span>allKeysOf</span></a>
+              </li>
+              <li><a href="#eachKey"><i class="alert alert-info"></i><span>eachKey</span></a>
+              </li>
+              <li><a href="#mapKeys"><i class="alert alert-info"></i><span>mapKeys</span></a>
+              </li>
+              <li><a href="#reduceKeys"><i class="alert alert-info"></i><span>reduceKeys</span></a>
+              </li>
+              <li><a href="#filterKeys"><i class="alert alert-info"></i><span>filterKeys</span></a>
+              </li>
+              <li><a href="#someKey"><i class="alert alert-info"></i><span>someKey</span></a>
+              </li>
+              <li><a href="#everyKey"><i class="alert alert-info"></i><span>everyKey</span></a>
+              </li>
+              <li><a href="#pickKeys"><i class="alert alert-info"></i><span>pickKeys</span></a>
+              </li>
+              <li><a href="#omitKeys"><i class="alert alert-info"></i><span>omitKeys</span></a>
+              </li>
+              <li><a href="#isEqual"><i class="alert alert-info"></i><span>isEqual</span></a>
+              </li>
+              <li><a href="#isNot"><i class="alert alert-info"></i><span>isNot</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="objectMethods">
+            <h1>objectMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>objectMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><ul>
+<li><a href="#extend">extend</a></li>
+<li><a href="#clone">clone</a></li>
+<li><a href="#defineProperty">defineProperty</a></li>
+<li><a href="#defineProperties">defineProperties</a></li>
+<li><a href="#deepExtend">deepExtend</a></li>
+<li><a href="#deepClone">deepClone</a></li>
+<li><a href="#keys">keys</a></li>
+<li><a href="#allKeys">allKeys</a></li>
+<li><a href="#values">values</a></li>
+<li><a href="#keyOf">keyOf</a></li>
+<li><a href="#allKeysOf">allKeysOf</a></li>
+<li><a href="#eachKey">eachKey</a></li>
+<li><a href="#mapKeys">mapKeys</a></li>
+<li><a href="#reduceKeys">reduceKeys</a></li>
+<li><a href="#filterKeys">filterKeys</a></li>
+<li><a href="#someKey">someKey</a></li>
+<li><a href="#everyKey">everyKey</a></li>
+<li><a href="#findValue">findValue</a></li>
+<li><a href="#findKey">findKey</a></li>
+<li><a href="#pickKeys">pickKeys</a></li>
+<li><a href="#omitKeys">omitKeys</a></li>
+<li><a href="#isEqual">isEqual</a></li>
+<li><a href="#isNot">isNot</a></li>
+</ul>
+<p>All these methods can be <a href="proto.js.html#Proto">chained</a></p></div>
+          <pre><code class="language-javascript">var objectMethods = module.exports = {
+    extend: extend,
+    clone: clone,
+    defineProperty: defineProperty,
+    defineProperties: defineProperties,
+    deepExtend: deepExtend,
+    deepClone: deepClone,
+    keys: keys,
+    allKeys: allKeys,
+    values: values,
+    keyOf: keyOf,
+    allKeysOf: allKeysOf,
+    eachKey: eachKey,
+    mapKeys: mapKeys,
+    reduceKeys: reduceKeys,
+    filterKeys: filterKeys,
+    someKey: someKey,
+    everyKey: everyKey,
+    pickKeys: pickKeys,
+    omitKeys: omitKeys,
+    isEqual: isEqual,
+    isNot: isNot
+};</code></pre>
+          <section id="constants">
+            <h1>constants</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>constants</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>####Property descriptor constants####<br />The sum of these constants can be used as last parameter of defineProperty and defineProperties to determine types of properties.</p></div>
+          <pre><code class="language-javascript">var constants = {
+    ENUMERABLE: 1,
+    ENUM: 1,
+    CONFIGURABLE: 2,
+    CONF: 2,
+    WRITABLE: 4,
+    WRIT: 4
+};
+
+defineProperty.call(objectMethods, '_constants', constants);</code></pre>
+          <section id="findValue">
+            <h1>findValue</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>objectMethods.findValue</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>object to search in</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>should return <code>true</code> for item to pass the test, passed <code>value</code>, <code>key</code> and <code>self</code> as parameters</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>optional context (<code>this</code>) of callback call</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Any</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Analogue of ES6 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">Array <strong>find</strong> method</a>.<br />Returns the value of object property that passes callback test.</p></div>
+          <pre><code class="language-javascript">objectMethods.findValue = utils.makeFindMethod(someKey, 'value');</code></pre>
+          <section id="findKey">
+            <h1>findKey</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>&nbsp;</span><span>objectMethods.findKey</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>object to search in</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>should return <code>true</code> for item to pass the test, passed <code>value</code>, <code>key</code> and <code>self</code> as parameters</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>optional context (<code>this</code>) of callback call</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Integer</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Analogue of ES6 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">Array <strong>findIndex</strong> method</a>.<br />Returns the key of object property that passes callback test. Returns <code>undefined</code> if not found (unlike <code>findIndex</code>, that returns -1 in this case).</p></div>
+          <pre><code class="language-javascript">objectMethods.findKey = utils.makeFindMethod(someKey, 'key');</code></pre>
+          <section id="extend">
+            <h1>extend</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>extend()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to be extended</p></td>
+              </tr>
+              <tr>
+                <td>obj</td>
+                <td>Object</td>
+                <td><p>An object which properties will be copied to self</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>Optional flag to prevent copying non-enumerable properties, <code>false</code> by default</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Extends object <code>self</code> with the properties of the object <code>obj</code> copying all own properties (not those inherited via prototype chain), including non-enumerable properties (unless <code>onlyEnumerable</code> is truthy).<br />Created properties will have the same descriptors as the propertis of <code>obj</code>.<br />Returns <code>self</code> to allow chaining with other functions.<br />Can be used with functions, to copy class methods, e.g.</p></div>
+          <pre><code class="language-javascript">function extend(obj, onlyEnumerable) {
+    var descriptors = {};
+
+    eachKey.call(obj, function(value, prop) {
+        descriptors[prop] = Object.getOwnPropertyDescriptor(obj, prop);
+    }, this, onlyEnumerable);
+
+    Object.defineProperties(this, descriptors);
+
+    return this;
+}</code></pre>
+          <section id="clone">
+            <h1>clone</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>clone()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to be cloned</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Makes a shallow clone of object <code>obj</code> creating an instance of the same class; the properties will have the same descriptors.<br />To clone an array use</p><pre><code>var clonedArray = [].concat(arr);
+</code></pre><p>This function should not be used to clone an array, because it is inefficient.</p></div>
+          <pre><code class="language-javascript">function clone() {
+    if (Array.isArray(this)) return this.slice();
+    if (this instanceof Date) return new Date(this);
+    if (this instanceof RegExp) return new RegExp(this);
+    var clonedObject = Object.create(this.constructor.prototype);
+    extend.call(clonedObject, this);
+    return clonedObject;
+}</code></pre>
+          <section id="defineProperty">
+            <h1>defineProperty</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>defineProperty()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to add a property to</p></td>
+              </tr>
+              <tr>
+                <td>propertyName</td>
+                <td>String</td>
+                <td><p>the name of the property that will be added</p></td>
+              </tr>
+              <tr>
+                <td>value</td>
+                <td>Any</td>
+                <td><p>the value of added property</p></td>
+              </tr>
+              <tr>
+                <td>decriptorFlags</td>
+                <td>Integer</td>
+                <td><p>bit mask of property descriptor properties composed from <code>_.ENUMERABLE</code> (or <code>_.ENUM</code>), <code>_.CONFIGURABLE</code> (or <code>_.CONF</code>) and <code>_.WRITABLE</code> (or <code>_.WRIT</code>)</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Syntax sugar to shorten usage of <code>Object.defineProperty</code>.<br />The simplest usage (to add non-enumerable, non-configurable, non-writable property):</p><pre><code>_.defineProperty(obj, &#39;key&#39;, value);
+</code></pre><p>To define some other properties use sum of the flags <code>_.ENUMERABLE</code> (or <code>_.ENUM</code>), <code>_.CONFIGURABLE</code> (or <code>_.CONF</code>) and <code>_.WRITABLE</code> (or <code>_.WRIT</code>):</p><pre><code>_.defineProperty(obj, &#39;key&#39;, value, _.ENUM + _.WRIT);
+</code></pre><p>Returns <code>self</code>.</p></div>
+          <pre><code class="language-javascript">function defineProperty(propertyName, value, decriptorFlags) {
+    Object.defineProperty(this, propertyName,
+        _getDescriptor(value, decriptorFlags));
+    return this;
+}
+
+
+function _getDescriptor(value, decriptorFlags) {
+    var descriptor = { value: value };
+    if (decriptorFlags)
+        extend.call(descriptor, {
+            enumerable: !! (decriptorFlags &amp; constants.ENUMERABLE),
+            configurable: !! (decriptorFlags &amp; constants.CONFIGURABLE),
+            writable: !! (decriptorFlags &amp; constants.WRITABLE)
+        });
+
+    return descriptor;
+}</code></pre>
+          <section id="defineProperties">
+            <h1>defineProperties</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>defineProperties()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to add a property to</p></td>
+              </tr>
+              <tr>
+                <td>propertyValues</td>
+                <td>Object</td>
+                <td><p>A map of keys and values of properties thatwill be added. The descriptors of properties will be defined by the following parameters.</p></td>
+              </tr>
+              <tr>
+                <td>decriptorFlags</td>
+                <td>Integer</td>
+                <td><p>bit mask of property descriptor properties composed from <code>_.ENUMERABLE</code> (or <code>_.ENUM</code>), <code>_.CONFIGURABLE</code> (or <code>_.CONF</code>) and <code>_.WRITABLE</code> (or <code>_.WRIT</code>)</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Syntax sugar to shorten usage of <code>Object.defineProperties</code>.<br />The simplest usage (to add non-enumerable, non-configurable, non-writable properties):</p><pre><code>_.defineProperties(obj, {
+    key1: value1,
+    key2: value2
+});
+</code></pre><p>To define some other properties use sum of the flags <code>_.ENUMERABLE</code> (or <code>_.ENUM</code>), <code>_.CONFIGURABLE</code> (or <code>_.CONF</code>) and <code>_.WRITABLE</code> (or <code>_.WRIT</code>):</p><pre><code>_.defineProperties(obj, {
+    key1: value1,
+    key2: value2
+}, _.ENUM + _.WRIT);
+</code></pre><p>Returns <code>self</code>.</p></div>
+          <pre><code class="language-javascript">function defineProperties(propertyValues, decriptorFlags) {
+    var descriptors = mapKeys.call(propertyValues, function(value) {
+        return _getDescriptor(value, decriptorFlags);
+    }, true);
+    Object.defineProperties(this, descriptors);
+    return this;
+}</code></pre>
+          <section id="deepExtend">
+            <h1>deepExtend</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>deepExtend()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to be extended</p></td>
+              </tr>
+              <tr>
+                <td>obj</td>
+                <td>Object</td>
+                <td><p>An object with properties to copy to</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>Optional <code>true</code> to use only enumerable properties</p></td>
+              </tr>
+              <tr>
+                <td>preserveStructure</td>
+                <td>Boolean</td>
+                <td><p>if true will throw at the attempt to overwrite object with scalar value (including Date and Regex) and vice versa</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Extends object <code>self</code> with properties of <code>obj</code> to any depth, without overwrtiting existing object properties of <code>self</code> with object properties of <code>obj</code>.<br />Scalar properties of <code>obj</code> will overwrite properties of <code>self</code>. Scalar porperties of <code>self</code> will also be overwritten.<br />Correctly works with recursive objects.<br />Usage:</p><pre><code>var obj = {
+    inner: {
+        a: 1
+    }
+};
+
+_.deepExtend(obj, {
+    inner: {
+        b: 2
+    }
+});
+
+assert.deepEqual(obj, {
+    inner: {
+        a: 1,
+        b: 2
+    }
+}); // assert passes
+</code></pre><p>Returns <code>self</code>.</p></div>
+          <pre><code class="language-javascript">function deepExtend(obj, onlyEnumerable, preserveStructure) {
+    return _extendTree(this, obj, onlyEnumerable, preserveStructure, []);
+}
+
+
+function _extendTree(selfNode, objNode, onlyEnumerable, preserveStructure, objTraversed) {
+    if (objTraversed.indexOf(objNode) &gt;= 0) return; // node already traversed, obj has recursion
+
+    // store node to recognise recursion
+    objTraversed.push(objNode);
+
+    var loop = Array.isArray(objNode) ? Array.prototype.forEach : eachKey;
+
+    loop.call(objNode, function(value, prop) {
+        var hasProp = selfNode.hasOwnProperty(prop)
+            , isSelfObj = isNormalObject(selfNode[prop])
+            , isValueObj = isNormalObject(value);
+
+        if (preserveStructure &amp;&amp; hasProp &amp;&amp; isSelfObj != isValueObj)
+            throw new Error('deepExtend');
+
+        if (isValueObj) {
+            if (!hasProp || !isSelfObj)
+                selfNode[prop] = (Array.isArray(value)) ? [] : {};
+
+            _extendTree(selfNode[prop], value, onlyEnumerable, preserveStructure, objTraversed);
+        } else {
+            var descriptor = Object.getOwnPropertyDescriptor(objNode, prop);
+            Object.defineProperty(selfNode, prop, descriptor);
+        }
+    }, this, onlyEnumerable);
+
+    return selfNode;
+}
+
+
+function isNormalObject(value) {
+    return typeof value == 'object' &amp;&amp; value != null
+            &amp;&amp; !(value instanceof RegExp) &amp;&amp; !(value instanceof Date)
+}</code></pre>
+          <section id="deepClone">
+            <h1>deepClone</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>deepClone()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to be extended</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>Optional <code>true</code> to use only enumerable properties</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Clones all object tree. Class of original object is not preserved. Returns <code>self</code></p></div>
+          <pre><code class="language-javascript">function deepClone(onlyEnumerable) {
+    if (this instanceof Date) return new Date(this);
+    if (this instanceof RegExp) return new RegExp(this);
+    var clonedObject = Array.isArray(this) ? [] : {};
+    deepExtend.call(clonedObject, this, onlyEnumerable);
+    return clonedObject;
+}</code></pre>
+          <section id="keys">
+            <h1>keys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>keys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>object to return keys of</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns array of enumerable properties of the object</p></div>
+          <pre><code class="language-javascript">function keys() {
+    return Object.keys(this);
+}</code></pre>
+          <section id="values">
+            <h1>values</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>values()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>object to return values from</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns array of values of the object&#39;s keys</p></div>
+          <pre><code class="language-javascript">function values(onlyEnumerable) {
+    var properties = onlyEnumerable
+                ? Object.keys(this)
+                : allKeys.call(this);
+
+    return properties.map(function(prop) {
+        return this[prop];
+    }, this);
+}</code></pre>
+          <section id="allKeys">
+            <h1>allKeys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>allKeys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to get all properties of.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns array of all property names of an object <code>self</code> (including non-enumerbale).<br />To get only enumerable properties, use <code>Object.keys()</code>.</p></div>
+          <pre><code class="language-javascript">function allKeys() {
+   return Object.getOwnPropertyNames(this);
+}</code></pre>
+          <section id="keyOf">
+            <h1>keyOf</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>keyOf()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to search a value in</p></td>
+              </tr>
+              <tr>
+                <td>searchElement</td>
+                <td>Any</td>
+                <td><p>An element that will be searched. An exact equality is tested, so <code>0</code> is not the same as <code>&#39;0&#39;</code>.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional true to search among enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>String</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <code>indexOf</code> method of Array prototype.<br />Returns the <code>key</code> of <code>searchElement</code> in the object <code>self</code>.<br />As object keys are unsorted, if there are several keys that hold <code>searchElement</code> any of them can be returned. Use <code>allKeysOf</code> to return all keys.<br />All own properties are searched (not those inherited via prototype chain), including non-enumerable properties (unless <code>onlyEnumerable</code> is truthy).</p></div>
+          <pre><code class="language-javascript">function keyOf(searchElement, onlyEnumerable) {
+    var properties = onlyEnumerable
+                        ? Object.keys(this)
+                        : allKeys.call(this);
+
+    for (var i = 0; i &lt; properties.length; i++)
+        if (searchElement === this[properties[i]])
+            return properties[i];
+
+    return undefined;
+}</code></pre>
+          <section id="allKeysOf">
+            <h1>allKeysOf</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>allKeysOf()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object to search a value in</p></td>
+              </tr>
+              <tr>
+                <td>searchElement</td>
+                <td>Any</td>
+                <td><p>An element that will be searched. An exact equality is tested, so <code>0</code> is not the same as <code>&#39;0&#39;</code>.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional true to search among enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Array.&lt;String&gt;</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Works similarly to the previous function, but returns the array of keys holding <code>searchElement</code> as their value.</p></div>
+          <pre><code class="language-javascript">function allKeysOf(searchElement, onlyEnumerable) {
+    var properties = onlyEnumerable
+                        ? Object.keys(this)
+                        : allKeys.call(this);
+
+    var keys = properties.filter(function(prop) {
+        return searchElement === this[prop];
+    }, this);
+
+    return keys;
+}</code></pre>
+          <section id="eachKey">
+            <h1>eachKey</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>eachKey()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object which properties will be iterated</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>value</code>, <code>key</code> and <code>self</code>, its return value is not used.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">forEach</a> method of Array prototype.<br />Iterates all own properties of <code>self</code> (or only enumerable own properties if <code>onlyEnumerable</code> is truthy) calling callback for each key.<br />This method should not be used with arrays, it will include <code>length</code> property in iteration.<br />To iterate array-like objects (e.g., <code>arguments</code> pseudo-array) use:</p><pre><code>_.forEach(arguments, callback, thisArg);
+</code></pre><p>Function returns <code>self</code> to allow <a href="proto.js.html">chaining</a></p></div>
+          <pre><code class="language-javascript">function eachKey(callback, thisArg, onlyEnumerable) {
+    var properties = onlyEnumerable
+                        ? Object.keys(this)
+                        : allKeys.call(this);
+
+    properties.forEach(function(prop) {
+        callback.call(thisArg, this[prop], prop, this);
+    }, this);
+
+    return this;
+}</code></pre>
+          <section id="mapKeys">
+            <h1>mapKeys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>mapKeys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object which properties will be iterated</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>value</code>, <code>key</code> and <code>self</code> and should return value that will be included in the map.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">map</a> method of Array prototype.<br />Returns the object that is the result of the application of callback to values in all own properties of <code>self</code> (or only enumerable own properties if <code>onlyEnumerable</code> is truthy).<br />The returned object will be the instance of the same class as <code>self</code>.<br />Property descriptors of the returned object will have the same <code>enumerable</code>, <code>configurable</code> and <code>writable</code> settings as the properties of <code>self</code>.<br />This method should not be used with arrays, it will include <code>length</code> property in iteration.<br />To map array-like objects use:</p><pre><code>var result = _.map(arguments, callback, thisArg);
+</code></pre></div>
+          <pre><code class="language-javascript">function mapKeys(callback, thisArg, onlyEnumerable) {
+    var descriptors = {};
+    eachKey.call(this, mapProperty, thisArg, onlyEnumerable);
+    return Object.create(this.constructor.prototype, descriptors);
+
+    function mapProperty(value, key, self) {
+        descriptors[key] = Object.getOwnPropertyDescriptor(self, key);
+        descriptors[key].value = callback.call(this, value, key, self);
+    }
+}</code></pre>
+          <section id="reduceKeys">
+            <h1>reduceKeys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>reduceKeys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object which properties will be iterated</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>previousValue</code>, <code>value</code>, <code>key</code> and <code>self</code> and should return value that will be used as the <code>previousValue</code> for the next <code>callback</code> call.</p></td>
+              </tr>
+              <tr>
+                <td>initialValue</td>
+                <td>Any</td>
+                <td><p>The initial value passed to callback as the first parameter on the first call.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Any</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">reduce</a> method of Array prototype.<br />This method reduces the object to a single value. Iteration order is impossible to control with object.<br />This method should not be used with arrays, it will include <code>length</code> property in iteration.<br />To reduce array-like objects use:</p><pre><code>var result = _.reduce(arguments, callback, initialValue, thisArg);
+</code></pre></div>
+          <pre><code class="language-javascript">function reduceKeys(callback, initialValue, thisArg, onlyEnumerable) {
+    var properties = onlyEnumerable
+                        ? Object.keys(this)
+                        : allKeys.call(this);
+
+    var memo = initialValue;
+
+    properties.forEach(function(prop) {
+        memo = callback.call(thisArg, memo, this[prop], prop, this);
+    }, this);
+
+    return memo;
+}</code></pre>
+          <section id="filterKeys">
+            <h1>filterKeys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>filterKeys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object which properties will be iterated</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>value</code>, <code>key</code> and <code>self</code>. If it returns truthy value, the key/value will be included in the resulting object.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">filter</a> method of Array prototype.<br />Returns the new object with keys for which callback returns true.<br />Property descriptors of the returned object will have the same <code>enumerable</code>, <code>configurable</code> and <code>writable</code> settings as the properties of <code>self</code>.<br />To filter array-like objects use:</p><pre><code>var result = _.filter(arguments, callback, thisArg);
+</code></pre></div>
+          <pre><code class="language-javascript">function filterKeys(callback, thisArg, onlyEnumerable) {
+    var descriptors = {};
+    eachKey.call(this, filterProperty, thisArg, onlyEnumerable);
+    return Object.create(this.constructor.prototype, descriptors);;
+
+    function filterProperty(value, key, self) {
+        if (callback.call(this, value, key, self))
+            descriptors[key] = Object.getOwnPropertyDescriptor(self, key);
+    }
+}
+
+
+var _passed = {}
+    , _didNotPass = {};</code></pre>
+          <section id="someKey">
+            <h1>someKey</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>someKey()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object which properties will be iterated</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>value</code>, <code>key</code> and <code>self</code>. If it returns truthy value, the function immeaditely returns <code>true</code>.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Boolean</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a> method of Array prototype.</p></div>
+          <pre><code class="language-javascript">function someKey(callback, thisArg, onlyEnumerable) {
+    try {
+        eachKey.call(this, testProperty, thisArg, onlyEnumerable);
+    } catch (test) {
+        if (test === _passed) return true;
+        else throw test;
+    }
+    return false;
+
+    function testProperty(value, key, self) {
+        if (callback.call(this, value, key, self))
+            throw _passed;
+    }
+}</code></pre>
+          <section id="everyKey">
+            <h1>everyKey</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>everyKey()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>An object which properties will be iterated</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>Callback is passed <code>value</code>, <code>key</code> and <code>self</code>. If it returns falsy value, the function immeaditely returns <code>false</code>.</p></td>
+              </tr>
+              <tr>
+                <td>thisArg</td>
+                <td>Object</td>
+                <td><p>An optional context of iteration (the valueof <code>this</code>), will be undefined if this parameter is not passed.</p></td>
+              </tr>
+              <tr>
+                <td>onlyEnumerable</td>
+                <td>Boolean</td>
+                <td><p>An optional <code>true</code> to iterate enumerable properties only.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Boolean</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>An analogue of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a> method of Array prototype.</p></div>
+          <pre><code class="language-javascript">function everyKey(callback, thisArg, onlyEnumerable) {
+    try {
+        eachKey.call(this, testProperty, thisArg, onlyEnumerable);
+    } catch (test) {
+        if (test === _didNotPass) return false;
+        else throw test;
+    }
+    return true;
+
+    function testProperty(value, key, self) {
+        if (! callback.call(this, value, key, self))
+            throw _didNotPass;
+    }
+}
+
+
+var ArrayProto = Array.prototype
+    , concat = ArrayProto.concat;</code></pre>
+          <section id="pickKeys">
+            <h1>pickKeys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>pickKeys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>an object to pick keys from</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List.&lt;String|Array&gt;</td>
+                <td><p>list of keys (or array(s) of keys)</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns object of the same class with only specified keys, that are passed as string parameters or array(s) of keys.</p></div>
+          <pre><code class="language-javascript">function pickKeys() { // , ... keys
+    var keys = concat.apply(ArrayProto, arguments)
+        , obj = Object.create(this.constructor.prototype);
+    keys.forEach(function(key) {
+        if (this.hasOwnProperty(key))
+            obj[key] = this[key];
+    }, this);
+    return obj;
+}</code></pre>
+          <section id="omitKeys">
+            <h1>omitKeys</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>omitKeys()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>an object to omit keys in</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List.&lt;String|Array&gt;</td>
+                <td><p>list of keys (or array(s) of keys)</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Object</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns object of the same class without specified keys, that are passed as string parameters or array(s) of keys.</p></div>
+          <pre><code class="language-javascript">function omitKeys() { // , ... keys
+    var keys = concat.apply(ArrayProto, arguments)
+        , obj = clone.call(this);
+    keys.forEach(function(key){
+        delete obj[key];
+    }, this);
+    return obj;
+}</code></pre>
+          <section id="isEqual">
+            <h1>isEqual</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>isEqual()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Any</td>
+                <td><p>object to compare</p></td>
+              </tr>
+              <tr>
+                <td>obj</td>
+                <td>Any</td>
+                <td><p>object to compare</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Boolean</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Performs deep equality test of the object. Does not work with recursive objects</p></div>
+          <pre><code class="language-javascript">function isEqual(obj) {
+    if (this === obj) return this !== 0 || 1/this == 1/obj; // 0 and -0 are considered not equal, although 0 === -0 is true
+    if (this == null || obj == null) return false;
+    var className = this.constructor.name;
+    if (className != obj.constructor.name) return false;
+    switch (className) {
+        case 'String':
+            return this == String(obj);
+        case 'Number':
+            return this != +this ? obj != +obj : (this == 0 ? 1/this == 1/obj : this == +obj);
+        case 'Date':
+        case 'Boolean':
+            return +this == +obj;
+        case 'RegExp':
+            return this.source == obj.source
+                    &amp;&amp; this.global == obj.global
+                    &amp;&amp; this.multiline == obj.multiline
+                    &amp;&amp; this.ignoreCase == obj.ignoreCase;
+    }
+    if (typeof this != 'object' || typeof obj != 'object') return false;
+
+    if (Array.isArray(this))
+        return this.length == obj.length
+                &amp;&amp; this.every(function(item, index) {
+                    return isEqual.call(item, obj[index]);
+                });
+    else {
+        return allKeys.call(this).length == allKeys.call(obj).length
+                &amp;&amp; everyKey.call(this, function(value, key) {
+                    return isEqual.call(value, obj[key]);
+                });
+    }
+}</code></pre>
+          <section id="isNot">
+            <h1>isNot</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>isNot()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Any</td>
+                <td><p>object to compare</p></td>
+              </tr>
+              <tr>
+                <td>obj</td>
+                <td>Any</td>
+                <td><p>object to compare</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Boolean</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>The opposite of isEqual</p></div>
+          <pre><code class="language-javascript">function isNot(obj) {
+    return !isEqual.call(this, obj);
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>

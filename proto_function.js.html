@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>proto</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/cayman.min.css">
+    <link rel="stylesheet" href="css/prism.min.css">
+    <link rel="stylesheet" href="css/index.min.css">
+    <link rel="stylesheet" href="css/docs.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Mr. Doc</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>proto</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="index.html">Main</a></li>
+            <li><a href="proto.js.html">proto.js</a></li>
+            <li><a href="proto_array.js.html">proto_array.js</a></li>
+            <li class="active"><a href="proto_function.js.html">proto_function.js</a></li>
+            <li><a href="proto_number.js.html">proto_number.js</a></li>
+            <li><a href="proto_object.js.html">proto_object.js</a></li>
+            <li><a href="proto_prototype.js.html">proto_prototype.js</a></li>
+            <li><a href="proto_string.js.html">proto_string.js</a></li>
+            <li><a href="proto_util.js.html">proto_util.js</a></li>
+            <li><a href="utils.js.html">utils.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#functionMethods"><i class="alert alert-success"></i><span>functionMethods</span></a>
+              </li>
+              <li><a href="#makeFunction"><i class="alert alert-info"></i><span>makeFunction</span></a>
+              </li>
+              <li><a href="#partial"><i class="alert alert-info"></i><span>partial</span></a>
+              </li>
+              <li><a href="#partialRight"><i class="alert alert-info"></i><span>partialRight</span></a>
+              </li>
+              <li><a href="#memoize"><i class="alert alert-info"></i><span>memoize</span></a>
+              </li>
+              <li><a href="#delay"><i class="alert alert-info"></i><span>delay</span></a>
+              </li>
+              <li><a href="#defer"><i class="alert alert-info"></i><span>defer</span></a>
+              </li>
+              <li><a href="#deferFunc"><i class="alert alert-success"></i><span>deferFunc</span></a>
+              </li>
+              <li><a href="#deferTicks"><i class="alert alert-info"></i><span>deferTicks</span></a>
+              </li>
+              <li><a href="#delayMethod"><i class="alert alert-info"></i><span>delayMethod</span></a>
+              </li>
+              <li><a href="#deferMethod"><i class="alert alert-info"></i><span>deferMethod</span></a>
+              </li>
+              <li><a href="#delayed"><i class="alert alert-info"></i><span>delayed</span></a>
+              </li>
+              <li><a href="#deferred"><i class="alert alert-info"></i><span>deferred</span></a>
+              </li>
+              <li><a href="#debounce"><i class="alert alert-info"></i><span>debounce</span></a>
+              </li>
+              <li><a href="#throttle"><i class="alert alert-info"></i><span>throttle</span></a>
+              </li>
+              <li><a href="#once"><i class="alert alert-info"></i><span>once</span></a>
+              </li>
+              <li><a href="#waitFor"><i class="alert alert-info"></i><span>waitFor</span></a>
+              </li>
+              <li><a href="#not"><i class="alert alert-info"></i><span>not</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <section id="functionMethods">
+            <h1>functionMethods</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>functionMethods</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><ul>
+<li><a href="#makeFunction">makeFunction</a></li>
+<li><a href="#partial">partial</a></li>
+<li><a href="#partialRight">partialRight</a></li>
+<li><a href="#memoize">memoize</a></li>
+<li><a href="#delay">delay</a></li>
+<li><a href="#defer">defer</a></li>
+<li><a href="#delayed">delayed</a></li>
+<li><a href="#deferred">deferred</a></li>
+<li><a href="#deferTicks">deferTicks</a></li>
+<li><a href="#delayMethod">delayMethod</a></li>
+<li><a href="#deferMethod">deferMethod</a></li>
+<li><a href="#debounce">debounce</a></li>
+<li><a href="#throttle">throttle</a></li>
+<li><a href="#once">once</a></li>
+<li><a href="#waitFor">waitFor</a></li>
+<li><a href="#not">not</a></li>
+</ul>
+<p>These methods can be <a href="proto.js.html#Proto">chained</a></p></div>
+          <pre><code class="language-javascript">var functionMethods = module.exports = {
+    makeFunction: makeFunction,
+    partial: partial,
+    partialRight: partialRight,
+    memoize: memoize,
+    delay: delay,
+    defer: defer,
+    delayed: delayed,
+    deferred: deferred,
+    deferTicks: deferTicks,
+    delayMethod: delayMethod,
+    deferMethod: deferMethod,
+    debounce: debounce,
+    throttle: throttle,
+    once: once,
+    waitFor: waitFor,
+    not: not
+};
+
+
+var slice = Array.prototype.slice;</code></pre>
+          <section id="makeFunction">
+            <h1>makeFunction</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>makeFunction()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>name</td>
+                <td>String</td>
+                <td><p>new function name</p></td>
+              </tr>
+              <tr>
+                <td>arg1,</td>
+                <td>String</td>
+                <td><p>arg2, ... the names of function parameters</p></td>
+              </tr>
+              <tr>
+                <td>funcBody</td>
+                <td>String</td>
+                <td><p>function body</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Similarly to Function constructor creates a function from code.<br />Unlike Function constructor, the first argument is a function name</p></div>
+          <pre><code class="language-javascript">function makeFunction(arg1, arg2, funcBody) {
+    var name = this
+        , count = arguments.length - 1
+        , funcBody = arguments[count]
+        , func
+        , code = '';
+    for (var i = 0; i &lt; count; i++)
+        code += ', ' + arguments[i];
+    code = ['func = function ', name, '(', code.slice(2), ') {\n'
+                , funcBody, '\n}'].join('');
+    eval(code);
+    return func;
+}</code></pre>
+          <section id="partial">
+            <h1>partial</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>partial()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>Function to be applied</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>Arguments after self will be prepended to the original function call when the partial function is called.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a function as a result of partial function application with the passed parameters.</p></div>
+          <pre><code class="language-javascript">function partial() { // , ... arguments
+    var func = this;
+    var args = slice.call(arguments);
+    return function() {
+        return func.apply(this, args.concat(slice.call(arguments)));
+    };
+}</code></pre>
+          <section id="partialRight">
+            <h1>partialRight</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>partialRight()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>Function to be applied</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>Arguments after self will be appended on the right to the original function call when the partial function is called.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a function as a result of partial function application with the passed parameters, but parameters are appended on the right.</p></div>
+          <pre><code class="language-javascript">function partialRight() { // , ... arguments
+    var func = this;
+    var args = slice.call(arguments);
+    return function() {
+        return func.apply(this, slice.call(arguments).concat(args));
+    };
+}</code></pre>
+          <section id="memoize">
+            <h1>memoize</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>memoize()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function to be memoized</p></td>
+              </tr>
+              <tr>
+                <td>hashFunc</td>
+                <td>Function</td>
+                <td><p>optional hash function that is passed all function arguments and should return cache key.</p></td>
+              </tr>
+              <tr>
+                <td>limit</td>
+                <td>Integer</td>
+                <td><p>optional maximum number of results to be stored in the cache. 1000 by default.</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td><p>memoized function</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a memoized version of the function using supplied hash function as key. If the hash is not supplied, uses its first parameter as the hash.</p></div>
+          <pre><code class="language-javascript">function memoize(hashFunc, limit) {
+    var func = this;
+    var cache = {}, keysList = [];
+    limit = limit || 1000;
+
+    return function() {
+        var key = hashFunc ? hashFunc.apply(this, arguments) : arguments[0];
+        if (cache.hasOwnProperty(key))
+            return cache[key];
+
+        var result = cache[key] = func.apply(this, arguments);
+        keysList.push(key);
+
+        if (keysList.length &gt; limit)
+            delete cache[keysList.shift()];
+
+        return result;
+    };
+}</code></pre>
+          <section id="delay">
+            <h1>delay</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>delay()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function that execution has to be delayed</p></td>
+              </tr>
+              <tr>
+                <td>wait</td>
+                <td>Number</td>
+                <td><p>approximate dalay time in milliseconds</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>optional arguments that will be passed to the function</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Delays function execution by a given time in milliseconds.<br />The context in function when it is executed is set to <code>null</code>.</p></div>
+          <pre><code class="language-javascript">function delay(wait) { // , arguments
+    var args = slice.call(arguments, 1);
+    return _delay(this, wait, args);
+}</code></pre>
+          <section id="defer">
+            <h1>defer</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>defer()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function that execution has to be delayed</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>optional arguments that will be passed to the function</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Defers function execution (executes as soon as execution loop becomes free)<br />The context in function when it is executed is set to <code>null</code>.</p></div>
+          <pre><code class="language-javascript">function defer() { // , arguments
+    return _delay(this, 1, arguments);
+}
+
+function _delay(func, wait, args, context) {
+    return setTimeout(func.apply.bind(func, context || null, args), wait);
+}</code></pre>
+          <section id="deferFunc">
+            <h1>deferFunc</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>&nbsp;</span><span>deferFunc</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Same as _.defer, takes first argument as the function to be deferred</p></div>
+          <pre><code class="language-javascript">var deferFunc = makeProtoFunction(defer);</code></pre>
+          <section id="deferTicks">
+            <h1>deferTicks</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>deferTicks()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function that execution has to be delayed</p></td>
+              </tr>
+              <tr>
+                <td>ticks</td>
+                <td>Integer</td>
+                <td><p>number of times to defer execution</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>optional arguments that will be passed to the function</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Defers function execution for <code>times</code> ticks (executes after execution loop becomes free <code>times</code> times)<br />The context in function when it is executed is set to <code>null</code>.</p></div>
+          <pre><code class="language-javascript">function deferTicks(ticks) { // , arguments
+    if (ticks &lt; 2) return defer.apply(this, arguments);
+    var args = repeat.call(deferFunc, ticks - 1);
+    args = args.concat(this, slice.call(arguments, 1)); 
+    return deferFunc.apply(null, args);
+}</code></pre>
+          <section id="delayMethod">
+            <h1>delayMethod</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>delayMethod()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>object to delay method call of</p></td>
+              </tr>
+              <tr>
+                <td>funcOrMethodName</td>
+                <td>Function, String</td>
+                <td><p>function or name of method</p></td>
+              </tr>
+              <tr>
+                <td>wait</td>
+                <td>Number</td>
+                <td><p>approximate dalay time in milliseconds</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>arguments to pass to method</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Works like <em>.delay but allows to defer method call of <code>self</code> which will be the first </em>.delayMethod parameter</p></div>
+          <pre><code class="language-javascript">function delayMethod(funcOrMethodName, wait) { // , ... arguments
+    var args = slice.call(arguments, 2);
+    return _delayMethod(this, funcOrMethodName, wait, args);
+}</code></pre>
+          <section id="deferMethod">
+            <h1>deferMethod</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>deferMethod()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Object</td>
+                <td><p>object to defer method call of</p></td>
+              </tr>
+              <tr>
+                <td>funcOrMethodName</td>
+                <td>Function, String</td>
+                <td><p>function or name of method</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>arguments to pass to method</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Works like <em>.defer but allows to defer method call of <code>self</code> which will be the first </em>.deferMethod parameter</p></div>
+          <pre><code class="language-javascript">function deferMethod(funcOrMethodName) { // , ... arguments
+    var args = slice.call(arguments, 1);
+    return _delayMethod(this, funcOrMethodName, 1, args);
+}
+
+function _delayMethod(object, funcOrMethodName, wait, args) {
+    return setTimeout(function() {
+        var func = typeof funcOrMethodName == 'string'
+                    ? object[funcOrMethodName]
+                    : funcOrMethodName;
+        func.apply(object, args);
+    }, wait);
+}</code></pre>
+          <section id="delayed">
+            <h1>delayed</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>delayed()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function which execution has to be deferred</p></td>
+              </tr>
+              <tr>
+                <td>wait</td>
+                <td>Number</td>
+                <td><p>approximate dalay time in milliseconds</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>optional arguments that will be passed to the function</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns function that will execute the original function <code>wait</code> ms after it has been called<br />The context in function when it is executed is set to <code>null</code>.<br />Arguments passed to the function are appended to the arguments passed to delayed.</p></div>
+          <pre><code class="language-javascript">function delayed(wait) { //, ... arguments
+    var func = this
+        , args = slice.call(arguments, 1);
+    return function() { // ... arguments
+        var passArgs = args.concat(slice.call(arguments));
+        return _delay(func, wait, passArgs, this);
+    };
+}</code></pre>
+          <section id="deferred">
+            <h1>deferred</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>deferred()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function which execution has to be deferred</p></td>
+              </tr>
+              <tr>
+                <td>arguments</td>
+                <td>List</td>
+                <td><p>optional arguments that will be passed to the function</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns function that will execute the original function on the next tick once it has been called<br />The context in function when it is executed is set to <code>null</code>.<br />Arguments passed to the function are appended to the arguments passed to deferred.</p></div>
+          <pre><code class="language-javascript">function deferred() { //, ... arguments
+    var func = this
+        , args = slice.call(arguments);
+    return function() { // ... arguments
+        var passArgs = args.concat(slice.call(arguments));
+        return _delay(func, 1, passArgs, this);
+    };
+}</code></pre>
+          <section id="debounce">
+            <h1>debounce</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>debounce()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function that execution has to be delayed</p></td>
+              </tr>
+              <tr>
+                <td>wait</td>
+                <td>Number</td>
+                <td><p>approximate dalay time in milliseconds</p></td>
+              </tr>
+              <tr>
+                <td>immediate</td>
+                <td>Boolean</td>
+                <td><p>true to invoke funciton immediately and then ignore following calls for wait milliseconds</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Creates a function that will call original function once it has not been called for a specified time</p></div>
+          <pre><code class="language-javascript">function debounce(wait, immediate) {
+    var func = this; // first parameter of _.debounce
+    var timeout, args, context, timestamp, result;
+    return function() {
+        context = this; // store original context
+        args = arguments;
+        timestamp = Date.now();
+        var callNow = immediate &amp;&amp; ! timeout;
+        if (! timeout)
+            timeout = setTimeout(later, wait);
+        if (callNow)
+            result = func.apply(context, args);
+        return result;
+
+        function later() {
+            var last = Date.now() - timestamp;
+            if (last &lt; wait)
+                timeout = setTimeout(later, wait - last);
+            else {
+                timeout = null;
+                if (! immediate)
+                    result = func.apply(context, args);
+            }
+        }
+    };
+}</code></pre>
+          <section id="throttle">
+            <h1>throttle</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>throttle()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function that execution has to be delayed</p></td>
+              </tr>
+              <tr>
+                <td>wait</td>
+                <td>Number</td>
+                <td><p>approximate delay time in milliseconds</p></td>
+              </tr>
+              <tr>
+                <td>options</td>
+                <td>Object</td>
+                <td><p><code>{leading: false}</code> to disable the execution on the leading edge</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Returns a function, that, when invoked, will only be triggered at most once during a given window of time. </p></div>
+          <pre><code class="language-javascript">function throttle(wait, options) {
+    var func = this; // first parameter of _.throttle
+    var context, args, result;
+    var timeout = null;
+    var previous = 0;
+    options || (options = {});
+
+    return function() {
+        var now = Date.now();
+        if (!previous &amp;&amp; options.leading === false) previous = now;
+        var remaining = wait - (now - previous);
+        context = this;
+        args = arguments;
+        if (remaining &lt;= 0) {
+            clearTimeout(timeout);
+            timeout = null;
+            previous = now;
+            result = func.apply(context, args);
+        } else if (!timeout &amp;&amp; options.trailing !== false)
+            timeout = setTimeout(later, remaining);
+
+        return result;
+    };
+
+    function later() {
+        previous = options.leading === false ? 0 : Date.now();
+        timeout = null;
+        result = func.apply(context, args);
+    }
+}</code></pre>
+          <section id="once">
+            <h1>once</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>once()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <div class="description"><p>Call passed function only once</p></div>
+          <pre><code class="language-javascript">function once() {
+    var func = this
+        , ran = false
+        , memo;
+    return function() {
+        if (ran) return memo;
+        ran = true;
+        memo = func.apply(this, arguments);
+        func = null;
+        return memo;
+    };
+}</code></pre>
+          <section id="waitFor">
+            <h1>waitFor</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>waitFor()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function: if it returns true the callback is executed</p></td>
+              </tr>
+              <tr>
+                <td>callback</td>
+                <td>Function</td>
+                <td><p>runs when the condition is true</p></td>
+              </tr>
+              <tr>
+                <td>maxTimeout</td>
+                <td>Number</td>
+                <td><p>timeout before giving up (time in milliseconds)</p></td>
+              </tr>
+              <tr>
+                <td>timedOutFunc</td>
+                <td>Function</td>
+                <td><p>a function called if timeout is reached</p></td>
+              </tr>
+              <tr>
+                <td>checkInterval</td>
+                <td>Number</td>
+                <td><p>time interval when you run the condition function (time in milliseconds), default 50 ms</p></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>Execute a function when the condition function returns a truthy value<br />it runs the condition function every <code>checkInterval</code> milliseconds (default 50)</p></div>
+          <pre><code class="language-javascript">function waitFor(callback, maxTimeout, timedOutFunc, checkInterval){
+    var start = Date.now();
+    var condition = this;
+    checkInterval = checkInterval || 50;
+    var interval = setInterval(testCondition, checkInterval);
+
+    function testCondition() {
+        if (condition()) callback();
+        else if (Date.now() - start &gt;= maxTimeout)
+            timedOutFunc &amp;&amp; timedOutFunc();
+        else return;
+        clearInterval(interval);
+    };
+}</code></pre>
+          <section id="not">
+            <h1>not</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">function</div><span>&nbsp;</span><span>not()</span><span>&nbsp;</span>
+            </p>
+          </section>
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th style="width:20%">Option name</th>
+                <th style="width:20%">Type</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>self</td>
+                <td>Function</td>
+                <td><p>function to negate</p></td>
+              </tr>
+              <tr>
+                <td>return</td>
+                <td>Function</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="description"><p>returns the function that negates (! operator) the result of the original function</p></div>
+          <pre><code class="language-javascript">function not() {
+    var func = this;
+    return function() {
+        return !func.apply(this, arguments);
+    };
+}</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with <a href="https://github.com/mr-doc/mr-doc">Mr. Doc </a> created by <a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau </a></p>
+        <p>Mr. Doc is sponsored by <a href="http://bringr.net/?btt" title="Outil d'analyse des réseaux sociaux" class="bringr">Bringr </a> and <a href="https://redsmin.com/?btt" title="Full Redis GUI" class="redsmin">Redsmin</a></p>
+        <p>Theme borrowed from Twitter Bootstrap</p>
+      </div>
+    </footer>
+    <script src="js/twitter-widget.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap-transition.min.js"></script>
+    <script src="js/bootstrap-scrollspy.min.js"></script>
+    <script src="js/bootstrap-dropdown.min.js"></script>
+    <script src="js/bootstrap-collapse.min.js"></script>
+    <script src="js/bootstrap-affix.min.js"></script>
+    <script src="js/prism.min.js"></script>
+    <script src="js/index.min.js"></script>
+  </body>
+</html>
