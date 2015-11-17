@@ -1,0 +1,122 @@
+'use strict';
+{{# def.definitions }}
+
+module.exports = {
+    appendArray: appendArray,
+    prependArray: prependArray,
+    toArray: toArray,
+    object: object,
+    mapToObject: mapToObject,
+    spliceItem: spliceItem
+};
+
+
+{{## def.appendFunc:_index:
+    if (!sourceArr.length) return {{#def.this}};
+    if (!Array.isArray(sourceArr))
+        sourceArr = {{# def.toArray:sourceArr }};
+    
+    var args = [_index, 0].concat(sourceArr);
+    Array.prototype.splice.apply({{#def.self}}, args);
+
+    return {{#def.this}};
+#}}
+
+
+/**
+ * Appends `sourceArr` to the end of array `self` in place (can be an instance of Array or array-like object).
+ * Changes the value of `self` (it uses `Array.prototype.splice`) and returns `self`.
+ *
+ * @param {Array} self An array that will be modified
+ * @param {Array} sourceArr An array that will be appended
+ * @return {Array}
+ */
+function appendArray({{# def.selfArg:false }} sourceArr) {
+    {{? it.mode == 'methods' }}
+        {{# def.appendFunc: this.self.length }}
+    {{??}}
+        {{# def.appendFunc: self.length }}
+    {{?}}
+}
+
+
+/**
+ * Prepends `sourceArr` to the beginnig of array `self` in place (can be an instance of Array or array-like object).
+ * Changes the value of `self` (it uses `Array.prototype.splice`) and returns `self`.
+ *
+ * @param {Array} self An array that will be modified
+ * @param {Array} sourceArr An array that will be prepended
+ * @return {Array}
+ */
+function prependArray({{# def.selfArg:false }} sourceArr) {
+    {{# def.appendFunc: 0 }}
+}
+
+
+/**
+ * Returns new array created from array-like object (e.g., `arguments` pseudo-array).
+ *
+ * @param {PseudoArray} self Object with numeric property length
+ * @return {Array}
+ */
+function toArray({{# def.selfArg:true }}) {
+    {{? it.mode == 'methods' }}
+        this.self = {{# def.toArray:this.self }};
+        return this;
+    {{??}}
+        return {{# def.toArray:self }};
+    {{?}}
+}
+
+
+/**
+ * Returns an object created from the array of `keys` and optional array of `values`.
+ *
+ * @param {Array} self Array of keys
+ * @param {Array|any} values Optional array of values or the value to be assigned to each property.
+ * @return {Object}
+ */
+function object({{# def.selfArg:false }} values) {
+    var obj = {};
+    var valuesIsArray = Array.isArray(values);
+
+    {{# def.varSelf }}
+    {{# def.iter:self }} obj[{{#def.self}}[i]] = valuesIsArray ? values[i] : values;
+    {{# def.return:obj }}
+}
+
+
+/**
+ * Maps array to object.
+ * Array elements become keys, value are taken from `callback`.
+ * 
+ * @param {Array} self An array which values will become keys of the result
+ * @param {Function} callback Callback is passed `value`, `index` and `self` and should return value that will be included in the result.
+ * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
+ * @return {Object}
+ */
+function mapToObject({{# def.selfArg:false }} callback, thisArg) {
+    var obj = {};
+
+    {{# def.varSelf }}
+    {{# def.iter:self }} {
+        var value = self[i];
+        obj[value] = callback.call(thisArg, value, i, self);
+    }
+    {{# def.return:obj }}
+}
+
+
+/**
+ * Removes item from array that is found using indexOf (i.e. '===')
+ * Modifies original array and returns the reference to it.
+ * 
+ * @param {Array} self An array that will be modified
+ * @param  {Any} item item to be removed
+ * @return {Array}
+ */
+function spliceItem({{# def.selfArg:false }} item) {
+    var index = {{#def.self}}.indexOf(item);
+    if (index >= 0) {{#def.self}}.splice(index, 1);
+    return {{#def.this}};
+}

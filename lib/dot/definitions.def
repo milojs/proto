@@ -1,0 +1,24 @@
+{{## def.selfArg:_only:
+    {{? it.mode == 'functions' }}
+        self{{?!_only}},{{?}}
+    {{?}}
+#}}
+
+{{## def.this: {{? it.mode == 'methods' }}this{{??}}self{{?}} #}}
+
+{{## def.self: {{? it.mode == 'methods' }}this.self{{??}}self{{?}} #}}
+
+{{## def.varSelf: {{? it.mode == 'methods' }}var self = this.self;{{?}} #}}
+
+{{## def.return:_result:
+    {{? it.mode == 'methods' }}
+        this.self = _result;
+        return this;
+    {{??}}
+        return _result;
+    {{?}}
+#}}
+
+{{## def.toArray:_arr: Array.prototype.slice.call(_arr) #}}
+
+{{## def.iter:_arr: for (var i=0; i<_arr.length; i++) #}}

@@ -1,34 +1,45 @@
 'use strict';
 
-var _ = require('../lib/proto')
+var _ = require('../lib/proto2')
     , assert = require('assert')
     , perfTest = require('./perf');
 
 
-describe('Array functions', function() {
+describe.only('Array functions', function() {
     it('should define appendArray function', function() {
         var arr = [1, 2, 3];
-
-        _.appendArray(arr, [4, 5, 6, 7]);
-
+        var result = _.appendArray(arr, [4, 5, 6, 7]);
         assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7]);
+        assert.equal(result, arr);
+
+        arr = [1, 2, 3];
+        result = _(arr).appendArray([4, 5, 6, 7])._();
+        assert.deepEqual(arr, [1, 2, 3, 4, 5, 6, 7]);
+        assert.equal(result, arr);
     });
 
 
     it('should define prependArray function', function() {
         var arr = [1, 2, 3];
-
-        _.prependArray(arr, [4, 5, 6, 7]);
-
+        var result = _.prependArray(arr, [4, 5, 6, 7]);
         assert.deepEqual(arr, [4, 5, 6, 7, 1, 2, 3]);
+        assert.equal(result, arr);
+
+        arr = [1, 2, 3];
+        result = _(arr).prependArray([4, 5, 6, 7])._();
+        assert.deepEqual(arr, [4, 5, 6, 7, 1, 2, 3]);
+        assert.equal(result, arr);
     });
 
 
     it('should define spliceItem function', function() {
         var arr = ['a', 'b', 'c'];
-
         var result = _.spliceItem(arr, 'b');
+        assert.deepEqual(arr, ['a', 'c']);
+        assert.equal(result, arr);
 
+        arr = ['a', 'b', 'c'];
+        result = _(arr).spliceItem('b')._();
         assert.deepEqual(arr, ['a', 'c']);
         assert.equal(result, arr);
     });
@@ -42,7 +53,10 @@ describe('Array functions', function() {
         arrayLikeObject.length = 3;
 
         var arr = _.toArray(arrayLikeObject);
+        assert(Array.isArray(arr), 'should convert arrayLikeObject to array');
+        assert.deepEqual(arr, [2, 5, 8], 'should convert arrayLikeObject to array');
 
+        arr = _(arrayLikeObject).toArray()._();
         assert(Array.isArray(arr), 'should convert arrayLikeObject to array');
         assert.deepEqual(arr, [2, 5, 8], 'should convert arrayLikeObject to array');
     });
@@ -109,10 +123,14 @@ describe('Array functions', function() {
 
     it('should define object function', function() {
         var arr = ['a', 'b', 'c'];
+        assert.deepEqual(_.object(arr), {a: undefined, b: undefined, c: undefined});
+        assert.deepEqual(_.object(arr, 1), {a: 1, b: 1, c: 1});
+        assert.deepEqual(_.object(arr, [1, 2, 3]), {a: 1, b: 2, c: 3});
 
-            assert.deepEqual(_.object(arr), {a: undefined, b: undefined, c: undefined});
-            assert.deepEqual(_.object(arr, 1), {a: 1, b: 1, c: 1});
-            assert.deepEqual(_.object(arr, [1, 2, 3]), {a: 1, b: 2, c: 3});
+        arr = ['a', 'b', 'c'];
+        assert.deepEqual(_(arr).object()._(), {a: undefined, b: undefined, c: undefined});
+        assert.deepEqual(_(arr).object(1)._(), {a: 1, b: 1, c: 1});
+        assert.deepEqual(_(arr).object([1, 2, 3])._(), {a: 1, b: 2, c: 3});
     });
 
 
@@ -126,7 +144,9 @@ describe('Array functions', function() {
         }
 
         var result = _.mapToObject(arr, callback, thisArg);
+        assert.deepEqual(result, { a: 'a0', b: 'b1', c: 'c2' });
 
+        result = _(arr).mapToObject(callback, thisArg)._();
         assert.deepEqual(result, { a: 'a0', b: 'b1', c: 'c2' });
     });
 
