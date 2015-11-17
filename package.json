@@ -1,5 +1,5 @@
 {
-  "name": "mol-proto",
+  "name": "protojs",
   "version": "0.2.0",
   "description": "ES5 object manipulation library for node and modern browsers",
   "main": "lib/proto.js",

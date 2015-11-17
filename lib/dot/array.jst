@@ -31,7 +31,7 @@ module.exports = {
  * @param {Array} sourceArr An array that will be appended
  * @return {Array}
  */
-function appendArray({{# def.selfArg:false }} sourceArr) {
+function appendArray({{# def.arg }} sourceArr) {
     {{? it.mode == 'methods' }}
         {{# def.appendFunc: this.self.length }}
     {{??}}
@@ -48,7 +48,7 @@ function appendArray({{# def.selfArg:false }} sourceArr) {
  * @param {Array} sourceArr An array that will be prepended
  * @return {Array}
  */
-function prependArray({{# def.selfArg:false }} sourceArr) {
+function prependArray({{# def.arg }} sourceArr) {
     {{# def.appendFunc: 0 }}
 }
 
@@ -59,7 +59,7 @@ function prependArray({{# def.selfArg:false }} sourceArr) {
  * @param {PseudoArray} self Object with numeric property length
  * @return {Array}
  */
-function toArray({{# def.selfArg:true }}) {
+function toArray({{# def.oneArg }}) {
     {{? it.mode == 'methods' }}
         this.self = {{# def.toArray:this.self }};
         return this;
@@ -76,12 +76,12 @@ function toArray({{# def.selfArg:true }}) {
  * @param {Array|any} values Optional array of values or the value to be assigned to each property.
  * @return {Object}
  */
-function object({{# def.selfArg:false }} values) {
+function object({{# def.arg }} values) {
     var obj = {};
     var valuesIsArray = Array.isArray(values);
 
     {{# def.varSelf }}
-    {{# def.iter:self }} obj[{{#def.self}}[i]] = valuesIsArray ? values[i] : values;
+    {{# def.iter:self }} obj[self[i]] = valuesIsArray ? values[i] : values;
     {{# def.return:obj }}
 }
 
@@ -95,7 +95,7 @@ function object({{# def.selfArg:false }} values) {
  * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
  * @return {Object}
  */
-function mapToObject({{# def.selfArg:false }} callback, thisArg) {
+function mapToObject({{# def.arg }} callback, thisArg) {
     var obj = {};
 
     {{# def.varSelf }}
@@ -115,7 +115,7 @@ function mapToObject({{# def.selfArg:false }} callback, thisArg) {
  * @param  {Any} item item to be removed
  * @return {Array}
  */
-function spliceItem({{# def.selfArg:false }} item) {
+function spliceItem({{# def.arg }} item) {
     var index = {{#def.self}}.indexOf(item);
     if (index >= 0) {{#def.self}}.splice(index, 1);
     return {{#def.this}};

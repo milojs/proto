@@ -19,13 +19,14 @@ console.log('\n\nCompiling:');
 
 files.forEach(function (f) {
   var group = path.basename(f, '.jst');
-  var targetPath = path.join(dotjsPath, group);
   var template = fs.readFileSync(path.join(__dirname, f));
   var groupTemplate = doT.compile(template, { definitions: defs });
   ['functions', 'methods'].forEach(function (mode) {
     var code = groupTemplate({ mode: mode });
     code = beautify(code, { preserve_newlines: false, end_with_newline: true });
-    fs.writeFileSync(targetPath + '_' + mode + '.js', code);
+    var targetPath = path.join(dotjsPath, mode);
+    try { fs.mkdirSync(targetPath); } catch(e) {}
+    fs.writeFileSync(path.join(targetPath, group + '.js'), code);
   });
   console.log('compiled', group);
 });

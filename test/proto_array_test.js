@@ -1,11 +1,11 @@
 'use strict';
 
-var _ = require('../lib/proto2')
+var _ = require('../lib/proto')
     , assert = require('assert')
     , perfTest = require('./perf');
 
 
-describe.only('Array functions', function() {
+describe('Array functions', function() {
     it('should define appendArray function', function() {
         var arr = [1, 2, 3];
         var result = _.appendArray(arr, [4, 5, 6, 7]);

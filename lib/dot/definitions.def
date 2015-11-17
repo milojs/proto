@@ -4,10 +4,10 @@
     {{?}}
 #}}
 
+{{## def.oneArg: {{? it.mode == 'functions' }}self{{?}} #}}
+{{## def.arg: {{? it.mode == 'functions' }}self,{{?}} #}}
 {{## def.this: {{? it.mode == 'methods' }}this{{??}}self{{?}} #}}
-
 {{## def.self: {{? it.mode == 'methods' }}this.self{{??}}self{{?}} #}}
-
 {{## def.varSelf: {{? it.mode == 'methods' }}var self = this.self;{{?}} #}}
 
 {{## def.return:_result:
