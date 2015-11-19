@@ -303,7 +303,10 @@ describe('Object functions', function() {
         });
 
         assert.deepEqual(_.keys(self), ['a', 'b', 'c']);
+
         assert.deepEqual(_.allKeys(self), ['a', 'b', 'c', 'nonenum']);
+        assert.deepEqual(_(self).allKeys()._(), ['a', 'b', 'c', 'nonenum']);
+
         assert.deepEqual(_.values(self), [1, 2, 3, 4]);
         assert.deepEqual(_.values(self, true), [1, 2, 3]);
     });
@@ -405,21 +408,19 @@ describe('Object functions', function() {
 
         var thisArg = this;
         var result = _.mapKeys(self, callback, thisArg); // iterate over all properties
+        assert1(result);
 
-            assert.deepEqual(result, {
-                a: 10,
-                b: 20
-            }, 'ALL properties should be used in iteration');
-            assert.equal(result.a, 10, 'ALL properties should be used in iteration');
-            assert.equal(result.b, 20, 'ALL properties should be used in iteration');
-            assert.equal(result.nonenum, 30, 'ALL properties should be used in iteration');
+        var result = _(self).mapKeys(callback, thisArg)._(); // iterate over all properties
+        assert1(result);
+
 
         var thisArg = null;
         var result = _.mapKeys(self, callback, thisArg, true); // iterate over enumerable properties
+        assert2(result);
 
-            assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
-            assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
-            assert.equal(result.nonenum, undefined, 'only enumerable properties should be used in iteration');
+        var result = _(self).mapKeys(callback, thisArg, true)._(); // iterate over enumerable properties
+        assert2(result);
+
 
         function TestClass() {}
         TestClass.prototype.protoProp = 4;
@@ -429,12 +430,40 @@ describe('Object functions', function() {
 
         var thisArg = undefined;
         var result = _.mapKeys(self, callback); // iterate over all properties
+        assert3(result);
+
+        var result = _(self).mapKeys(callback)._(); // iterate over all properties
+        assert3(result);
 
             assert('protoProp' in self);
             assert.equal(result.hasOwnProperty('protoProp'), false, 'prototype properties should not be used in iteration');
             assert.equal(result.protoProp, 4, 'result should have the same prototype');
             assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
             assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
+
+        function assert1(result) {
+            assert.deepEqual(result, {
+                a: 10,
+                b: 20
+            });
+            assert.equal(result.a, 10, 'ALL properties should be used in iteration');
+            assert.equal(result.b, 20, 'ALL properties should be used in iteration');
+            assert.equal(result.nonenum, 30, 'ALL properties should be used in iteration');
+        }
+
+        function assert2(result) {
+            assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
+            assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
+            assert.equal(result.nonenum, undefined, 'only enumerable properties should be used in iteration');
+        }
+
+        function assert3(result) {
+            assert('protoProp' in self);
+            assert.equal(result.hasOwnProperty('protoProp'), false, 'prototype properties should not be used in iteration');
+            assert.equal(result.protoProp, 4, 'result should have the same prototype');
+            assert.equal(result.a, 10, 'only enumerable properties should be used in iteration');
+            assert.equal(result.b, 20, 'only enumerable properties should be used in iteration');
+        }
     });
 
 
@@ -617,41 +646,45 @@ describe('Object functions', function() {
 
     it('should define defineProperty function', function() {
         var obj1 = {}
+            , o1 = {}
             , obj2 = {};
 
         _.defineProperty(obj1, 'prop', 1);
+        _(o1).defineProperty('prop', 1);
         Object.defineProperty(obj2, 'prop', {
             value: 1
         });
+        assertProp(obj1, 'prop');
+        assertProp(o1, 'prop');
 
-            assert.deepEqual(
-                Object.getOwnPropertyDescriptor(obj1, 'prop'),
-                Object.getOwnPropertyDescriptor(obj2, 'prop')
-            );
 
         _.defineProperty(obj1, 'enumprop', 2, _.ENUMERABLE);
+        _(o1).defineProperty('enumprop', 2, _.ENUMERABLE);
         Object.defineProperty(obj2, 'enumprop', {
             enumerable: true,
             value: 2
         });
-
-            assert.deepEqual(
-                Object.getOwnPropertyDescriptor(obj1, 'enumprop'),
-                Object.getOwnPropertyDescriptor(obj2, 'enumprop')
-            );
+        assertProp(obj1, 'enumprop');
+        assertProp(o1, 'enumprop');
 
 
         _.defineProperty(obj1, 'enum_writ_prop', 3, _.ENUMERABLE + _.WRITABLE);
+        _(o1).defineProperty('enum_writ_prop', 3, _.ENUMERABLE + _.WRITABLE);
         Object.defineProperty(obj2, 'enum_writ_prop', {
             enumerable: true,
             writable: true,
             value: 3
         });
+        assertProp(obj1, 'enum_writ_prop');
+        assertProp(o1, 'enum_writ_prop');
 
+
+        function assertProp(o, prop) {
             assert.deepEqual(
-                Object.getOwnPropertyDescriptor(obj1, 'enum_writ_prop'),
-                Object.getOwnPropertyDescriptor(obj2, 'enum_writ_prop')
+                Object.getOwnPropertyDescriptor(o1, prop),
+                Object.getOwnPropertyDescriptor(obj2, prop)
             );
+        }
     });
 
 

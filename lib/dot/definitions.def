@@ -19,6 +19,16 @@
     {{?}}
 #}}
 
+{{## def.intReturn:_result:
+    {{? it.mode == 'methods' }}
+        this.self = {{=_result}};
+        return this;
+    {{??}}
+        return {{=_result}};
+    {{?}}
+#}}
+
 {{## def.toArray:_arr: Array.prototype.slice.call(_arr) #}}
 
 {{## def.iter:_arr: for (var i=0; i<_arr.length; i++) #}}
+{{## def.iter2:_arr: for (var j=0; j<_arr.length; j++) #}}

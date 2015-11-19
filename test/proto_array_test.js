@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('../lib/proto')
+var _ = require('../lib/proto2')
     , assert = require('assert')
     , perfTest = require('./perf');
 
@@ -92,6 +92,25 @@ describe('Array functions', function() {
     });
 
 
+    it('should allow calling native array methods (e.g. map) via _', function() {
+        var arr = [0, 1, 2];
+        var thisArg = {};
+
+        var result = _.map(arr, mapFunc, thisArg);
+        assert.deepEqual(result, [0, 2, 4]);
+
+        var result = _(arr).map(mapFunc, thisArg)._();
+        assert.deepEqual(result, [0, 2, 4]);
+
+        function mapFunc(value, index, array) {
+            assert.equal(value, index);
+            assert.equal(array, arr);
+            assert.equal(this, thisArg);
+            return value * 2;
+        }
+    });
+
+
     it('should allow chaining of Proto functions together with native array methods', function() {
         var myMap = {
             prop0: 0,
@@ -100,16 +119,20 @@ describe('Array functions', function() {
             prop3: 3
         };
 
-        var newMap = {}
+        var newMap = {};
+        var thisArg = {};
 
         var result = _(myMap)
                         .allKeys()
-                        .map(function(prop) { return prop + '_test'; })
+                        .map(function (prop) {
+                            assert.equal(this, thisArg);
+                            return prop + '_test';
+                        }, thisArg)
                         .appendArray(['prop4', 'prop5'])
-                        .filter(function(prop) { return prop != 'prop1_test'; })
+                        .filter(function (prop) { return prop != 'prop1_test'; })
                         .slice(1)
                         .object()
-                        .mapKeys(function(value, key) { return key + '_test2' })
+                        .mapKeys(function (value, key) { return key + '_test2' })
                         ._();
 
         assert.deepEqual(result, {
@@ -166,16 +189,22 @@ describe('Array functions', function() {
         }
 
         function callback3(value, index, array) {
-            if (value == index * 2)
-                return false;
-            else
-                throw new Error;
+            if (value == index * 2) return false;
+            else throw new Error;
         }
 
-        assert.equal(_.find(arr, callback, thisArg), 7);
-        assert.equal(_.find(arr, callback2, thisArg), undefined);
+        assert.strictEqual(_.find(arr, callback, thisArg), 7);
+        assert.strictEqual(_.find(arr, callback2, thisArg), undefined);
+
+        assert.strictEqual(_(arr).find(callback, thisArg)._(), 7);
+        assert.strictEqual(_(arr).find(callback2, thisArg)._(), undefined);
+
         assert.throws(function() {
-            var value = _.find(arr, callback3, thisArg)
+            var value = _.find(arr, callback3, thisArg);
+        });
+
+        assert.throws(function() {
+            var value = _(arr).find(callback3, thisArg)._();
         });
     });
 
@@ -194,8 +223,10 @@ describe('Array functions', function() {
             return value > 20;
         }
 
-        assert.equal(_.findIndex(arr, callback, thisArg), 4);
-        assert.equal(_.findIndex(arr, callback2, thisArg), -1);
+        assert.strictEqual(_.findIndex(arr, callback, thisArg), 4);
+        assert.strictEqual(_.findIndex(arr, callback2, thisArg), -1);
+        assert.strictEqual(_(arr).findIndex(callback, thisArg)._(), 4);
+        assert.strictEqual(_(arr).findIndex(callback2, thisArg)._(), -1);
     });
 
 
@@ -203,17 +234,22 @@ describe('Array functions', function() {
         var arr = [1, 2, 2, 3, 3, 4];
 
         var result = _.unique(arr);
-
         assert.deepEqual(result, [1, 2, 3, 4]);
 
+        result = _(arr).unique()._();
+        assert.deepEqual(result, [1, 2, 3, 4]);
 
-        var arr = [ {a: 1}, {a: 2}, {a: 2}, {a: 3}];
+        arr = [ {a: 1}, {a: 2}, {a: 2}, {a: 3}];
 
-        var result = _.unique(arr, function(x, y) {
-            return x.a == y.a;
-        });
-
+        result = _.unique(arr, compareA);
         assert.deepEqual(result, [ {a: 1}, {a: 2}, {a: 3}]);
+
+        result = _(arr).unique(compareA)._();
+        assert.deepEqual(result, [ {a: 1}, {a: 2}, {a: 3}]);
+
+        function compareA(x, y) {
+            return x.a == y.a;
+        }
     });
 
 
@@ -222,13 +258,18 @@ describe('Array functions', function() {
             , result = []
             , thisArg = {};
 
-        _.deepForEach(arr, function(value, index, array) {
+        _.deepForEach(arr, collectItems, thisArg);
+        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+        result = [];
+        _(arr).deepForEach(collectItems, thisArg);
+        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+        function collectItems(value, index, array) {
             assert.equal(this, thisArg);
             assert.equal(array, arr);
             assert.equal(value, index);
             result.push(value);
-        }, thisArg);
-
-        assert.deepEqual(result, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        }
     });
 });
