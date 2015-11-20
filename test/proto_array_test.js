@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('../lib/proto2')
+var _ = require('../lib/proto')
     , assert = require('assert')
     , perfTest = require('./perf');
 
