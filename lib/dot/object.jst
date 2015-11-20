@@ -30,22 +30,22 @@
  */
 module.exports = {
     extend: extend,
-    // clone: clone,
+    clone: clone,
     defineProperty: defineProperty,
     // defineProperties: defineProperties,
     // deepExtend: deepExtend,
     // deepClone: deepClone,
-    // keys: keys,
+    keys: keys,
     allKeys: allKeys,
-    // values: values,
-    // keyOf: keyOf,
-    // allKeysOf: allKeysOf,
-    // eachKey: eachKey,
+    values: values,
+    keyOf: keyOf,
+    allKeysOf: allKeysOf,
+    eachKey: eachKey,
     mapKeys: mapKeys,
-    // reduceKeys: reduceKeys,
-    // filterKeys: filterKeys,
-    // someKey: someKey,
-    // everyKey: everyKey,
+    reduceKeys: reduceKeys,
+    filterKeys: filterKeys,
+    someKey: someKey,
+    everyKey: everyKey,
     // pickKeys: pickKeys,
     // omitKeys: omitKeys,
     // isEqual: isEqual,
@@ -94,17 +94,47 @@ var constants = module.exports._constants = {
  * @param {Boolean} onlyEnumerable Optional flag to prevent copying non-enumerable properties, `false` by default
  * @return {Object}
  */
-{{## def.extendCode:
-    descriptors[key] = Object.getOwnPropertyDescriptor(obj, key);
+{{## def.getDescriptor:_obj:
+    descriptors[key] = Object.getOwnPropertyDescriptor(_obj, key);
 #}}
 
 function extend({{# def.arg }} obj, onlyEnumerable) {
     var descriptors = {};
-    {{ var params = { obj: 'obj', code: '{{# def.extendCode}}' }; }}
+    {{ var params = { obj: 'obj', code: '{{# def.getDescriptor:obj }}' }; }}
     {{# def.eachKey:params }}
 
     Object.defineProperties({{# def.self }}, descriptors);
     return {{# def.this }};
+}
+
+
+/**
+ * Makes a shallow clone of object `obj` creating an instance of the same class; the properties will have the same descriptors.
+ * To clone an array use
+ * ```
+ * var clonedArray = [].concat(arr);
+ * ```
+ * This function should not be used to clone an array, because it is inefficient.
+ *
+ * @param {Object} self An object to be cloned
+ * @param {Boolean} onlyEnumerable Optional flag to prevent copying non-enumerable properties, `false` by default
+ * @return {Object}
+ */
+function clone({{# def.arg }} onlyEnumerable) {
+    {{# def.varSelf }}
+    var clonedObject;
+    if (Array.isArray(self)) clonedObject = self.slice();
+    else if (self instanceof Date) clonedObject =  new Date(self);
+    else if (self instanceof RegExp) clonedObject = new RegExp(self);
+    if (!clonedObject) {
+        clonedObject = Object.create(self.constructor.prototype);
+        var descriptors = {};
+        {{ var params = { obj: 'self', code: '{{# def.getDescriptor:self }}' }; }}
+        {{# def.eachKey:params }}
+
+        Object.defineProperties(clonedObject, descriptors);
+    }
+    {{# def.return:clonedObject }}
 }
 
 
@@ -146,6 +176,18 @@ function _getDescriptor(value, decriptorFlags) {
 
 
 /**
+ * Returns array of enumerable properties of the object
+ *
+ * @param {Object} self object to return keys of
+ * @return {Array}
+ */
+function keys({{# def.oneArg }}) {
+    var keys = Object.keys({{# def.self }});
+    {{# def.return:keys }}
+}
+
+
+/**
  * Returns array of all property names of an object `self` (including non-enumerbale).
  * To get only enumerable properties, use `Object.keys()`.
  *
@@ -155,6 +197,102 @@ function _getDescriptor(value, decriptorFlags) {
 function allKeys({{# def.oneArg }}) {
     var keys = Object.getOwnPropertyNames({{# def.self }});
     {{# def.return:keys }}
+}
+
+
+/**
+ * Returns array of values of the object's keys
+ *
+ * @param {Object} self object to return values from
+ * @return {Array}
+ */
+{{## def.valuesCode:
+    arr[arr.length] = self[key];
+#}}
+
+function values({{# def.arg }} onlyEnumerable) {
+    var arr = [];
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.valuesCode }}' }; }}
+    {{# def.eachKey:params }}
+    {{# def.return:arr }}
+}
+
+
+/**
+ * An analogue of `indexOf` method of Array prototype.
+ * Returns the `key` of `searchElement` in the object `self`.
+ * As object keys are unsorted, if there are several keys that hold `searchElement` any of them can be returned. Use `allKeysOf` to return all keys.
+ * All own properties are searched (not those inherited via prototype chain), including non-enumerable properties (unless `onlyEnumerable` is truthy).
+ *
+ * @param {Object} self An object to search a value in
+ * @param {Any} searchElement An element that will be searched. An exact equality is tested, so `0` is not the same as `'0'`.
+ * @param {Boolean} onlyEnumerable An optional true to search among enumerable properties only.
+ * @return {String}
+ */
+{{## def.keyOfCode:
+    if (searchElement === self[key]) {
+        foundKey = key;
+        break;
+    }
+#}}
+
+function keyOf({{# def.arg }} searchElement, onlyEnumerable) {
+    var foundKey;
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.keyOfCode }}' }; }}
+    {{# def.eachKey:params }}
+    {{# def.return:foundKey }}
+}
+
+
+/**
+ * Works similarly to the previous function, but returns the array of keys holding `searchElement` as their value.
+ *
+ * @param {Object} self An object to search a value in
+ * @param {Any} searchElement An element that will be searched. An exact equality is tested, so `0` is not the same as `'0'`.
+ * @param {Boolean} onlyEnumerable An optional true to search among enumerable properties only.
+ * @return {Array<String>}
+ */
+{{## def.allKeysOfCode:
+    if (searchElement === self[key]) {
+        foundKeys[foundKeys.length] = key;
+    }
+#}}
+
+function allKeysOf({{# def.arg }} searchElement, onlyEnumerable) {
+    var foundKeys = [];
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.allKeysOfCode }}' }; }}
+    {{# def.eachKey:params }}
+    {{# def.return:foundKeys }}
+}
+
+
+/**
+ * An analogue of [forEach](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) method of Array prototype.
+ * Iterates all own properties of `self` (or only enumerable own properties if `onlyEnumerable` is truthy) calling callback for each key.
+ * This method should not be used with arrays, it will include `length` property in iteration.
+ * To iterate array-like objects (e.g., `arguments` pseudo-array) use:
+ * ```
+ * _.forEach(arguments, callback, thisArg);
+ * ```
+ * Function returns `self` to allow [chaining](proto.js.html)
+ *
+ * @param {Object} self An object which properties will be iterated
+ * @param {Function} callback Callback is passed `value`, `key` and `self`, its return value is not used.
+ * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ */
+{{## def.eachKeyCode:
+    callback.call(thisArg, self[key], key, self);
+#}}
+
+function eachKey({{# def.arg }} callback, thisArg, onlyEnumerable) {
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.eachKeyCode }}' }; }}
+    {{# def.eachKey:params }}
+    return {{# def.this }};
 }
 
 
@@ -181,11 +319,117 @@ function allKeys({{# def.oneArg }}) {
 #}}
 
 function mapKeys({{# def.arg }} callback, thisArg, onlyEnumerable) {
-    var descriptors = {};
     {{# def.varSelf }}
+    var descriptors = {};
     {{ var params = { obj: 'self', code: '{{# def.mapCode}}' }; }}
     {{# def.eachKey:params }}
 
     var obj = Object.create(self.constructor.prototype, descriptors);
     {{# def.return:obj }}
+}
+
+
+/**
+ * An analogue of [reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) method of Array prototype.
+ * This method reduces the object to a single value. Iteration order is impossible to control with object.
+ * This method should not be used with arrays, it will include `length` property in iteration.
+ * To reduce array-like objects use:
+ * ```
+ * var result = _.reduce(arguments, callback, initialValue, thisArg);
+ * ```
+ *
+ * @param {Object} self An object which properties will be iterated
+ * @param {Function} callback Callback is passed `previousValue`, `value`, `key` and `self` and should return value that will be used as the `previousValue` for the next `callback` call.
+ * @param {Any} initialValue The initial value passed to callback as the first parameter on the first call.
+ * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ * @return {Any}
+ */
+{{## def.reduceKeysCode:
+    memo = callback.call(thisArg, memo, self[key], key, self);
+#}}
+
+function reduceKeys({{# def.arg }} callback, initialValue, thisArg, onlyEnumerable) {
+    var memo = initialValue;
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.reduceKeysCode }}' }; }}
+    {{# def.eachKey:params }}
+    {{# def.return:memo }}
+}
+
+
+/**
+ * An analogue of [filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) method of Array prototype.
+ * Returns the new object with keys for which callback returns true.
+ * Property descriptors of the returned object will have the same `enumerable`, `configurable` and `writable` settings as the properties of `self`.
+ * To filter array-like objects use:
+ * ```
+ * var result = _.filter(arguments, callback, thisArg);
+ * ```
+ *
+ * @param {Object} self An object which properties will be iterated
+ * @param {Function} callback Callback is passed `value`, `key` and `self`. If it returns truthy value, the key/value will be included in the resulting object.
+ * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ * @return {Object}
+ */
+{{## def.filterKeysCode:
+    if (callback.call(thisArg, self[key], key, self))
+        descriptors[key] = Object.getOwnPropertyDescriptor(self, key);
+#}}
+
+function filterKeys({{# def.arg }} callback, thisArg, onlyEnumerable) {
+    var descriptors = {};
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.filterKeysCode }}' }; }}
+    {{# def.eachKey:params }}
+    var obj = Object.create(self.constructor.prototype, descriptors);
+    {{# def.return:obj }}
+}
+
+
+var _passed = {}
+    , _didNotPass = {};
+
+/**
+ * An analogue of [some](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some) method of Array prototype.
+ *
+ * @param {Object} self An object which properties will be iterated
+ * @param {Function} callback Callback is passed `value`, `key` and `self`. If it returns truthy value, the function immeaditely returns `true`.
+ * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ * @return {Boolean}
+ */
+{{## def.someKeyCode:
+    if (callback.call(thisArg, self[key], key, self))
+        return true;
+#}}
+
+function someKey({{# def.arg }} callback, thisArg, onlyEnumerable) {
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.someKeyCode }}' }; }}
+    {{# def.eachKey:params }}
+    {{# def.return:false }}
+}
+
+
+/**
+ * An analogue of [every](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every) method of Array prototype.
+ *
+ * @param {Object} self An object which properties will be iterated
+ * @param {Function} callback Callback is passed `value`, `key` and `self`. If it returns falsy value, the function immeaditely returns `false`.
+ * @param {Object} thisArg An optional context of iteration (the valueof `this`), will be undefined if this parameter is not passed.
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ * @return {Boolean}
+ */
+{{## def.everyKeyCode:
+    if (!callback.call(thisArg, self[key], key, self))
+        return false;
+#}}
+
+function everyKey({{# def.arg }} callback, thisArg, onlyEnumerable) {
+    {{# def.varSelf }}
+    {{ var params = { obj: 'self', code: '{{# def.everyKeyCode }}' }; }}
+    {{# def.eachKey:params }}
+    {{# def.return:true }}
 }

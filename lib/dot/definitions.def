@@ -9,6 +9,7 @@
 {{## def.this: {{? it.mode == 'methods' }}this{{??}}self{{?}} #}}
 {{## def.self: {{? it.mode == 'methods' }}this.self{{??}}self{{?}} #}}
 {{## def.varSelf: {{? it.mode == 'methods' }}var self = this.self;{{?}} #}}
+{{## def.varArgs: var args = slice.call(arguments{{? it.mode == 'functions' }}, 1{{?}}); #}}
 
 {{## def.return:_result:
     {{? it.mode == 'methods' }}

@@ -10,15 +10,24 @@ describe('Object functions', function() {
         function TestObject() { this.property = 0; }
         function TestObject2() { this.property = 0; }
         var obj = new TestObject;
+        var obj1 = new TestObject;
         var obj2 = new TestObject2;
 
         obj.prop1 = 1;
+        obj1.prop1 = 1;
         obj2.prop2 = 2;
 
-        _.extend(obj, obj2);
+        var result = _.extend(obj, obj2);
 
+            assert.equal(result, obj);
             assert.equal(obj.prop1, 1 , 'properties should be copied');
             assert.equal(obj.prop2, 2 , 'properties should be copied');
+
+        result = _(obj1).extend(obj2)._();
+
+            assert.equal(result, obj1);
+            assert.equal(obj1.prop1, 1 , 'properties should be copied');
+            assert.equal(obj1.prop2, 2 , 'properties should be copied');
 
         Object.defineProperty(obj2, 'nonEnum', {
             enumerable: false,
@@ -34,6 +43,16 @@ describe('Object functions', function() {
                         throw new Error;
             }, 'non-enumerable should be copied as non-enumerable');
 
+        _(obj1).extend(obj2);
+
+            assert.equal(obj1.nonEnum, 3 , 'non-enumerable properties should be copied');
+            assert.doesNotThrow(function() {
+                for (var p in obj1)
+                    if (p == 'nonEnum')
+                        throw new Error;
+            }, 'non-enumerable should be copied as non-enumerable');
+
+
         var obj3 = new TestObject;
         Object.defineProperty(obj3, 'prop3', {
             enumerable: false,
@@ -41,12 +60,16 @@ describe('Object functions', function() {
         });
 
         _.extend(obj, obj3, true); // only enumerable properties
+            assert.notEqual(obj.prop3, 3, 'non-enumerable properties should NOT be copied if onlyEnumerable is truthy');
 
-        assert.notEqual(obj.prop3, 3, 'non-enumerable properties should NOT be copied if onlyEnumerable is truthy');
+        _(obj1).extend(obj3, true); // only enumerable properties
+            assert.notEqual(obj1.prop3, 3, 'non-enumerable properties should NOT be copied if onlyEnumerable is truthy');
 
         _.extend(obj, obj3); // all properties
+            assert.equal(obj.prop3, 3, 'non-enumerable properties should be copied if onlyEnumerable is falsy');
 
-        assert.equal(obj.prop3, 3, 'non-enumerable properties should be copied if onlyEnumerable is falsy');
+        _(obj1).extend(obj3); // all properties
+            assert.equal(obj1.prop3, 3, 'non-enumerable properties should be copied if onlyEnumerable is falsy');
 
         Object.defineProperty(TestObject2.prototype, 'enum', {
             enumerable: true,
@@ -63,6 +86,11 @@ describe('Object functions', function() {
 
             assert.equal(obj2.enum, 4, 'prototype property is visible via object');
             assert.equal(obj.enum, undefined, 'enumerable prototype properties should NOT be copied');
+
+        _(obj1).extend(obj2);
+
+            assert.equal(obj2.enum, 4, 'prototype property is visible via object');
+            assert.equal(obj1.enum, undefined, 'enumerable prototype properties should NOT be copied');
     });
 
 
@@ -259,6 +287,11 @@ describe('Object functions', function() {
 
         var obj2 = _.clone(obj);
             assert(obj2 instanceof TestObject, 'cloned object should be of the same class');
+            assert.equal(obj2.prop1, 1);
+
+        var obj3 = _(obj).clone()._();
+            assert(obj3 instanceof TestObject, 'cloned object should be of the same class');
+            assert.equal(obj3.prop1, 1);
 
         var tempDate = new Date();
         var cloned = _.clone(new Date(tempDate));
@@ -287,6 +320,12 @@ describe('Object functions', function() {
             'should find non-enumerable property value');
         assert.equal(_.keyOf(self, 3, true), undefined,
             'should NOT find non-enumerable property value if nonEnumerable true is specified');
+
+        assert.equal(_(self).keyOf(1)._(), 'a', 'should find property value');
+        assert.equal(_(self).keyOf(3)._(), 'nonenum',
+            'should find non-enumerable property value');
+        assert.equal(_(self).keyOf(3, true)._(), undefined,
+            'should NOT find non-enumerable property value if nonEnumerable true is specified');
     });
 
 
@@ -303,12 +342,15 @@ describe('Object functions', function() {
         });
 
         assert.deepEqual(_.keys(self), ['a', 'b', 'c']);
+        assert.deepEqual(_(self).keys()._(), ['a', 'b', 'c']);
 
         assert.deepEqual(_.allKeys(self), ['a', 'b', 'c', 'nonenum']);
         assert.deepEqual(_(self).allKeys()._(), ['a', 'b', 'c', 'nonenum']);
 
         assert.deepEqual(_.values(self), [1, 2, 3, 4]);
+        assert.deepEqual(_(self).values()._(), [1, 2, 3, 4]);
         assert.deepEqual(_.values(self, true), [1, 2, 3]);
+        assert.deepEqual(_(self).values(true)._(), [1, 2, 3]);
     });
 
 
@@ -326,17 +368,28 @@ describe('Object functions', function() {
         });
 
         var keys = _.allKeysOf(self, 2);
+            assert.notEqual(keys.indexOf('b'), -1, 'should find keys for a given property value');
+            assert.notEqual(keys.indexOf('c'), -1, 'should find keys for a given property value');
 
+        keys = _(self).allKeysOf(2)._();
             assert.notEqual(keys.indexOf('b'), -1, 'should find keys for a given property value');
             assert.notEqual(keys.indexOf('c'), -1, 'should find keys for a given property value');
 
         keys = _.allKeysOf(self, 3);
+            assert.notEqual(keys.indexOf('d'), -1, 'should find ALL keys for a given property value');
+            assert.notEqual(keys.indexOf('nonenum'), -1, 'should ALL find keys for a given property value');
 
+        keys = _(self).allKeysOf(3)._();
             assert.notEqual(keys.indexOf('d'), -1, 'should find ALL keys for a given property value');
             assert.notEqual(keys.indexOf('nonenum'), -1, 'should ALL find keys for a given property value');
 
         keys = _.allKeysOf(self, 3, true); // enumerable only
+            assert.notEqual(keys.indexOf('d'), -1,
+                'should find enumerable keys for a given property value if nonEnumerable true is specified');
+            assert.equal(keys.indexOf('nonenum'), -1,
+                'should NOT find non-enumerable keys for a given property value if nonEnumerable true is specified');
 
+        keys = _(self).allKeysOf(3, true)._(); // enumerable only
             assert.notEqual(keys.indexOf('d'), -1,
                 'should find enumerable keys for a given property value if nonEnumerable true is specified');
             assert.equal(keys.indexOf('nonenum'), -1,
@@ -364,12 +417,18 @@ describe('Object functions', function() {
 
         var result = {}, thisArg = this;
         _.eachKey(self, callback, thisArg); // iterate over all properties
-
             assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'ALL properties should be used in iteration');
 
-        var result = {}, thisArg = null;
-        _.eachKey(self, callback, thisArg, true); // iterate over enumerable properties
+        result = {};
+        _(self).eachKey(callback, thisArg); // iterate over all properties
+            assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'ALL properties should be used in iteration');
 
+        result = {}, thisArg = null;
+        _.eachKey(self, callback, thisArg, true); // iterate over enumerable properties
+            assert.deepEqual(result, { a: 1, b: 2 }, 'only enumerable properties should be used in iteration');
+
+        result = {};
+        _(self).eachKey(callback, thisArg, true); // iterate over enumerable properties
             assert.deepEqual(result, { a: 1, b: 2 }, 'only enumerable properties should be used in iteration');
 
         function TestClass() {}
@@ -384,10 +443,13 @@ describe('Object functions', function() {
 
         var result = {}, thisArg = undefined;
         _.eachKey(self, callback); // iterate over all properties
-
             assert('protoProp' in self);
             assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'prototype properties should NOT be used in iteration');
 
+        result = {};
+        _(self).eachKey(callback); // iterate over all properties
+            assert('protoProp' in self);
+            assert.deepEqual(result, { a: 1, b: 2, nonenum: 3 }, 'prototype properties should NOT be used in iteration');
     });
 
 
@@ -483,7 +545,11 @@ describe('Object functions', function() {
         }
 
         assert.equal(_.reduceKeys(self, callback, 10, thisArg, true), 16);
+        assert.equal(_(self).reduceKeys(callback, 10, thisArg, true)._(), 16);
+
         assert.equal(_.reduceKeys(self, callback, 10, thisArg, false), 116);
+        assert.equal(_(self).reduceKeys(callback, 10, thisArg, false)._(), 116);
+
         assert.throws(_.partial(_.reduceKeys, self, callback, 0));
     });
 
@@ -506,14 +572,19 @@ describe('Object functions', function() {
         }
 
         assert.deepEqual(_.filterKeys(self, callback, thisArg, true), {a: 1, c: 3, e: 5});
+        assert.deepEqual(_(self).filterKeys(callback, thisArg, true)._(), {a: 1, c: 3, e: 5});
 
         var expected = {a: 1, c: 3, e: 5};
         _.defineProperty(expected, 'nonenum', 7);
         var result = _.filterKeys(self, callback, thisArg);
-
             assert.deepEqual(result, expected);
             assert.equal(result.nonenum, expected.nonenum);
-            assert.throws(_.partial(_.filterKeys, self, callback));
+
+        result = _(self).filterKeys(callback, thisArg)._();
+            assert.deepEqual(result, expected);
+            assert.equal(result.nonenum, expected.nonenum);
+
+        assert.throws(_.partial(_.filterKeys, self, callback));
     });
 
 

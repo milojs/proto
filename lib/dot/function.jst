@@ -1,0 +1,60 @@
+'use strict';
+{{# def.definitions }}
+
+/**
+ * - [makeFunction](#makeFunction)
+ * - [partial](#partial)
+ * - [partialRight](#partialRight)
+ * - [memoize](#memoize)
+ * - [delay](#delay)
+ * - [defer](#defer)
+ * - [delayed](#delayed)
+ * - [deferred](#deferred)
+ * - [deferTicks](#deferTicks)
+ * - [delayMethod](#delayMethod)
+ * - [deferMethod](#deferMethod)
+ * - [debounce](#debounce)
+ * - [throttle](#throttle)
+ * - [once](#once)
+ * - [waitFor](#waitFor)
+ * - [not](#not)
+ *
+ * These methods can be [chained](proto.js.html#Proto)
+ */
+module.exports = {
+    // makeFunction: makeFunction,
+    partial: partial,
+    // partialRight: partialRight,
+    // memoize: memoize,
+    // delay: delay,
+    // defer: defer,
+    // delayed: delayed,
+    // deferred: deferred,
+    // deferTicks: deferTicks,
+    // delayMethod: delayMethod,
+    // deferMethod: deferMethod,
+    // debounce: debounce,
+    // throttle: throttle,
+    // once: once,
+    // waitFor: waitFor,
+    // not: not
+};
+
+
+var slice = Array.prototype.slice;
+
+
+/**
+ * Creates a function as a result of partial function application with the passed parameters.
+ *
+ * @param {Function} self Function to be applied
+ * @param {List} arguments Arguments after self will be prepended to the original function call when the partial function is called.
+ * @return {Function}
+ */
+function partial({{# def.oneArg}}) { // , ... arguments
+    {{# def.varSelf }}
+    {{# def.varArgs }}
+    return function() {
+        return self.apply(this, args.concat(slice.call(arguments)));
+    };
+}
