@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('../lib/proto')
-    , assert = require('assert')
+var assert = require('assert')
     , perfTest = require('./perf');
 
 
+[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('Array functions', function() {
     it('should define appendArray function', function() {
         var arr = [1, 2, 3];
@@ -272,4 +272,5 @@ describe('Array functions', function() {
             result.push(value);
         }
     });
+});
 });

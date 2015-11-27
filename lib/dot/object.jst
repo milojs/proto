@@ -31,10 +31,12 @@
 module.exports = {
     extend: extend,
     clone: clone,
+    findValue: findValue,
+    findKey: findKey,
     defineProperty: defineProperty,
-    // defineProperties: defineProperties,
-    // deepExtend: deepExtend,
-    // deepClone: deepClone,
+    defineProperties: defineProperties,
+    deepExtend: deepExtend,
+    deepClone: deepClone,
     keys: keys,
     allKeys: allKeys,
     values: values,
@@ -46,11 +48,14 @@ module.exports = {
     filterKeys: filterKeys,
     someKey: someKey,
     everyKey: everyKey,
-    // pickKeys: pickKeys,
-    // omitKeys: omitKeys,
-    // isEqual: isEqual,
-    // isNot: isNot
+    pickKeys: pickKeys,
+    omitKeys: omitKeys,
+    isEqual: isEqual,
+    isNot: isNot
 };
+
+
+var concat = Array.prototype.concat;
 
 
 /**
@@ -67,6 +72,11 @@ var constants = module.exports._constants = {
 };
 
 
+{{## def.allKeys:obj:
+    Object.getOwnPropertyNames({{=obj}})
+#}}
+
+
 {{## eachKey:params:
     var key;
     if (onlyEnumerable) {
@@ -74,11 +84,21 @@ var constants = module.exports._constants = {
             {{=params.code}}
         }
     } else {
-        var keys = Object.getOwnPropertyNames({{=params.obj}});
+        var keys = {{# def.allKeys:params.obj }};
         {{# def.iter:keys }} {
             key = keys[i];
             {{=params.code}}
         }
+    }
+#}}
+
+
+{{## eachKeyAll:params:
+    var key;
+    var keys = {{# def.allKeys:params.obj }};
+    {{# def.iter:keys }} {
+        key = keys[i];
+        {{=params.code}}
     }
 #}}
 
@@ -120,21 +140,69 @@ function extend({{# def.arg }} obj, onlyEnumerable) {
  * @param {Boolean} onlyEnumerable Optional flag to prevent copying non-enumerable properties, `false` by default
  * @return {Object}
  */
+{{## def.clone:
+    var descriptors = {};
+    {{ var params = { obj: 'self', code: '{{# def.getDescriptor:self }}' }; }}
+    {{# def.eachKey:params }}
+    clonedObject = Object.create(self.constructor.prototype, descriptors);
+#}}
+
 function clone({{# def.arg }} onlyEnumerable) {
     {{# def.varSelf }}
     var clonedObject;
     if (Array.isArray(self)) clonedObject = self.slice();
     else if (self instanceof Date) clonedObject =  new Date(self);
     else if (self instanceof RegExp) clonedObject = new RegExp(self);
-    if (!clonedObject) {
-        clonedObject = Object.create(self.constructor.prototype);
-        var descriptors = {};
-        {{ var params = { obj: 'self', code: '{{# def.getDescriptor:self }}' }; }}
-        {{# def.eachKey:params }}
-
-        Object.defineProperties(clonedObject, descriptors);
-    }
+    if (!clonedObject) { {{# def.clone }} }
     {{# def.return:clonedObject }}
+}
+
+
+{{## def.findCode:
+    var item = self[key];
+    if (callback.call(thisArg, item, key, self)) {
+        result = {{= params.result }};
+        break;
+    }
+#}}
+
+{{## def.findInObj:params:
+    {{# def.varSelf }}
+    var result = {{= params.notFound }};
+    {{ var iterParams = { obj: 'self', code: '{{# def.findCode }}' }; }}
+    {{# def.eachKey:iterParams }}
+    {{# def.return:result }}
+#}}
+
+/**
+ * Analogue of ES6 [Array __find__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find).
+ * Returns the value of object property that passes callback test.
+ *
+ * @param {Object} self object to search in
+ * @param {Function} callback should return `true` for item to pass the test, passed `value`, `key` and `self` as parameters
+ * @param {Object} thisArg optional context (`this`) of callback call
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ * @return {Any}
+ */
+function findValue({{# def.arg }} callback, thisArg, onlyEnumerable) {
+    {{ var params = { result: 'item', notFound: 'undefined' }; }}
+    {{# def.findInObj:params }}
+}
+
+
+/**
+ * Analogue of ES6 [Array __findIndex__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex).
+ * Returns the key of object property that passes callback test. Returns `undefined` if not found (unlike `findIndex`, that returns -1 in this case).
+ *
+ * @param {Object} self object to search in
+ * @param {Function} callback should return `true` for item to pass the test, passed `value`, `key` and `self` as parameters
+ * @param {Object} thisArg optional context (`this`) of callback call
+ * @param {Boolean} onlyEnumerable An optional `true` to iterate enumerable properties only.
+ * @return {Integer}
+ */
+function findKey({{# def.arg }} callback, thisArg, onlyEnumerable) {
+    {{ var params = { result: 'key', notFound: 'undefined' }; }}
+    {{# def.findInObj:params }}
 }
 
 
@@ -157,21 +225,162 @@ function clone({{# def.arg }} onlyEnumerable) {
  * @param {Integer} decriptorFlags bit mask of property descriptor properties composed from `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`)
  * @return {Object}
  */
-function defineProperty({{# def.arg }} propertyName, value, decriptorFlags) {
-    Object.defineProperty({{# def.self }}, propertyName,
-        _getDescriptor(value, decriptorFlags));
-    return {{# def.this }};
-}
-
-
-function _getDescriptor(value, decriptorFlags) {
+{{## def.createDescriptor:
     var descriptor = { value: value };
     if (decriptorFlags) {
         descriptor.enumerable = !!(decriptorFlags & constants.ENUMERABLE);
         descriptor.configurable = !! (decriptorFlags & constants.CONFIGURABLE);
         descriptor.writable = !! (decriptorFlags & constants.WRITABLE);
     }
-    return descriptor;
+#}}
+
+function defineProperty({{# def.arg }} propertyName, value, decriptorFlags) {
+    {{# def.createDescriptor }}
+    Object.defineProperty({{# def.self }}, propertyName, descriptor);
+    return {{# def.this }};
+}
+
+
+/**
+ * Syntax sugar to shorten usage of `Object.defineProperties`.
+ * The simplest usage (to add non-enumerable, non-configurable, non-writable properties):
+ * ```
+ * _.defineProperties(obj, {
+ *     key1: value1,
+ *     key2: value2
+ * });
+ * ```
+ * To define some other properties use sum of the flags `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`):
+ * ```
+ * _.defineProperties(obj, {
+ *     key1: value1,
+ *     key2: value2
+ * }, _.ENUM + _.WRIT);
+ * ```
+ * Returns `self`.
+ *
+ * @param {Object} self An object to add a property to
+ * @param {Object} propertyValues A map of keys and values of properties thatwill be added. The descriptors of properties will be defined by the following parameters.
+ * @param {Integer} decriptorFlags bit mask of property descriptor properties composed from `_.ENUMERABLE` (or `_.ENUM`), `_.CONFIGURABLE` (or `_.CONF`) and `_.WRITABLE` (or `_.WRIT`)
+ * @return {Object}
+ */
+{{## def.defPropsCode:
+    var value = propertyValues[key];
+    {{# def.createDescriptor }}
+    descriptors[key] = descriptor;
+#}}
+
+function defineProperties({{# def.arg }} propertyValues, decriptorFlags) {
+    {{# def.varSelf }}
+    var descriptors = {};
+    {{ var params = { obj: 'propertyValues', code: '{{# def.defPropsCode }}' }; }}
+    {{# def.eachKeyAll:params }}
+    Object.defineProperties(self, descriptors);
+    {{# def.return:self }}
+}
+
+
+/**
+ * Extends object `self` with properties of `obj` to any depth, without overwrtiting existing object properties of `self` with object properties of `obj`.
+ * Scalar properties of `obj` will overwrite properties of `self`. Scalar porperties of `self` will also be overwritten.
+ * Correctly works with recursive objects.
+ * Usage:
+ * ```
+ * var obj = {
+ *     inner: {
+ *         a: 1
+ *     }
+ * };
+ *
+ * _.deepExtend(obj, {
+ *     inner: {
+ *         b: 2
+ *     }
+ * });
+ *
+ * assert.deepEqual(obj, {
+ *     inner: {
+ *         a: 1,
+ *         b: 2
+ *     }
+ * }); // assert passes
+ * ```
+ * Returns `self`.
+ *
+ * @param {Object} self An object to be extended
+ * @param {Object} obj An object with properties to copy to
+ * @param {Boolean} onlyEnumerable Optional `true` to use only enumerable properties
+ * @param {Boolean} preserveStructure if true will throw at the attempt to overwrite object with scalar value (including Date and Regex) and vice versa
+ * @return {Object}
+ */
+function deepExtend({{# def.arg }} obj, onlyEnumerable, preserveStructure) {
+    var result = _extendTree({{# def.self }}, obj, onlyEnumerable, preserveStructure, []);
+    {{# def.return:result }}
+}
+
+{{## def.isNormalObject:_value:
+    typeof _value == "object"
+        && _value != null
+        && !(_value instanceof RegExp) && !(_value instanceof Date)
+#}}
+
+{{## def.deepExtendCode:
+    var value = objNode[key];
+    var hasProp = selfNode.hasOwnProperty(key);
+    var selfValue = selfNode[key];
+    var isSelfObj = {{# def.isNormalObject:selfValue }};
+    var isValueObj = {{# def.isNormalObject:value }};
+
+    if (preserveStructure && hasProp && isSelfObj != isValueObj)
+        throw new Error("deepExtend");
+
+    if (isValueObj) {
+        if (!hasProp || !isSelfObj)
+            selfNode[key] = (Array.isArray(value)) ? [] : {};
+
+        _extendTree(selfNode[key], value, onlyEnumerable, preserveStructure, objTraversed);
+    } else {
+        var descriptor = Object.getOwnPropertyDescriptor(objNode, key);
+        Object.defineProperty(selfNode, key, descriptor);
+    }
+#}}
+
+function _extendTree(selfNode, objNode, onlyEnumerable, preserveStructure, objTraversed) {
+    if (objTraversed.indexOf(objNode) >= 0) return selfNode; // node already traversed, obj has recursion
+
+    // store node to recognise recursion
+    objTraversed.push(objNode);
+
+    if (Array.isArray(objNode)) {
+        for (var key=0; key<objNode.length; key++) {
+            {{# def.deepExtendCode }}
+        }
+    } else {
+        {{ var params = { obj: 'objNode', code: '{{# def.deepExtendCode }}' }; }}
+        {{# def.eachKey:params }}
+    }
+
+    return selfNode;
+}
+
+
+/**
+ * Clones all object tree. Class of original object is not preserved. Returns `self`
+ *
+ * @param {Object} self An object to be extended
+ * @param {Boolean} onlyEnumerable Optional `true` to use only enumerable properties
+ * @return {Object}
+ */
+function deepClone({{# def.arg }} onlyEnumerable) {
+    {{# def.varSelf }}
+    var clonedObject;
+    if (self instanceof Date) clonedObject = new Date(self);
+    else if (self instanceof RegExp) clonedObject = new RegExp(self);
+    else {
+        clonedObject = Array.isArray(self) ? [] : {};
+        _extendTree(clonedObject, self, onlyEnumerable, false, []);
+    }
+    {{# def.return:clonedObject }}
 }
 
 
@@ -432,4 +641,141 @@ function everyKey({{# def.arg }} callback, thisArg, onlyEnumerable) {
     {{ var params = { obj: 'self', code: '{{# def.everyKeyCode }}' }; }}
     {{# def.eachKey:params }}
     {{# def.return:true }}
+}
+
+
+/**
+ * Returns object of the same class with only specified keys, that are passed as string parameters or array(s) of keys.
+ *
+ * @param {Object} self an object to pick keys from
+ * @param {List<String|Array>} arguments list of keys (or array(s) of keys)
+ * @return {Object}
+ */
+{{## def.start: {{= it.mode == 'functions' ? '1' : '0' }} #}}
+{{## def.argKeys: var keys = concat.apply(Array.prototype, arguments); #}}
+
+function pickKeys({{# def.oneArg }}) { // , ... keys
+    {{# def.varSelf }}
+    {{# def.argKeys }}
+    var obj = Object.create(self.constructor.prototype);
+    for (var i={{#def.start}}; i<keys.length; i++) {
+        var key = keys[i];
+        if (self.hasOwnProperty(key)) obj[key] = self[key];
+    }
+    {{# def.return:obj }};
+}
+
+
+/**
+ * Returns object of the same class without specified keys, that are passed as string parameters or array(s) of keys.
+ *
+ * @param {Object} self an object to omit keys in
+ * @param {List<String|Array>} arguments list of keys (or array of keys)
+ * @return {Object}
+ */
+function omitKeys({{# def.oneArg}}) { // , ... keys
+    {{# def.varSelf }}
+    var clonedObject, onlyEnumerable;
+    {{# def.clone }}
+    {{# def.argKeys }}
+    for (var i={{#def.start}}; i<keys.length; i++) {
+        delete clonedObject[keys[i]];
+    }
+    {{# def.return:clonedObject }};    
+}
+
+
+/**
+ * Performs deep equality test of the object. Does not work with recursive objects
+ * @param  {Any} self object to compare
+ * @param  {Any} obj object to compare
+ * @return {Boolean}
+ */
+function isEqual({{# def.arg }} obj) {
+    {{# def.varSelf }}
+    var result;
+    if (self === obj) {
+        result = self !== 0 || 1/self == 1/obj; // 0 and -0 are considered not equal, although 0 === -0 is true
+        {{# def.return:result }}
+    }
+    if (self == null || obj == null) {
+        {{# def.return:false }}
+    }
+    var className = self.constructor.name;
+    if (className != obj.constructor.name) {
+        {{# def.return:false }}
+    }
+    switch (className) {
+        case 'String':
+            result = self == String(obj);
+            break;
+        case 'Number':
+            result = self != +self ? obj != +obj : (self == 0 ? 1/self == 1/obj : self == +obj);
+            break;
+        case 'Date':
+        case 'Boolean':
+            result = +self == +obj;
+            break;
+        case 'RegExp':
+            result = self.source == obj.source
+                    && self.global == obj.global
+                    && self.multiline == obj.multiline
+                    && self.ignoreCase == obj.ignoreCase;
+            break;
+        default:
+            if (typeof self != 'object' || typeof obj != 'object') {
+                {{# def.return:false }}
+            }
+
+            if (Array.isArray(self)) {
+                if (self.length != obj.length) {
+                    {{# def.return:false }}
+                }
+                {{# def.iter:self }} {
+                    result = {{? it.mode == 'functions' }}
+                        isEqual(self[i], obj[i]);
+                    {{??}}
+                        isEqual.call({self: self[i]}, obj[i]).self;
+                    {{?}}
+                    if (!result) {
+                        {{# def.return:false }}
+                    }
+                }
+                {{# def.return:true }}
+            } else {
+                if ({{#def.allKeys:'self'}}.length != {{#def.allKeys:'obj'}}.length) {
+                    {{# def.return:false }}
+                }
+                {{
+                    var isEqualCode = 'result = '
+                                    + (it.mode == 'functions'
+                                        ? 'isEqual(self[key], obj[key]);'
+                                        : 'isEqual.call({self: self[key]}, obj[key]).self;' )
+                                    + 'if (!result) break;';
+                }}
+                result = true;
+                {{ var params = { obj: 'self', code: isEqualCode }; }}
+                {{# def.eachKeyAll:params }}
+                {{# def.return:result }}
+            }
+    }
+
+    {{# def.return:result }}
+}
+
+
+/**
+ * The opposite of isEqual
+ * @param  {Any} self object to compare
+ * @param  {Any} obj object to compare
+ * @return {Boolean}
+ */
+function isNot({{# def.arg }} obj) {
+    var equal = {{? it.mode == 'functions' }}
+        !isEqual(self, obj);
+    {{??}}
+        !isEqual.call({self: this.self}, obj).self;
+    {{?}}
+
+    {{# def.return:equal }}
 }

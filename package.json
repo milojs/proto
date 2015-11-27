@@ -5,7 +5,7 @@
   "main": "lib/proto.js",
   "scripts": {
     "test-spec": "NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter=spec",
-    "test": "NODE_ENV=test istanbul cover -x 'test' node_modules/mocha/bin/_mocha -- test/*.js --recursive --reporter=spec",
+    "test": "NODE_ENV=test npm run build && istanbul cover -x 'test' node_modules/mocha/bin/_mocha -- test/*.js --recursive --reporter=spec",
     "build": "node scripts/compile-dots.js"
   },
   "repository": {

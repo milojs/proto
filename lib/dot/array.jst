@@ -56,6 +56,17 @@ var nativeMethods = [ 'join', 'pop', 'push', 'concat',
 }
 
 
+{{## def.find:params:
+    {{# def.varSelf }}
+    {{# def.iter:self }} {
+        var item = self[i];
+        if (callback.call(thisArg, item, i, self)) {
+            {{# def.intReturn:params.result }}
+        }
+    }
+    {{# def.intReturn:params.notFound }}
+#}}
+
 /**
  * Implementation of ES6 [Array __find__ method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find) (native method is used if available).
  * Returns array element that passes callback test.
@@ -66,14 +77,8 @@ var nativeMethods = [ 'join', 'pop', 'push', 'concat',
  * @return {Any}
  */
 function find({{# def.arg }} callback, thisArg) {
-    {{# def.varSelf }}
-    {{# def.iter:self }} {
-        var item = self[i];
-        if (callback.call(thisArg, item, i, self)) {
-            {{# def.return:item }}
-        }
-    }
-    {{# def.return:undefined }}
+    {{ var params = { result: 'item', notFound: 'undefined' }; }}
+    {{# def.find:params }}
 }
 
 
@@ -87,14 +92,8 @@ function find({{# def.arg }} callback, thisArg) {
  * @return {Integer}
  */
 function findIndex({{# def.arg }} callback, thisArg) {
-    {{# def.varSelf }}
-    {{# def.iter:self }} {
-        var item = self[i];
-        if (callback.call(thisArg, item, i, self)) {
-            {{# def.return:i }}
-        }
-    }
-    {{# def.intReturn:'-1' }}
+    {{ var params = { result: 'i', notFound: '-1' }; }}
+    {{# def.find:params }}
 }
 
 

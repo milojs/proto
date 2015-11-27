@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('../lib/proto')
-    , assert = require('assert')
+var assert = require('assert')
     , perfTest = require('./perf');
 
 
+[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('Object functions', function() {
     it('should define extend function', function() {
         function TestObject() { this.property = 0; }
@@ -255,28 +255,44 @@ describe('Object functions', function() {
 
     it('should define deepClone function', function() {
         var cloned = _.deepClone({ a: 1, b: { c: 2, d: { e: 3 } } });
-            assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
+        assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
+        cloned = _({ a: 1, b: { c: 2, d: { e: 3 } } }).deepClone()._();
+        assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
 
         cloned = _.deepClone({a: 1, b: [ {c: 2, d: [3, 4] } ] });
-            assert.deepEqual(cloned, {a: 1, b: [ {c: 2, d: [3, 4] } ] });
+        assert.deepEqual(cloned, {a: 1, b: [ {c: 2, d: [3, 4] } ] });
+        cloned = _({a: 1, b: [ {c: 2, d: [3, 4] } ] }).deepClone()._();
+        assert.deepEqual(cloned, {a: 1, b: [ {c: 2, d: [3, 4] } ] });
 
         cloned = _.deepClone([ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
-            assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+        assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+        cloned = _.deepClone([ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
+        assert.deepEqual(cloned, [ {a: 1, b: [ {c: 2, d: [3, 4] } ] }, 5, 6 ]);
 
         var tempDate = new Date();
 
         cloned = _.deepClone({ elem: [ 'hello', 'hello',
                 { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
-            assert.deepEqual(cloned, { elem: [ 'hello', 'hello',
-                    { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
+        assert.deepEqual(cloned, { elem: [ 'hello', 'hello',
+                { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
+        cloned = _({ elem: [ 'hello', 'hello',
+                { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } }).deepClone()._();
+        assert.deepEqual(cloned, { elem: [ 'hello', 'hello',
+                { x: [ new Date(tempDate), new RegExp('hello') ] } ], temp: { temp2: [ 'hello1' ] } });
 
         cloned = _.deepClone(new Date(tempDate));
-            assert.deepEqual(cloned, new Date(tempDate));
-            assert(cloned instanceof Date, 'cloned object should be the same class');
+        assert.deepEqual(cloned, new Date(tempDate));
+        assert(cloned instanceof Date, 'cloned object should be the same class');
+        cloned = _(new Date(tempDate)).deepClone()._();
+        assert.deepEqual(cloned, new Date(tempDate));
+        assert(cloned instanceof Date, 'cloned object should be the same class');
 
         cloned = _.deepClone(new RegExp('hello'));
-            assert.deepEqual(cloned, new RegExp('hello'));
-            assert(cloned instanceof RegExp, 'cloned object should be the same class');
+        assert.deepEqual(cloned, new RegExp('hello'));
+        assert(cloned instanceof RegExp, 'cloned object should be the same class');
+        cloned = _(new RegExp('hello')).deepClone()._();
+        assert.deepEqual(cloned, new RegExp('hello'));
+        assert(cloned instanceof RegExp, 'cloned object should be the same class');
     });
 
 
@@ -684,10 +700,16 @@ describe('Object functions', function() {
         assert.equal(_.findValue(obj, callback, thisArg), 7);
         assert.equal(_.findValue(obj, callback2, thisArg), undefined);
 
+        assert.equal(_(obj).findValue(callback, thisArg)._(), 7);
+        assert.equal(_(obj).findValue(callback2, thisArg)._(), undefined);
+
         _.defineProperty(obj, 'nonenum', 100)
 
         assert.equal(_.findValue(obj, callback2, thisArg), 100);
         assert.equal(_.findValue(obj, callback2, thisArg, true), undefined);
+
+        assert.equal(_(obj).findValue(callback2, thisArg)._(), 100);
+        assert.equal(_(obj).findValue(callback2, thisArg, true)._(), undefined);
     });
 
 
@@ -708,10 +730,16 @@ describe('Object functions', function() {
         assert.equal(_.findKey(obj, callback, thisArg), 'e');
         assert.equal(_.findKey(obj, callback2, thisArg), undefined);
 
+        assert.equal(_(obj).findKey(callback, thisArg)._(), 'e');
+        assert.equal(_(obj).findKey(callback2, thisArg)._(), undefined);
+
         _.defineProperty(obj, 'nonenum', 100)
 
         assert.equal(_.findKey(obj, callback2, thisArg), 'nonenum');
         assert.equal(_.findKey(obj, callback2, thisArg, true), undefined);
+
+        assert.equal(_(obj).findKey(callback2, thisArg)._(), 'nonenum');
+        assert.equal(_(obj).findKey(callback2, thisArg, true)._(), undefined);
     }); 
 
 
@@ -827,6 +855,9 @@ describe('Object functions', function() {
         var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
         var picked = _.pickKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
         assert.deepEqual(picked, { a: 1, b: 2, e: 5, f: 6 });
+
+        picked = _(obj).pickKeys('a', 'b', ['e', 'f', 'zzz'])._();
+        assert.deepEqual(picked, { a: 1, b: 2, e: 5, f: 6 });
     });
 
 
@@ -834,10 +865,23 @@ describe('Object functions', function() {
         var obj = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 };
         var omitted = _.omitKeys(obj, 'a', 'b', ['e', 'f', 'zzz']);
         assert.deepEqual(omitted, { c: 3, d: 4 });
+
+        omitted = _(obj).omitKeys('a', 'b', ['e', 'f', 'zzz'])._();
+        assert.deepEqual(omitted, { c: 3, d: 4 });
     });
 
 
     it('should define isEqual function', function() {
+        testIsEqual('isEqual', assert);
+    });
+
+
+    it('should define isNot function', function() {
+        testIsEqual('isNot', assert.ifError);
+    });
+
+
+    function testIsEqual(eqMethod, assert) {
         var obj1 = { name: 'milo', info: { test: 1 } }
             , obj2 = { name: 'milo', info: { test: 1 } }
             , obj3 = { name: 'milo', info: { test: 2 } }
@@ -846,18 +890,33 @@ describe('Object functions', function() {
             , arr2 = [ 1, 2, [ 3, 4, { test: 5 } ] ]
             , arr3 = [ 1, 2, [ 3, 4, { test: 6 } ] ];
 
-        assert(_.isEqual(null, null));
-        assert(_.isEqual(NaN, NaN));
-        assert(_.isEqual(undefined, undefined));
-        assert(! _.isEqual(0, -0));
-        assert(_.isEqual(obj1, obj2));
-        assert(! _.isEqual(obj1, obj3));
-        assert(_.isEqual(arr1, arr2));
-        assert(! _.isEqual(arr1, arr3));
-        assert(_.isEqual(/[a-c]/, /[a-c]/));
-        assert(! _.isEqual(/[a-c]/, /[a-c]/i));
+        assert(_[eqMethod](null, null));
+        assert(_[eqMethod](NaN, NaN));
+        assert(_[eqMethod](undefined, undefined));
+        assert(! _[eqMethod](0, -0));
+        assert(_[eqMethod](obj1, obj2));
+        assert(! _[eqMethod](obj1, obj3));
+        assert(_[eqMethod](arr1, arr2));
+        assert(! _[eqMethod](arr1, arr3));
+        assert(_[eqMethod](/[a-c]/, /[a-c]/));
+        assert(! _[eqMethod](/[a-c]/, /[a-c]/i));
 
-        assert(! _.isEqual(obj3, obj4));
-        assert(! _.isEqual(obj4, obj3));
-    })
+        assert(! _[eqMethod](obj3, obj4));
+        assert(! _[eqMethod](obj4, obj3));
+
+        assert(_(null)[eqMethod](null)._());
+        assert(_(NaN)[eqMethod](NaN)._());
+        assert(_(undefined)[eqMethod](undefined)._());
+        assert(! _(0)[eqMethod](-0)._());
+        assert(_(obj1)[eqMethod](obj2)._());
+        assert(! _[eqMethod](obj1, obj3));
+        assert(_(arr1)[eqMethod](arr2)._());
+        assert(! _(arr1)[eqMethod](arr3)._());
+        assert(_(/[a-c]/)[eqMethod](/[a-c]/)._());
+        assert(! _(/[a-c]/)[eqMethod](/[a-c]/i)._());
+
+        assert(! _(obj3)[eqMethod](obj4)._());
+        assert(! _(obj4)[eqMethod](obj3)._());
+    }
+});
 });
