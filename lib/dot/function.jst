@@ -27,12 +27,12 @@ module.exports = {
     partialRight: partialRight,
     memoize: memoize,
     delay: delay,
-    // defer: defer,
-    // delayed: delayed,
-    // deferred: deferred,
-    // deferTicks: deferTicks,
-    // delayMethod: delayMethod,
-    // deferMethod: deferMethod,
+    defer: defer,
+    delayed: delayed,
+    deferred: deferred,
+    deferTicks: deferTicks,
+    delayMethod: delayMethod,
+    deferMethod: deferMethod,
     // debounce: debounce,
     // throttle: throttle,
     // once: once,
@@ -133,6 +133,15 @@ function memoize({{# def.arg }} hashFunc, limit) {
 }
 
 
+{{## def.restArgs:count:
+    var args = slice.call(arguments, {{?it.mode == 'functions'}}{{=+count+1}}{{??}}{{=count}}{{?}});
+#}}
+
+{{## def._delay:
+    var id = setTimeout(function() { self.apply(null, args); }
+#}}
+
+
 /**
  * Delays function execution by a given time in milliseconds.
  * The context in function when it is executed is set to `null`.
@@ -143,10 +152,8 @@ function memoize({{# def.arg }} hashFunc, limit) {
  */
 function delay({{# def.arg }} wait) { // , arguments
     {{# def.varSelf }}
-    var args = slice.call(arguments, {{?it.mode == 'functions'}}2{{??}}1{{?}});
-    var id = setTimeout(function() {
-        self.apply(null, args);
-    }, wait);
+    {{# def.restArgs:'1' }}
+    {{# def._delay }}, wait);
     {{# def.return:id }}
 }
  
@@ -158,11 +165,118 @@ function delay({{# def.arg }} wait) { // , arguments
  * @param {Function} self function that execution has to be delayed
  * @param {List} arguments optional arguments that will be passed to the function
  */
-function defer() { // , arguments
-    return _delay(this, 1, arguments);
+function defer({{# def.oneArg }}) { // , arguments
+    {{# def.varSelf }}
+    {{# def.varArguments }}
+    {{# def._delay }});
+    {{# def.return:id }}
 }
 
-function _delay(func, wait, args, context) {
-    return setTimeout(func.apply.bind(func, context || null, args), wait);
+
+{{## def._delayed:
+    var func = function() { // ... arguments
+        var passArgs = args.concat(slice.call(arguments));
+        var context = this;
+        return setTimeout(function() { self.apply(context, passArgs); }
+#}}
+
+
+/**
+ * Returns function that will execute the original function `wait` ms after it has been called
+ * The context in function when it is executed is set to `null`.
+ * Arguments passed to the function are appended to the arguments passed to delayed.
+ *
+ * @param {Function} self function which execution has to be deferred
+ * @param {Number} wait approximate dalay time in milliseconds
+ * @param {List} arguments optional arguments that will be passed to the function
+ * @return {Function}
+ */
+function delayed({{# def.arg }} wait) { //, ... arguments
+    {{# def.varSelf }}
+    {{# def.restArgs:'1' }}
+    {{# def._delayed }}, wait); };
+    {{# def.return:func }}
 }
 
+
+/**
+ * Returns function that will execute the original function on the next tick once it has been called
+ * The context in function when it is executed is set to `null`.
+ * Arguments passed to the function are appended to the arguments passed to deferred.
+ *
+ * @param {Function} self function which execution has to be deferred
+ * @param {List} arguments optional arguments that will be passed to the function
+ * @return {Function}
+ */
+function deferred({{# def.oneArg }}) { //, ... arguments
+    {{# def.varSelf }}
+    {{# def.varArguments }}
+    {{# def._delayed }}); };
+    {{# def.return:func }}
+}
+
+
+/**
+ * Defers function execution for `times` ticks (executes after execution loop becomes free `times` times)
+ * The context in function when it is executed is set to `null`.
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {Integer} ticks number of times to defer execution
+ * @param {List} arguments optional arguments that will be passed to the function
+ */
+function deferTicks({{# def.arg }} ticks) { // , arguments
+    {{# def.varSelf }}
+    var id;
+    if (ticks < 2) {
+        {{# def.restArgs:'1' }}
+        id = setTimeout(function() {
+            self.apply(null, args);
+        });
+    } else {
+        var args = arguments;
+        args[{{? it.mode == 'functions' }}1{{??}}0{{?}}] = ticks - 1;
+        id = setTimeout(function() {
+            deferTicks.apply({{? it.mode == 'functions' }}null{{??}}{ self: self }{{?}}, args);
+        });
+    }
+    {{# def.return:id }}
+}
+
+
+{{## def._delayMethod:
+    var func = typeof funcOrMethodName == 'string'
+                ? self[funcOrMethodName]
+                : funcOrMethodName;
+    var id = setTimeout(function() { func.apply(self, args); }
+#}}
+
+
+/**
+ * Works like _.delay but allows to defer method call of `self` which will be the first _.delayMethod parameter
+ *
+ * @param {Object} self object to delay method call of
+ * @param {Function|String} funcOrMethodName function or name of method
+ * @param {Number} wait approximate dalay time in milliseconds
+ * @param {List} arguments arguments to pass to method
+ */
+function delayMethod({{# def.arg }} funcOrMethodName, wait) { // , ... arguments
+    {{# def.varSelf }}
+    {{# def.restArgs:'2' }}
+    {{# def._delayMethod }}, wait);
+    {{# def.return:id }}
+}
+
+
+/**
+ * Works like _.defer but allows to defer method call of `self` which will be the first _.deferMethod parameter
+ *
+ * @param {Object} self object to defer method call of
+ * @param {Function|String} funcOrMethodName function or name of method
+ * @param {List} arguments arguments to pass to method
+ */
+function deferMethod({{# def.arg }} funcOrMethodName) { // , ... arguments
+    {{# def.varSelf }}
+    {{# def.restArgs:'1' }}
+    {{# def._delayMethod }});
+    {{# def.return:id }}
+}
