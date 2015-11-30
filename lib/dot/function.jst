@@ -22,11 +22,11 @@
  * These methods can be [chained](proto.js.html#Proto)
  */
 module.exports = {
-    // makeFunction: makeFunction,
+    makeFunction: makeFunction,
     partial: partial,
-    // partialRight: partialRight,
-    // memoize: memoize,
-    // delay: delay,
+    partialRight: partialRight,
+    memoize: memoize,
+    delay: delay,
     // defer: defer,
     // delayed: delayed,
     // deferred: deferred,
@@ -45,6 +45,30 @@ var slice = Array.prototype.slice;
 
 
 /**
+ * Similarly to Function constructor creates a function from code.
+ * Unlike Function constructor, the first argument is a function name
+ *
+ * @param {String} self new function name
+ * @param {String} arg1, arg2, ... the names of function parameters
+ * @param {String} funcBody function body
+ * @return {Function}
+ */
+function makeFunction({{# def.arg }} arg1, arg2, funcBody) {
+    var name = {{# def.self }}
+        , count = arguments.length - 1
+        , funcBody = arguments[count]
+        , func
+        , code = '';
+    for (var i = {{?it.mode == 'functions'}}1{{??}}0{{?}}; i < count; i++)
+        code += ', ' + arguments[i];
+    code = ['func = function ', name, '(', code.slice(2), ') {\n'
+                , funcBody, '\n}'].join('');
+    eval(code);
+    {{# def.return:func }}
+}
+
+
+/**
  * Creates a function as a result of partial function application with the passed parameters.
  *
  * @param {Function} self Function to be applied
@@ -54,7 +78,91 @@ var slice = Array.prototype.slice;
 function partial({{# def.oneArg}}) { // , ... arguments
     {{# def.varSelf }}
     {{# def.varArgs }}
-    return function() {
+    var func = function() {
         return self.apply(this, args.concat(slice.call(arguments)));
     };
+    {{# def.return:func }}
 }
+
+
+/**
+ * Creates a function as a result of partial function application with the passed parameters, but parameters are appended on the right.
+ *
+ * @param {Function} self Function to be applied
+ * @param {List} arguments Arguments after self will be appended on the right to the original function call when the partial function is called.
+ * @return {Function}
+ */
+function partialRight({{# def.oneArg}}) { // , ... arguments
+    {{# def.varSelf }}
+    {{# def.varArgs }}
+    var func = function() {
+        return self.apply(this, slice.call(arguments).concat(args));
+    };
+    {{# def.return:func }}
+}
+
+
+/**
+ * Creates a memoized version of the function using supplied hash function as key. If the hash is not supplied, uses its first parameter as the hash.
+ * 
+ * @param {Function} self function to be memoized
+ * @param {Function} hashFunc optional hash function that is passed all function arguments and should return cache key.
+ * @param {Integer} limit optional maximum number of results to be stored in the cache. 1000 by default.
+ * @return {Function} memoized function
+ */
+function memoize({{# def.arg }} hashFunc, limit) {
+    {{# def.varSelf }}
+    var cache = {}, keysList = [];
+    limit = limit || 1000;
+
+    var func = function() {
+        var key = hashFunc ? hashFunc.apply(this, arguments) : arguments[0];
+        if (cache.hasOwnProperty(key))
+            return cache[key];
+
+        var result = cache[key] = self.apply(this, arguments);
+        keysList.push(key);
+
+        if (keysList.length > limit)
+            delete cache[keysList.shift()];
+
+        return result;
+    };
+
+    {{# def.return:func }}
+}
+
+
+/**
+ * Delays function execution by a given time in milliseconds.
+ * The context in function when it is executed is set to `null`.
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {Number} wait approximate dalay time in milliseconds
+ * @param {List} arguments optional arguments that will be passed to the function
+ */
+function delay({{# def.arg }} wait) { // , arguments
+    {{# def.varSelf }}
+    var args = slice.call(arguments, {{?it.mode == 'functions'}}2{{??}}1{{?}});
+    var id = setTimeout(function() {
+        self.apply(null, args);
+    }, wait);
+    {{# def.return:id }}
+}
+ 
+
+/**
+ * Defers function execution (executes as soon as execution loop becomes free)
+ * The context in function when it is executed is set to `null`.
+ *
+ * @param {Function} self function that execution has to be delayed
+ * @param {List} arguments optional arguments that will be passed to the function
+ */
+function defer() { // , arguments
+    return _delay(this, 1, arguments);
+}
+
+function _delay(func, wait, args, context) {
+    return setTimeout(func.apply.bind(func, context || null, args), wait);
+}
+

@@ -9,11 +9,18 @@ describe('Function functions', function() {
     it('should define makeFunction function', function() {
         var myFunc = _.makeFunction('myFunc', 'a', 'b', 'c'
                                     , 'return a + b + c;');
+        test(myFunc);
 
-        assert(myFunc instanceof Function);
-        assert.doesNotThrow(myFunc);
-        assert.equal(myFunc.name, 'myFunc');
-        assert.equal(myFunc('1_', '2_', '3_'), '1_2_3_');
+        myFunc = _('myFunc').makeFunction('a', 'b', 'c'
+                                    , 'return a + b + c;')._();
+        test(myFunc);
+
+        function test(func) {
+            assert(func instanceof Function);
+            assert.doesNotThrow(func);
+            assert.equal(func.name, 'myFunc');
+            assert.equal(func('1_', '2_', '3_'), '1_2_3_');
+        }
     });
 
 
@@ -23,14 +30,20 @@ describe('Function functions', function() {
         }
 
         var testPartial = _.partial(testFunc, 'my ');
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial('partial ', 'function'));
 
-            assert.equal(testFunc('my ', 'partial ', 'function'),
-                        testPartial('partial ', 'function'));
+        testPartial = _(testFunc).partial('my ')._();
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial('partial ', 'function'));
 
         var testPartial2 = _.partial(testFunc, 'my ', 'partial ');
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial2('function'));
 
-            assert.equal(testFunc('my ', 'partial ', 'function'),
-                        testPartial2('function'));
+        testPartial2 = _(testFunc).partial('my ', 'partial ')._();
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial2('function'));
     });
 
 
@@ -40,14 +53,20 @@ describe('Function functions', function() {
         }
 
         var testPartial = _.partialRight(testFunc, 'function');
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial('my ', 'partial '));
 
-            assert.equal(testFunc('my ', 'partial ', 'function'),
-                        testPartial('my ', 'partial '));
+        testPartial = _(testFunc).partialRight('function')._();
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial('my ', 'partial '));
 
         var testPartial2 = _.partialRight(testFunc, 'partial ', 'function');
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial2('my '));
 
-            assert.equal(testFunc('my ', 'partial ', 'function'),
-                        testPartial2('my '));
+        testPartial2 = _(testFunc).partialRight('partial ', 'function')._();
+        assert.equal(testFunc('my ', 'partial ', 'function'),
+                    testPartial2('my '));
     });
 
 
@@ -142,13 +161,19 @@ describe('Function functions', function() {
 
         _.delay(myFunc, 10, 1, 2, 3);
 
-        assert.equal(called, undefined);
-        assert.equal(args, undefined);
-
         setTimeout(function() {
             assert.equal(called, true);
             assert.deepEqual(args, [1, 2, 3]);
-            done();
+
+            called = undefined;
+            args = undefined;
+
+            _(myFunc).delay(10, 1, 2, 3, 4);
+            setTimeout(function() {
+                assert.equal(called, true);
+                assert.deepEqual(args, [1, 2, 3, 4]);
+                done();
+            }, 20);
         }, 20);
     });
 
