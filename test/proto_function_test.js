@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('../lib/proto')
-    , assert = require('assert')
+var assert = require('assert')
     , perfTest = require('./perf');
 
 
+[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('Function functions', function() {
     it('should define makeFunction function', function() {
         var myFunc = _.makeFunction('myFunc', 'a', 'b', 'c'
@@ -469,6 +469,39 @@ describe('Function functions', function() {
     });
 
 
+    it('should define debounce method', function(done) {
+        var called = 0
+            , args;
+
+        function myFunc() {
+            called++;
+            args = Array.prototype.slice.call(arguments);
+        }
+
+        var myDebounced = _(myFunc).debounce(20)._();
+
+        myDebounced(1,2);
+        myDebounced(3,4);
+        assert.equal(called, 0);
+
+        setTimeout(function(){
+            myDebounced(5,6);
+            assert.equal(called, 0);
+
+            setTimeout(function() {
+                assert.equal(called, 1);
+                assert.deepEqual(args, [5, 6]);
+
+                setTimeout(function() {
+                    assert.equal(called, 1);
+                    assert.deepEqual(args, [5, 6]);
+                    done();
+                }, 10)
+            }, 22);
+        }, 5);
+    });
+
+
     it('should define debounce function with immediate', function(done) {
         var called = 0
             , args;
@@ -509,7 +542,51 @@ describe('Function functions', function() {
     });
 
 
-    it('should define once function', function() {
+    it('should define debounce method with immediate', function(done) {
+        var called = 0
+            , args;
+
+        function myFunc() {
+            called++;
+            args = Array.prototype.slice.call(arguments);
+        }
+
+        var myDebounced = _(myFunc).debounce(20, true)._();
+
+        myDebounced(1,2);
+        assert.equal(called, 1);
+        assert.deepEqual(args, [1, 2]);
+
+        myDebounced(3,4);
+        assert.equal(called, 1);
+        assert.deepEqual(args, [1, 2]);
+
+        setTimeout(function(){
+            myDebounced(5,6);
+            assert.equal(called, 1);
+            assert.deepEqual(args, [1, 2]);
+
+            setTimeout(function() {
+                myDebounced(7,8);
+                assert.equal(called, 2);
+                assert.deepEqual(args, [7, 8]);
+
+                setTimeout(function() {
+                    myDebounced(9,10);
+                    assert.equal(called, 2);
+                    assert.deepEqual(args, [7, 8]);
+                    done();
+                }, 10)
+            }, 22);
+        }, 5);
+    });
+
+
+    it('should define throttle function');
+    it('should define throttle method');
+
+
+    it('should define once function and method', function() {
         var called = 0;
 
         function myFunc() {
@@ -517,10 +594,14 @@ describe('Function functions', function() {
         }
 
         var myOnce = _.once(myFunc);
-
         myOnce();
         myOnce();
-
+        assert.equal(called, 1);
+        
+        called = 0;
+        myOnce = _(myFunc).once()._();
+        myOnce();
+        myOnce();
         assert.equal(called, 1);
     });
 
@@ -529,12 +610,15 @@ describe('Function functions', function() {
         var semaphore = 'red',
             state = 'stopped';
 
-        _.waitFor(function (){
+        function isGreen(){
             return semaphore == 'green';
-        },
-        function (){
+        }
+
+        function setRunning(){
             state = 'running';
-        }, 1000);
+        }
+
+        _.waitFor(isGreen, setRunning, 1000);
 
         assert.equal(state, 'stopped');
         setTimeout(function (){
@@ -545,24 +629,80 @@ describe('Function functions', function() {
                 done();
             }, 100);
         }, 200);
-
     });
+
 
     it('should define waitFor function 2', function(done) {
         var counter = 0;
         var timedOut = false;
 
-        _.waitFor(function (){
+        function increment(){
             counter++;
             return false;
-        },
-        function (){
+        }
+
+        function callback(){
             counter = "cannot pass here";
-        }, 500, 
-        function (){
+        }
+
+        function onTimeOut(){
             timedOut = true;
-        },
-        50);
+        }
+
+        _.waitFor(increment, callback, 500, onTimeOut, 50);
+
+        setTimeout(function (){
+            assert.equal(counter, 10);
+            assert.equal(timedOut, true);
+            done();
+        }, 600);
+    });
+
+
+    it('should define waitFor method', function(done) {
+        var semaphore = 'red',
+            state = 'stopped';
+
+        function isGreen(){
+            return semaphore == 'green';
+        }
+
+        function setRunning(){
+            state = 'running';
+        }
+
+        _(isGreen).waitFor(setRunning, 1000)._();
+
+        assert.equal(state, 'stopped');
+        setTimeout(function (){
+            assert.equal(state, 'stopped');
+            semaphore = 'green';
+            setTimeout(function (){
+                assert.equal(state, 'running');
+                done();
+            }, 100);
+        }, 200);
+    });
+
+
+    it('should define waitFor method 2', function(done) {
+        var counter = 0;
+        var timedOut = false;
+
+        function increment(){
+            counter++;
+            return false;
+        }
+
+        function callback(){
+            counter = "cannot pass here";
+        }
+
+        function onTimeOut(){
+            timedOut = true;
+        }
+
+        _(increment).waitFor(callback, 500, onTimeOut, 50)._();
 
         setTimeout(function (){
             assert.equal(counter, 10);
@@ -589,4 +729,25 @@ describe('Function functions', function() {
         assert.equal(even(2), true);
         assert.equal(even(4), true);
     });
+
+
+    it('should define not method', function() {
+        function odd(number) {
+            return !!(number % 2);
+        }
+
+        var even = _(odd).not()._();
+
+        assert.equal(odd(3), true);
+        assert.equal(odd(5), true);
+        assert.equal(odd(2), false);
+        assert.equal(odd(4), false);
+
+        assert.equal(even(3), false);
+        assert.equal(even(5), false);
+        assert.equal(even(2), true);
+        assert.equal(even(4), true);
+    });
+});
+
 });
