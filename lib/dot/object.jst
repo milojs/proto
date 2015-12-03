@@ -1,5 +1,6 @@
 'use strict';
 {{# def.definitions }}
+{{# def.keys }}
 
 /**
  * - [extend](#extend)
@@ -70,37 +71,6 @@ var constants = module.exports._constants = {
     WRITABLE: 4,
     WRIT: 4
 };
-
-
-{{## def.allKeys:obj:
-    Object.getOwnPropertyNames({{=obj}})
-#}}
-
-
-{{## eachKey:params:
-    var key;
-    if (onlyEnumerable) {
-        for (key in {{=params.obj}}) {
-            {{=params.code}}
-        }
-    } else {
-        var keys = {{# def.allKeys:params.obj }};
-        {{# def.iter:keys }} {
-            key = keys[i];
-            {{=params.code}}
-        }
-    }
-#}}
-
-
-{{## eachKeyAll:params:
-    var key;
-    var keys = {{# def.allKeys:params.obj }};
-    {{# def.iter:keys }} {
-        key = keys[i];
-        {{=params.code}}
-    }
-#}}
 
 
 /**

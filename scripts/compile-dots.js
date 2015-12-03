@@ -8,7 +8,11 @@ var glob = require('glob')
 
 doT.templateSettings.strip = false;
 
-var defs = fs.readFileSync(path.join(__dirname, '../lib/dot/definitions.def'));
+var defs = {};
+['definitions', 'keys'].forEach(function (name) {
+  defs[name] = fs.readFileSync(path.join(__dirname, '../lib/dot/' + name + '.def'));
+});
+
 var files = glob.sync('../lib/dot/*.jst', { cwd: __dirname });
 
 var dotjsPath = path.join(__dirname, '../lib/dotjs');
@@ -20,7 +24,7 @@ console.log('\n\nCompiling:');
 files.forEach(function (f) {
   var group = path.basename(f, '.jst');
   var template = fs.readFileSync(path.join(__dirname, f));
-  var groupTemplate = doT.compile(template, { definitions: defs });
+  var groupTemplate = doT.compile(template, defs);
   ['functions', 'methods'].forEach(function (mode) {
     var code = groupTemplate({ mode: mode });
     code = beautify(code, { preserve_newlines: false, end_with_newline: true });
