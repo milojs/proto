@@ -2,6 +2,8 @@
 {{# def.definitions }}
 {{# def.keys }}
 
+var slice = Array.prototype.slice;
+
 /**
  * - [firstUpperCase](#firstUpperCase)
  * - [firstLowerCase](#firstLowerCase)
@@ -222,11 +224,11 @@ var formatRegexp = /\$[0-9]+|\$\$/g;
  */
 function format({{# def.oneArg }}) { // , ... arguments
     {{# def.varSelf }}
-    var str = this;
-    var args = arguments;
-    return str.replace(formatRegexp, function (item) {
+    {{# def.varArguments }}
+    var result = self.replace(formatRegexp, function (item) {
         if (item == '$$') return '$';
         item = item.slice(1);
         return args[item - 1];
     });
+    {{# def.return:result }}
 };

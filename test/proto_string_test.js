@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('../lib/proto2')
-    , assert = require('assert');
+var assert = require('assert');
 
 
-describe.only('String functions', function() {
+[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
+describe('String functions', function() {
     it('should define firstUpperCase function', function() {
         var upper = 'UPPERCASE'
             , lower = 'lowercase';
@@ -195,8 +195,22 @@ describe.only('String functions', function() {
     });
 
 
+    it('should define unPrefix method', function() {
+        assert.equal(_('root_string').unPrefix('root_')._(), 'string');
+        assert.equal(_('other_string').unPrefix('root_')._(), undefined);
+    });
+
+
     it('should define format function', function() {
         assert.equal(_.format('foo$1and$2bar$1', 'x', 'y'), 'fooxandybarx')
         assert.equal(_.format('this $1 is a $$ test', 'yo'), 'this yo is a $ test')
     });
+
+
+    it('should define format method', function() {
+        assert.equal(_('foo$1and$2bar$1').format('x', 'y')._(), 'fooxandybarx')
+        assert.equal(_('this $1 is a $$ test').format('yo')._(), 'this yo is a $ test')
+    });
+});
+
 });
