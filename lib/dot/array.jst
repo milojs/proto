@@ -16,8 +16,8 @@
  * These methods can be [chained](proto.js.html#Proto).
  */
 module.exports = {
-    find: Array.prototype.find || find,
-    findIndex: Array.prototype.find || findIndex,
+    find: find,
+    findIndex: findIndex,
     appendArray: appendArray,
     prependArray: prependArray,
     toArray: toArray,
@@ -36,11 +36,14 @@ module.exports = {
 var nativeMethods = [ 'join', 'pop', 'push', 'concat',
     'reverse', 'shift', 'unshift', 'slice', 'splice',
     'sort', 'filter', 'forEach', 'some', 'every',
-    'map', 'indexOf', 'lastIndexOf', 'reduce', 'reduceRight' ];
+    'map', 'indexOf', 'lastIndexOf', 'reduce', 'reduceRight',
+    'find', 'findIndex' ];
 
 
 {{# def.iter: nativeMethods }} {
     var name = nativeMethods[i];
+    var nativeFunc = Array.prototype[name];
+    if (!nativeFunc) continue;
     module.exports[name] = (function (method) {
         {{? it.mode == 'methods' }}
             return function() {
@@ -52,7 +55,7 @@ var nativeMethods = [ 'join', 'pop', 'push', 'concat',
                 return method.call.apply(method, arguments);
             };
         {{?}}
-    })(Array.prototype[name]);
+    })(nativeFunc);
 }
 
 
