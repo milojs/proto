@@ -21,4 +21,21 @@ describe('Number functions', function() {
         assert.equal(_.isNumeric(''), false);
         assert.equal(_.isNumeric(' '), false);
     });
+
+    it('should define isNumeric method', function() {
+        assert(_(234).isNumeric()._());
+        assert(_(345.2345).isNumeric()._());
+        assert(_(0.000235345).isNumeric()._());
+        assert(_(10/3).isNumeric()._());
+        assert(_('234').isNumeric()._());
+        assert(_('234.045').isNumeric()._());
+
+        assert.equal(_(1/0).isNumeric()._(), false);
+        assert.equal(_(Infinity).isNumeric()._(), false);
+        assert.equal(_(NaN).isNumeric()._(), false);
+        assert.equal(_('eereg').isNumeric()._(), false);
+        assert.equal(_('100g').isNumeric()._(), false);
+        assert.equal(_('').isNumeric()._(), false);
+        assert.equal(_(' ').isNumeric()._(), false);
+    });
 });

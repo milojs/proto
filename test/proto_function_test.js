@@ -1,10 +1,10 @@
 'use strict';
 
-var assert = require('assert')
+var _ = require('../lib/proto')
+    , assert = require('assert')
     , perfTest = require('./perf');
 
 
-[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('Function functions', function() {
     it('should define makeFunction function', function() {
         var myFunc = _.makeFunction('myFunc', 'a', 'b', 'c'
@@ -748,6 +748,4 @@ describe('Function functions', function() {
         assert.equal(even(2), true);
         assert.equal(even(4), true);
     });
-});
-
 });

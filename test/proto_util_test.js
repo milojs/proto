@@ -1,9 +1,9 @@
 'use strict';
 
-var assert = require('assert');
+var _ = require('../lib/proto')
+    , assert = require('assert');
 
 
-[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('Utility functions', function() {
     it('should define times function', function() {
         var arr = [], thisArg = {}
@@ -175,5 +175,4 @@ describe('Utility functions', function() {
     it('should define noop method', function() {
         assert.equal(_({yo: 'ho'}).noop()._(), undefined);
     });
-});
 });

@@ -1,9 +1,9 @@
 'use strict';
 
-var assert = require('assert');
+var _ = require('../lib/proto')
+    , assert = require('assert');
 
 
-[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('String functions', function() {
     it('should define firstUpperCase function', function() {
         var upper = 'UPPERCASE'
@@ -211,6 +211,4 @@ describe('String functions', function() {
         assert.equal(_('foo$1and$2bar$1').format('x', 'y')._(), 'fooxandybarx')
         assert.equal(_('this $1 is a $$ test').format('yo')._(), 'this yo is a $ test')
     });
-});
-
 });

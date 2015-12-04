@@ -14,6 +14,7 @@ var numberMethods = module.exports = {
  * @param {Any} self value to be tested
  * @return {Boolean} true if it is a numeric value
  */
-function isNumeric() {
-    return !isNaN(parseFloat(this)) && isFinite(this);
-};
+function isNumeric({{# def.oneArg }}) {
+    var result = !isNaN(parseFloat({{# def.self }})) && isFinite({{# def.self }});
+    {{# def.return:result }}
+}

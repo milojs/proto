@@ -1,10 +1,10 @@
 'use strict';
 
-var assert = require('assert')
+var _ = require('../lib/proto')
+    , assert = require('assert')
     , perfTest = require('./perf');
 
 
-[require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
 describe('Object functions', function() {
     it('should define extend function', function() {
         function TestObject() { this.property = 0; }
@@ -918,5 +918,4 @@ describe('Object functions', function() {
         assert(! _(obj3)[eqMethod](obj4)._());
         assert(! _(obj4)[eqMethod](obj3)._());
     }
-});
 });
