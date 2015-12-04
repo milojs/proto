@@ -95,7 +95,7 @@ function createSubclass({{# def.arg }} name, applyConstructor) {
     subclass.prototype = Object.create(self.prototype);
     
     // subclass identity
-    Object.defineProperty(subclass, 'constructor', {{# def.descriptor:'subclass' }});
+    Object.defineProperty(subclass.prototype, 'constructor', {{# def.descriptor:'subclass' }});
 
     // copy class methods
     // - for them to work correctly they should not explictly use superclass name
@@ -121,7 +121,7 @@ function makeSubclass({{# def.arg }} Superclass) {
     self.prototype = Object.create(Superclass.prototype);
     
     // subclass identity
-    Object.defineProperty(self, 'constructor', {{# def.descriptor:'self' }});
+    Object.defineProperty(self.prototype, 'constructor', {{# def.descriptor:'self' }});
 
     {{# def.return:self }}
 }

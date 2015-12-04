@@ -86,6 +86,8 @@ describe('Prototype functions', function() {
 
         var obj = new TestSubclass;
 
+            assert(obj instanceof TestSubclass);
+            assert.equal(obj.constructor, TestSubclass);
             assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
             assert.equal(obj.property, 1, 'constructor of superclass should be called');
             assert.throws(obj.method, 'instance method of superclass should be available');
@@ -121,6 +123,8 @@ describe('Prototype functions', function() {
 
         var obj = new TestSubclass;
 
+            assert(obj instanceof TestSubclass);
+            assert.equal(obj.constructor, TestSubclass);
             assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
             assert.equal(obj.property, 1, 'constructor of superclass should be called');
             assert.throws(obj.method, 'instance method of superclass should be available');
@@ -156,6 +160,8 @@ describe('Prototype functions', function() {
 
         var obj = new TestSubclass;
 
+            assert(obj instanceof TestSubclass);
+            assert.equal(obj.constructor, TestSubclass);
             assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
             assert.throws(obj.method, 'instance method of superclass should be available');
 
@@ -192,6 +198,8 @@ describe('Prototype functions', function() {
 
         var obj = new TestSubclass;
 
+            assert(obj instanceof TestSubclass);
+            assert.equal(obj.constructor, TestSubclass);
             assert(obj instanceof TestObject, 'objects should be instances of ancestor class');
             assert.throws(obj.method, 'instance method of superclass should be available');
 
