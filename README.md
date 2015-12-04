@@ -4,7 +4,7 @@ proto
 ES5-compatible object manipulation library for node and modern browsers
 
 [![Build Status](https://travis-ci.org/milojs/proto.png?branch=master)](https://travis-ci.org/milojs/proto)
-[![npm version](https://badge.fury.io/js/mol-proto.svg)](https://badge.fury.io/js/mol-proto)
+[![npm version](https://badge.fury.io/js/protojs.svg)](https://badge.fury.io/js/mol-proto)
 [![Code Climate](https://codeclimate.com/github/milojs/proto/badges/gpa.svg)](https://codeclimate.com/github/milojs/proto)
 [![Test Coverage](https://codeclimate.com/github/milojs/proto/badges/coverage.svg)](https://codeclimate.com/github/milojs/proto/coverage)
 
