@@ -9,6 +9,9 @@ module.exports = function(grunt) {
             }
         },
         browserify: {
+            options: {
+                transform: ['require-globify']
+            }
             proto: {
                 files: {
                     'proto.bundle.js': 'lib/proto.js'

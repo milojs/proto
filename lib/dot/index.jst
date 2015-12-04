@@ -1,0 +1,9 @@
+'use strict';
+
+module.exports = {
+    {{~it.groups:group:i}}
+        {{? group != 'index'}}
+            {{?i}},{{?}}{{=group}}: require('./{{=group}}')
+        {{?}}
+    {{~}}
+};
