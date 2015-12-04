@@ -1,7 +1,6 @@
 'use strict';
 
-var _ = require('../lib/proto2')
-    , assert = require('assert');
+var assert = require('assert');
 
 
 [require('../lib/proto'), require('../lib/proto2')].forEach(function (_) {
