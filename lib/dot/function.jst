@@ -132,11 +132,6 @@ function memoize({{# def.arg }} hashFunc, limit) {
     {{# def.return:func }}
 }
 
-
-{{## def.restArgs:count:
-    var args = slice.call(arguments, {{?it.mode == 'functions'}}{{=+count+1}}{{??}}{{=count}}{{?}});
-#}}
-
 {{## def._delay:
     var id = setTimeout(function() { self.apply(null, args); }
 #}}

@@ -1,0 +1,141 @@
+'use strict';
+
+var slice = Array.prototype.slice;
+
+/**
+ * - [times](#times)
+ * - [repeat](#repeat)
+ * - [tap](#tap)
+ * - [result](#result)
+ * - [identity](#identity)
+ * - [property](#property)
+ * - [compareProperty](#compareProperty)
+ * - [noop](#noop)
+ */
+var utilMethods = module.exports = {
+    times: times,
+    repeat: repeat,
+    tap: tap,
+    result: result,
+    identity: identity,
+    property: property,
+    compareProperty: compareProperty,
+    noop: noop
+};
+
+
+/**
+ * Calls `callback` `self` times with `thisArg` as context. Callback is passed iteration index from 0 to `self-1`
+ * 
+ * @param {Integer} self
+ * @param {Function} callback
+ * @param {Any} thisArg
+ * @return {Array}
+ */
+function times({{# def.arg }} callback, thisArg) {
+    {{# def.varSelf }}
+    var arr = Array(Math.max(0, self));
+    for (var i = 0; i < self; i++)
+        arr[i] = callback.call(thisArg, i);
+    {{# def.return:arr }}
+}
+
+
+/**
+ * Returns array with the first argument repeated `times` times
+ * @param  {Any} self
+ * @param  {Integer} times
+ * @return {Array}
+ */
+function repeat({{# def.arg }} times) {
+    {{# def.varSelf }}
+    var arr = Array(Math.max(0, times));;
+    for (var i = 0; i < times; i++)
+        arr[i] = self;
+    {{# def.return:arr }}
+}
+
+
+/**
+ * Function to tap into chained methods and to inspect intermediary result
+ *
+ * @param {Any} self value that's passed between chained methods
+ * @param {Function} func function that will be called with the value (both as context and as the first parameter)
+ * @return {Any}
+ */
+function tap({{# def.arg }} func) {
+    {{# def.varSelf }}
+    func.call(self, self);
+    {{# def.return:self }}
+};
+
+
+/**
+ * Calls function `self` (first parameter of _.result) with given context and arguments
+ * 
+ * @param {Function|Any} self
+ * @param {Any} thisArg context
+ * @param {List} arguments extra arguments
+ * @return {Any}
+ */
+function result({{# def.arg }} thisArg) { //, arguments
+    {{# def.restArgs:'1' }}
+    var result = typeof self == 'function'
+            ? self.apply(thisArg, args)
+            : self;
+    {{# def.return:result }}
+}
+
+
+/**
+ * Returns self. Useful for using as an iterator if the actual value needs to be returned. Unlike in underscore and lodash, this function is NOT used as default iterator.
+ *
+ * @param {Any} self 
+ * @return {Any}
+ */
+function identity({{# def.oneArg }}) {
+    {{# def.varSelf }}
+    {{# def.return:self }}
+}
+
+
+/**
+ * Returns function that picks the property from the object
+ *
+ * @param {String} self
+ * @return {Function}
+ */
+function property({{# def.oneArg }}) {
+    {{# def.varSelf }}
+    var func = function(obj) {
+        return obj[self];
+    };
+    {{# def.return:func }}
+}
+
+
+/**
+ * Returns function that can be used in array sort to sort by a given property
+ *
+ * @param {String} self
+ * @return {Function}
+ */
+function compareProperty({{# def.oneArg }}) {
+    {{# def.varSelf }}
+    var func = function(a, b) {
+        return a[self] < b[self]
+            ? -1
+            : a[self] > b[self]
+                ? 1
+                : 0;
+    };
+    {{# def.return:func }}
+}
+
+
+/**
+ * Function that does nothing
+ */
+function noop() {
+    {{# def.return:undefined }}
+}
