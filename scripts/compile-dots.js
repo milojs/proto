@@ -10,7 +10,7 @@ doT.templateSettings.strip = false;
 
 var defs = {};
 ['definitions', 'keys'].forEach(function (name) {
-  defs[name] = fs.readFileSync(path.join(__dirname, '../lib/dot/' + name + '.def'));
+  defs[name] = fs.readFileSync(path.join(__dirname, '../lib/dot/' + name + '.def'), 'utf-8');
 });
 
 var files = glob.sync('../lib/dot/*.jst', { cwd: __dirname });
@@ -28,7 +28,7 @@ var groups = files.map(function(f) {
 
 files.forEach(function (f, i) {
   var group = groups[i];
-  var template = fs.readFileSync(path.join(__dirname, f));
+  var template = fs.readFileSync(path.join(__dirname, f), 'utf-8');
   var groupTemplate = doT.compile(template, defs);
   ['functions', 'methods'].forEach(function (mode) {
     var code = groupTemplate({ mode: mode, groups: groups });
