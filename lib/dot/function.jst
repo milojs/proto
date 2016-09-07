@@ -57,13 +57,12 @@ function makeFunction({{# def.arg }} arg1, arg2, funcBody) {
     var name = {{# def.self }}
         , count = arguments.length - 1
         , funcBody = arguments[count]
-        , func
         , code = '';
     for (var i = {{?it.mode == 'functions'}}1{{??}}0{{?}}; i < count; i++)
         code += ', ' + arguments[i];
-    code = ['func = function ', name, '(', code.slice(2), ') {\n'
-                , funcBody, '\n}'].join('');
-    eval(code);
+    code = 'return function ' + name + '(' + code.slice(2) + ') {\n' +
+                funcBody + '\n}';
+    var func = (new Function(code))();
     {{# def.return:func }}
 }
 
