@@ -81,9 +81,9 @@ var regexpStringPattern = /^\/(.*)\/([gimy]*)$/;
  */
 function toFunction({{# def.oneArg }}) {
     {{# def.varSelf }}
+    var code = 'return ' + self + ';';
     var func;
-    var code = 'func = ' + self + ';';
-    try { eval(code); } catch(e) {}
+    try { func = (new Function(code))(); } catch(e) {}
     {{# def.return:func }}
 }
 
