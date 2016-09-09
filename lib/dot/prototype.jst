@@ -89,7 +89,8 @@ function createSubclass({{# def.arg }} name, applyConstructor) {
             ? ''
             : 'self.apply(this, arguments);';
 
-    eval('subclass = function ' + name + '(){ ' + constructorCode + ' }');
+    var code = 'return function ' + name + '(){ ' + constructorCode + ' }';
+    var subclass = (new Function('self', code))(self);
 
     // prototype chain
     subclass.prototype = Object.create(self.prototype);

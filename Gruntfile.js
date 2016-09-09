@@ -1,4 +1,3 @@
-
 module.exports = function(grunt) {
     grunt.initConfig({
         mochaTest: {
