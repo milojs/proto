@@ -23,17 +23,16 @@
     "url": "https://github.com/milojs/proto/issues"
   },
   "devDependencies": {
-    "async": "~2.0.1",
-    "browserify": "~13.1.0",
+    "async": "^2.0.1",
+    "browserify": "^13.1.0",
     "dot": "^1.0.3",
     "glob": "^7.0.6",
-    "grunt": "~1.0.1",
-    "grunt-browserify": "~5.0.0",
-    "grunt-contrib-watch": "~1.0.0",
-    "grunt-mocha-test": "~0.12.7",
-    "istanbul": "^0.4.0",
-    "js-beautify": "^1.5.10",
-    "mocha": "~3.0.2",
-    "underscore": "~1.8.3"
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "istanbul": "^0.4.5",
+    "js-beautify": "^1.6.4",
+    "mocha": "^3.0.2"
   }
 }
