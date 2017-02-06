@@ -330,6 +330,8 @@ function _extendTree(selfNode, objNode, onlyEnumerable, preserveStructure, objTr
         {{# def.eachKey:params }}
     }
 
+    objTraversed.pop();
+
     return selfNode;
 }
 

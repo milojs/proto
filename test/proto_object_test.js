@@ -293,6 +293,18 @@ describe('Object functions', function() {
         cloned = _(new RegExp('hello')).deepClone()._();
         assert.deepEqual(cloned, new RegExp('hello'));
         assert(cloned instanceof RegExp, 'cloned object should be the same class');
+
+        var duplicatedObject = { prop: true };
+        var objectWithDuplicatedObject = {
+            x: duplicatedObject,
+            y: [ duplicatedObject ],
+            z: {
+                x2: duplicatedObject
+            }
+        };
+
+        cloned = _.deepClone(objectWithDuplicatedObject);
+        assert.deepEqual(cloned, objectWithDuplicatedObject);
     });
 
 
