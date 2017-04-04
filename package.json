@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "async": "^2.0.1",
-    "browserify": "^13.1.0",
+    "browserify": "^14.2.0",
     "dot": "^1.0.3",
     "glob": "^7.0.6",
     "grunt": "^1.0.1",
