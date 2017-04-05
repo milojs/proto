@@ -311,7 +311,7 @@ function deepExtend({{# def.arg }} obj, onlyEnumerable, preserveStructure) {
         _extendTree(selfNode[key], value, onlyEnumerable, preserveStructure, objTraversed);
     } else {
         var descriptor = Object.getOwnPropertyDescriptor(objNode, key);
-        Object.defineProperty(selfNode, key, descriptor);
+        if (descriptor) Object.defineProperty(selfNode, key, descriptor);
     }
 #}}
 
