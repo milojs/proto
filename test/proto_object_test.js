@@ -257,8 +257,8 @@ describe('Object functions', function() {
         function Test() {}
         Test.prototype.foo = 'bar';
 
-        const obj = { bar: 'foo' };
-        const test = new Test;
+        var obj = { bar: 'foo' };
+        var test = new Test;
         test.foobar = 'barfoo'; // own properties should get through
         _[method](obj, test, true);
 
@@ -279,8 +279,8 @@ describe('Object functions', function() {
         function Test() {}
         Test.prototype.foo = 'bar';
 
-        const arr = ['foo'];
-        const test = new Test;
+        var arr = ['foo'];
+        var test = new Test;
         test.foobar = 'barfoo'; // own properties should get through
         _[method](arr, [test], true);
 
