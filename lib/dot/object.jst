@@ -85,7 +85,8 @@ var constants = module.exports._constants = {
  * @return {Object}
  */
 {{## def.getDescriptor:_obj:
-    descriptors[key] = Object.getOwnPropertyDescriptor(_obj, key);
+    var desc = Object.getOwnPropertyDescriptor(_obj, key);
+    if (desc) descriptors[key] = desc;
 #}}
 
 function extend({{# def.arg }} obj, onlyEnumerable) {
