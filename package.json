@@ -1,6 +1,6 @@
 {
   "name": "protojs",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "ES5 object manipulation library for node and modern browsers",
   "main": "lib/proto.js",
   "files": [
