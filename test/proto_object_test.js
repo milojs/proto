@@ -253,6 +253,32 @@ describe('Object functions', function() {
     });
 
 
+    it('deepExtend object shouldn\'t throw when encountering non-enumerable properties on extending object', function () {
+        function Test() {}
+        Test.prototype.foo = 'bar';
+
+        const obj = { bar: 'foo' };
+        const test = new Test;
+        test.foobar = 'barfoo'; // own properties should get through
+        _.deepExtend(obj, test, true);
+
+        assert.deepEqual(obj, { bar: 'foo', foobar: 'barfoo' });
+    });
+
+
+    it('deepExtend array shouldn\'t throw when encountering non-enumerable properties on extending array item', function () {
+        function Test() {}
+        Test.prototype.foo = 'bar';
+
+        const arr = ['foo'];
+        const test = new Test;
+        test.foobar = 'barfoo'; // own properties should get through
+        _.deepExtend(arr, [test], true);
+
+        assert.deepEqual(arr, [{ foobar: 'barfoo' }]);
+    });
+
+
     it('should define deepClone function', function() {
         var cloned = _.deepClone({ a: 1, b: { c: 2, d: { e: 3 } } });
         assert.deepEqual(cloned, { a: 1, b: { c: 2, d: { e: 3 } } });
